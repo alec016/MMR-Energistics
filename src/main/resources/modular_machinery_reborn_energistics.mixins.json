@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "es.degrassi.mmreborn.energistics.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "IOInventoryAccessor",
+    "KubeJSIntegrationMixin",
+    "RequirementItemMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
