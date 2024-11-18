@@ -11,12 +11,14 @@
   "block.modular_machinery_reborn_energistics.me_advanced_input_hatch": "ME Advanced Input Hatch",
   "block.modular_machinery_reborn_energistics.me_advanced_output_hatch": "ME Advanced Output Hatch",
 
-  "mmr.gui.me_network.online": "Online",
-  "mmr.gui.me_network.offline": "Offline",
+  "mmr.gui.me_network.online": "Device Online",
+  "mmr.gui.me_network.offline": "Device Offline",
 
   "gui.mmr.me_input_bus": "ME Input Bus",
   "gui.mmr.me_output_bus": "ME Output Bus",
   "gui.mmr.me_advanced_input_bus": "ME Advanced Input Bus",
-  "gui.mmr.me_advanced_output_bus": "ME Advanced Output Bus"
+  "gui.mmr.me_advanced_output_bus": "ME Advanced Output Bus",
+
+  "config.jade.plugin_modular_machinery_reborn_energistics.me_entity_component_provider": "Modular Machinery Reborn Energistics provider"
 }
 
