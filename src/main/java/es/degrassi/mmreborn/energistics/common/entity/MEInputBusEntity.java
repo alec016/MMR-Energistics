@@ -360,12 +360,10 @@ public class MEInputBusEntity extends MEEntity {
     return new IOInventory(this, generateSlots(9), generateSlots(0), getOrientation().getSide(RelativeSide.FRONT)) {
       @Override
       public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-        long remaining = storage.insert(slot, AEItemKey.of(stack), stack.getCount(), simulate ? Actionable.SIMULATE :
+        if (stack == null || stack.isEmpty()) return ItemStack.EMPTY;
+        long inserted = storage.insert(slot, AEItemKey.of(stack), stack.getCount(), simulate ? Actionable.SIMULATE :
             Actionable.MODULATE);
-        if (remaining > 0) {
-          return stack.copyWithCount((int) remaining);
-        }
-        return ItemStack.EMPTY;
+        return stack.copyWithCount(stack.getCount() - (int) inserted);
       }
 
       @Override

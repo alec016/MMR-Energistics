@@ -16,7 +16,7 @@ public class CreativeTabsRegistration {
   public static final Supplier<CreativeModeTab> MODULAR_MACHINERY_REBORN_TAB = CREATIVE_TABS.register(
       "modular_machinery_reborn_energistics", () -> CreativeModeTab.builder()
           .title(Component.translatable("itemGroup.modular_machinery_reborn_energistics.group"))
-          .icon(es.degrassi.mmreborn.common.registration.ItemRegistration.MODULARIUM.get()::getDefaultInstance)
+          .icon(ItemRegistration.ME_ADVANCED_INPUT_BUS.get()::getDefaultInstance)
           .displayItems((params, output) -> ItemRegistration.ITEMS.getEntries().forEach(entry -> output.accept(entry.get())))
           .build()
   );

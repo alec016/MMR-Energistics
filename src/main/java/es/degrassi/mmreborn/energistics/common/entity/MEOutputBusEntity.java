@@ -301,17 +301,19 @@ public class MEOutputBusEntity extends MEEntity {
     this.updatePlan();
   }
 
+  public IOInventory copyInventory() {
+    return createInventory();
+  }
+
   protected IOInventory createInventory() {
     return new IOInventory(this, generateSlots(9), generateSlots(0), getOrientation().getSide(RelativeSide.FRONT)) {
       @Override
       public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-        if (stack == null || stack.isEmpty()) return ItemStack.EMPTY;
-        long remaining = storage.insert(slot, AEItemKey.of(stack), stack.getCount(), simulate ? Actionable.SIMULATE :
-            Actionable.MODULATE);
-        if (remaining > 0) {
-          return stack.copyWithCount((int) remaining);
-        }
-        return ItemStack.EMPTY;
+        if (stack.isEmpty()) return ItemStack.EMPTY;
+        long inserted = storage.insert(slot, AEItemKey.of(stack), stack.getCount(), simulate ? Actionable.SIMULATE : Actionable.MODULATE);
+        if (inserted > storage.getCapacity(AEKeyType.items()))
+          return stack.copyWithCount(stack.getCount() - (int) storage.getCapacity(AEKeyType.items()));
+        return stack.copyWithCount(stack.getCount() - (int) inserted);
       }
 
       @Override
