@@ -11,10 +11,10 @@ public enum MEHatchSize implements StringRepresentable {
   ME_ADVANCED_INPUT_BUS(true, 9*4),
   ME_OUTPUT_BUS(9),
   ME_ADVANCED_OUTPUT_BUS(true, 9*2),
-  ME_INPUT_HATCH(0),
-  ME_ADVANCED_INPUT_HATCH(true, 0),
-  ME_OUTPUT_HATCH(0),
-  ME_ADVANCED_OUTPUT_HATCH(true, 0);
+  ME_INPUT_HATCH(9),
+  ME_ADVANCED_INPUT_HATCH(true, 9*4),
+  ME_OUTPUT_HATCH(9),
+  ME_ADVANCED_OUTPUT_HATCH(true, 9*2);
 
   @Getter
   private double idlePowerDrainOnConnected;

@@ -147,7 +147,7 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
       return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
     BlockEntity te = level.getBlockEntity(pos);
-    if(te instanceof MEEntity machine) {
+    if (te instanceof MEEntity machine) {
       machine.openMenu(player, MenuLocators.forBlockEntity(te));
       return ItemInteractionResult.SUCCESS;
     }
@@ -157,7 +157,7 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
   @Override
   protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
     BlockEntity te = level.getBlockEntity(pos);
-    if(te instanceof MEEntity machine) {
+    if (te instanceof MEEntity machine) {
       machine.openMenu(player, MenuLocators.forBlockEntity(te));
       return InteractionResult.sidedSuccess(level.isClientSide());
     }
@@ -166,13 +166,15 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
 
   @Nullable
   public MEItem item() {
-    // TODO: add proper items
     return switch (size) {
       case ME_INPUT_BUS -> ItemRegistration.ME_INPUT_BUS.get();
       case ME_ADVANCED_INPUT_BUS -> ItemRegistration.ME_ADVANCED_INPUT_BUS.get();
       case ME_OUTPUT_BUS -> ItemRegistration.ME_OUTPUT_BUS.get();
       case ME_ADVANCED_OUTPUT_BUS -> ItemRegistration.ME_ADVANCED_OUTPUT_BUS.get();
-      default -> null;
+      case ME_INPUT_HATCH -> ItemRegistration.ME_INPUT_HATCH.get();
+      case ME_ADVANCED_INPUT_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_HATCH.get();
+      case ME_OUTPUT_HATCH -> ItemRegistration.ME_OUTPUT_HATCH.get();
+      case ME_ADVANCED_OUTPUT_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_HATCH.get();
     };
   }
 

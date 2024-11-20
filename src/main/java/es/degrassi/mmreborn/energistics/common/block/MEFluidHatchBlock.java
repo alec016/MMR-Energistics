@@ -1,7 +1,8 @@
 package es.degrassi.mmreborn.energistics.common.block;
 
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
-import es.degrassi.mmreborn.energistics.common.entity.MEFluidHatchEntity;
+import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
+import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,6 +22,8 @@ public class MEFluidHatchBlock extends MEBlock {
   @Nullable
   @Override
   public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-    return new MEFluidHatchEntity(pos, state, size);
+    return size.isInput()
+        ? new MEInputHatchEntity(pos, state, size)
+        : new MEOutputHatchEntity(pos, state, size);
   }
 }

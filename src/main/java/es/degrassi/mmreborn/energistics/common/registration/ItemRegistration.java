@@ -24,6 +24,19 @@ public class ItemRegistration {
       ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_BUS.getSerializedName(),
           () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_BUS.get(), MEHatchSize.ME_ADVANCED_OUTPUT_BUS));
 
+  public static final DeferredItem<MEItem> ME_INPUT_HATCH =
+      ITEMS.register(MEHatchSize.ME_INPUT_HATCH.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_INPUT_HATCH.get(), MEHatchSize.ME_INPUT_HATCH));
+  public static final DeferredItem<MEItem> ME_OUTPUT_HATCH =
+      ITEMS.register(MEHatchSize.ME_OUTPUT_HATCH.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_OUTPUT_HATCH.get(), MEHatchSize.ME_OUTPUT_HATCH));
+  public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_HATCH =
+      ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_HATCH.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_HATCH.get(), MEHatchSize.ME_ADVANCED_INPUT_HATCH));
+  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_HATCH =
+      ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_HATCH));
+
 
   public static void register(final IEventBus bus) {
     ITEMS.register(bus);
