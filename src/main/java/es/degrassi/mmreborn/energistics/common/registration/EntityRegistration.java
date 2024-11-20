@@ -3,7 +3,9 @@ package es.degrassi.mmreborn.energistics.common.registration;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputBusEntity;
+import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputBusEntity;
+import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -43,6 +45,35 @@ public class EntityRegistration {
       () -> new BlockEntityType<>(
           (pos, state) -> new MEOutputBusEntity(pos, state, MEHatchSize.ME_ADVANCED_OUTPUT_BUS),
           Set.of(BlockRegistration.ME_ADVANCED_OUTPUT_BUS.get()),
+          null)
+  );
+
+  public static final Supplier<BlockEntityType<MEEntity>> ME_INPUT_HATCH = ENTITY_TYPE.register(
+      MEHatchSize.ME_INPUT_HATCH.getSerializedName(),
+      () -> new BlockEntityType<>(
+          (pos, state) -> new MEInputHatchEntity(pos, state, MEHatchSize.ME_INPUT_HATCH),
+          Set.of(BlockRegistration.ME_INPUT_HATCH.get()),
+          null)
+  );
+  public static final Supplier<BlockEntityType<MEEntity>> ME_OUTPUT_HATCH = ENTITY_TYPE.register(
+      MEHatchSize.ME_OUTPUT_HATCH.getSerializedName(),
+      () -> new BlockEntityType<>(
+          (pos, state) -> new MEOutputHatchEntity(pos, state, MEHatchSize.ME_OUTPUT_HATCH),
+          Set.of(BlockRegistration.ME_OUTPUT_HATCH.get()),
+          null)
+  );
+  public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_INPUT_HATCH = ENTITY_TYPE.register(
+      MEHatchSize.ME_ADVANCED_INPUT_HATCH.getSerializedName(),
+      () -> new BlockEntityType<>(
+          (pos, state) -> new MEInputHatchEntity(pos, state, MEHatchSize.ME_ADVANCED_INPUT_HATCH),
+          Set.of(BlockRegistration.ME_ADVANCED_INPUT_HATCH.get()),
+          null)
+  );
+  public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_OUTPUT_HATCH = ENTITY_TYPE.register(
+      MEHatchSize.ME_ADVANCED_OUTPUT_HATCH.getSerializedName(),
+      () -> new BlockEntityType<>(
+          (pos, state) -> new MEOutputHatchEntity(pos, state, MEHatchSize.ME_ADVANCED_OUTPUT_HATCH),
+          Set.of(BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get()),
           null)
   );
 

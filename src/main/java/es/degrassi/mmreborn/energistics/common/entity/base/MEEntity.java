@@ -84,7 +84,10 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
       case ME_ADVANCED_INPUT_BUS -> EntityRegistration.ME_ADVANCED_INPUT_BUS.get();
       case ME_OUTPUT_BUS -> EntityRegistration.ME_OUTPUT_BUS.get();
       case ME_ADVANCED_OUTPUT_BUS -> EntityRegistration.ME_ADVANCED_OUTPUT_BUS.get();
-      default -> null;
+      case ME_INPUT_HATCH -> EntityRegistration.ME_INPUT_HATCH.get();
+      case ME_ADVANCED_INPUT_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_HATCH.get();
+      case ME_OUTPUT_HATCH -> EntityRegistration.ME_OUTPUT_HATCH.get();
+      case ME_ADVANCED_OUTPUT_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_HATCH.get();
     };
   }
 
