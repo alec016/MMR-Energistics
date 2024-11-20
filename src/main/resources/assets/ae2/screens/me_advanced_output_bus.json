@@ -2,7 +2,7 @@
   "$schema": "schema.json",
   "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
   "background": {
-    "texture": "guis/me_advanced_output_bus.png",
+    "texture": "guis/me_advanced_output.png",
     "srcRect": [0, 0, 176, 168]
   },
   "slots": {

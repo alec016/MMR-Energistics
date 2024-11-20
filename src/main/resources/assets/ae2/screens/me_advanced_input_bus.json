@@ -2,7 +2,7 @@
   "$schema": "schema.json",
   "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
   "background": {
-    "texture": "guis/me_advanced_input_bus.png",
+    "texture": "guis/me_advanced_input.png",
     "textureWidth": 425,
     "srcRect": [0, 0, 338, 254]
   },
