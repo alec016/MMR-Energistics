@@ -2,10 +2,8 @@ package es.degrassi.mmreborn.energistics.common.integration.jade;
 
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
@@ -22,13 +20,15 @@ public class MEEntityComponentProvider implements IBlockComponentProvider {
     if (accessor.getBlockEntity() instanceof MEEntity) {
       CompoundTag nbt = accessor.getServerData().getCompound(ModularMachineryRebornEnergistics.MODID);
       if (nbt.isEmpty()) return;
-      if (nbt.contains("status", Tag.TAG_BYTE)) {
-        boolean active = nbt.getByte("status") == 1;
-        tooltip.add(
-            Component
-                .translatable("mmr.gui.me_network." + (active ? "online" : "offline"))
-                .withStyle(active ? ChatFormatting.GREEN : ChatFormatting.RED)
-        );
+      if (nbt.contains("booting", Tag.TAG_BYTE)) {
+        tooltip.add(AEStatus.BOOTING.message());
+        return;
+      }
+      if (nbt.contains("online", Tag.TAG_BYTE) && nbt.contains("hasChannel", Tag.TAG_BYTE)) {
+        boolean online = nbt.getBoolean("online");
+        boolean hasChannel = nbt.getBoolean("hasChannel");
+        AEStatus status = AEStatus.getAEStatus(online, hasChannel);
+        tooltip.add(status.message());
       }
     }
   }

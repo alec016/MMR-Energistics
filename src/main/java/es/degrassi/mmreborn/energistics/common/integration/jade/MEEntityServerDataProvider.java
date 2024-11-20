@@ -1,5 +1,6 @@
 package es.degrassi.mmreborn.energistics.common.integration.jade;
 
+import appeng.api.networking.IGridNode;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +15,15 @@ public class MEEntityServerDataProvider implements IServerDataProvider<BlockAcce
   public void appendServerData(CompoundTag nbt, BlockAccessor accessor) {
     if (accessor.getBlockEntity() instanceof MEEntity machine && machine.getLevel() != null) {
       CompoundTag tag = new CompoundTag();
-      tag.putBoolean("status", machine.isOnline());
+      IGridNode node = machine.getMainNode().getNode();
+      if (!machine.getMainNode().hasGridBooted()) {
+        tag.putBoolean("booting", true);
+      } else if (node != null) {
+        boolean online = node.isPowered();
+        tag.putBoolean("online", online);
+        boolean hasChannel = node.meetsChannelRequirements();
+        tag.putBoolean("hasChannel", hasChannel);
+      }
       nbt.put(ModularMachineryRebornEnergistics.MODID, tag);
     }
   }
