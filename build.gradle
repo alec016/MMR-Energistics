@@ -253,7 +253,7 @@ unifiedPublishing {
     if (CURSE_API_KEY != null) {
         curseforge {
             token = CURSE_API_KEY
-            id = "1131856"
+            id = "1145146"
             gameVersions.addAll "Java 21"
             relations {
                 depends "cloth-config"
@@ -261,6 +261,7 @@ unifiedPublishing {
                 depends "applied-energistics-2"
                 optional "kubejs"
                 optional "jei"
+                optional "jade"
             }
         }
     }
@@ -269,10 +270,10 @@ unifiedPublishing {
     if (MODRINTH_API_KEY != null) {
       modrinth {
         token = MODRINTH_API_KEY
-        id = "9RrPxPjq"
+        id = "XQWiHmew"
         relations {
           depends "cloth-config"
-          depends "applied-energistics-2"
+          depends "ae2"
           depends "modular-machinery-reborn"
           optional "kubejs"
           optional "jei"
