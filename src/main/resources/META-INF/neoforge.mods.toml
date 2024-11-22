@@ -34,13 +34,6 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "cloth_config"
-type="required"
-versionRange = "[${cloth_config_version},)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.${mod_id}]]
 modId = "modular_machinery_reborn"
 type="required"
 versionRange = "[${mmr_version},)"

@@ -5,14 +5,12 @@ import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.data.MMRConfig;
 import es.degrassi.mmreborn.energistics.common.registration.EAERegistryHandler;
 import es.degrassi.mmreborn.energistics.common.registration.Registration;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigHolder;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
-import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResult;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -27,13 +25,8 @@ public class ModularMachineryRebornEnergistics {
   public static final String MODID = "modular_machinery_reborn_energistics";
   public static final Logger LOGGER = LogManager.getLogger("Modular Machinery Reborn Energistics");
 
-  public ModularMachineryRebornEnergistics(final IEventBus MOD_BUS) {
-    ConfigHolder<MMRConfig> config = AutoConfig.register(MMRConfig.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
-
-    config.registerSaveListener((holder, mmrConfig) -> {
-      MEHatchSize.loadFromConfig();
-      return InteractionResult.SUCCESS;
-    });
+  public ModularMachineryRebornEnergistics(final ModContainer CONTAINER, final IEventBus MOD_BUS) {
+    CONTAINER.registerConfig(ModConfig.Type.COMMON, MMRConfig.getSpec());
 
     Registration.register(MOD_BUS);
 
@@ -41,6 +34,7 @@ public class ModularMachineryRebornEnergistics {
 
     MOD_BUS.addListener(this::registerCapabilities);
     MOD_BUS.addListener(this::commonSetup);
+    MOD_BUS.addListener(this::reloadConfig);
 
     final IEventBus GAME_BUS = NeoForge.EVENT_BUS;
     GAME_BUS.addListener(this::onReloadStart);
@@ -49,7 +43,14 @@ public class ModularMachineryRebornEnergistics {
   }
 
   public void commonSetup(final FMLCommonSetupEvent event) {
+    MEHatchSize.loadFromConfig();
     EAERegistryHandler.INSTANCE.onInit();
+  }
+
+  private void reloadConfig(final ModConfigEvent.Reloading event) {
+    if(event.getConfig().getSpec() == MMRConfig.getSpec()) {
+      MEHatchSize.loadFromConfig();
+    }
   }
 
   private void registerCapabilities(final RegisterCapabilitiesEvent event) {

@@ -227,7 +227,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
 
   @Override
   public final long getMEUpdateInterval() {
-    return size.isAdvanced() ? MMRConfig.get().meHatch.ME_UPDATE_INTERVAL_ADVANCED : MMRConfig.get().meHatch.ME_UPDATE_INTERVAL;
+    return size.isAdvanced() ? MMRConfig.get().ME_UPDATE_INTERVAL_ADVANCED.get() : MMRConfig.get().ME_UPDATE_INTERVAL.get();
   }
 
   public final void setBlockState(BlockState state) {

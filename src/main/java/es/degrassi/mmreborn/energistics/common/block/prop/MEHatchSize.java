@@ -35,7 +35,7 @@ public enum MEHatchSize implements StringRepresentable {
 
   public static void loadFromConfig() {
     for (MEHatchSize size : MEHatchSize.values()) {
-      size.idlePowerDrainOnConnected = MMRConfig.get().meHatch.idlePowerDrainOnConnected(size);
+      size.idlePowerDrainOnConnected = MMRConfig.get().idlePowerDrainOnConnected(size);
     }
   }
 

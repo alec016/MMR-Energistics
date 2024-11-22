@@ -130,10 +130,6 @@ dependencies {
   implementation "net.neoforged:neoforge:${neo_version}"
   compileOnly localRuntime("es.degrassi:modular_machinery_reborn:${minecraft_version}-${mmr_version}")
 
-  // Cloth config
-  api("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
-  // api("com.lowdragmc.ldlib:ldlib-neoforge-${minecraft_version}:1.0.28.d")
-
   // ProbeJS
   localRuntime("curse.maven:probejs-585406:5820894")
 
@@ -171,7 +167,6 @@ tasks.withType(ProcessResources).configureEach {
       icon                   : icon,
       pack_format_number     : pack_format_number,
       mekanism_version       : mekanism_version,
-      cloth_config_version   : cloth_config_version,
       mmr_version            : mmr_version,
       ae2_version            : ae2_version_string
   ]
@@ -240,7 +235,7 @@ idea {
 
 unifiedPublishing {
   project {
-    displayName = "[NeoForge]ModularMachineyRebornMekanism-${minecraft_version}-${mod_version}"
+    displayName = "[NeoForge]ModularMachineyRebornEnergistics-${minecraft_version}-${mod_version}"
     releaseType = "release"
     if(rootProject.file("CHANGELOG.md").exists()) {
       changelog = rootProject.file("CHANGELOG.md").text
@@ -256,7 +251,6 @@ unifiedPublishing {
             id = "1145146"
             gameVersions.addAll "Java 21"
             relations {
-                depends "cloth-config"
                 depends "modular-machinery-reborn"
                 depends "applied-energistics-2"
                 optional "kubejs"
@@ -272,7 +266,6 @@ unifiedPublishing {
         token = MODRINTH_API_KEY
         id = "XQWiHmew"
         relations {
-          depends "cloth-config"
           depends "ae2"
           depends "modular-machinery-reborn"
           optional "kubejs"
