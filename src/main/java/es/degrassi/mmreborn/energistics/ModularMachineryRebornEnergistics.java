@@ -38,8 +38,6 @@ public class ModularMachineryRebornEnergistics {
 
     final IEventBus GAME_BUS = NeoForge.EVENT_BUS;
     GAME_BUS.addListener(this::onReloadStart);
-
-    MEHatchSize.loadFromConfig();
   }
 
   public void commonSetup(final FMLCommonSetupEvent event) {
