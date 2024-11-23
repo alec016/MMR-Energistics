@@ -1,0 +1,31 @@
+{
+  "itemGroup.modular_machinery_reborn_energistics.group": "模块化机械:重置 应用能源附属",
+
+  "block.modular_machinery_reborn_energistics.me_input_bus": "ME物品输入仓",
+  "block.modular_machinery_reborn_energistics.me_output_bus": "ME物品输出仓",
+  "block.modular_machinery_reborn_energistics.me_advanced_input_bus": "高级ME输入仓",
+  "block.modular_machinery_reborn_energistics.me_advanced_output_bus": "高级ME输出仓",
+
+  "block.modular_machinery_reborn_energistics.me_input_hatch": "ME流体输入仓",
+  "block.modular_machinery_reborn_energistics.me_output_hatch": "ME流体输出仓",
+  "block.modular_machinery_reborn_energistics.me_advanced_input_hatch": "高级ME流体输入仓",
+  "block.modular_machinery_reborn_energistics.me_advanced_output_hatch": "高级ME流体输出仓",
+
+  "mmr.gui.me_network.online": "设备在线",
+  "mmr.gui.me_network.offline": "设备离线",
+  "mmr.gui.me_network.channel": "设备缺少频道",
+  "mmr.gui.me_network.booting": "寻找网络中..",
+
+  "gui.mmr.me_input_bus": "ME物品输入仓",
+  "gui.mmr.me_output_bus": "ME物品输出仓",
+  "gui.mmr.me_advanced_input_bus": "高级ME物品输入仓",
+  "gui.mmr.me_advanced_output_bus": "高级ME物品输出仓",
+
+  "gui.mmr.me_input_hatch": "ME流体输出仓",
+  "gui.mmr.me_output_hatch": "ME流体输出仓",
+  "gui.mmr.me_advanced_input_hatch": "高级ME流体输入仓",
+  "gui.mmr.me_advanced_output_hatch": "高级ME流体输出仓",
+
+  "config.jade.plugin_modular_machinery_reborn_energistics.me_entity_component_provider": "模块化机械:重置 应用能源附属"
+}
+
