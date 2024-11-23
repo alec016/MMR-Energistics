@@ -9,10 +9,8 @@ import appeng.client.gui.widgets.ServerSettingToggleButton;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.definitions.AEItems;
 import appeng.core.localization.ButtonToolTips;
-import es.degrassi.mmreborn.energistics.client.container.ExSemantics;
-import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
+import es.degrassi.mmreborn.energistics.client.container.MMRSemantics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
-import es.degrassi.mmreborn.energistics.common.entity.MEInputBusEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -31,8 +29,8 @@ public class MEInputHatchScreen extends GridConnectedScreen<MEInputHatchEntity, 
     addToLeftToolbar(this.fuzzyMode);
     widgets.addOpenPriorityButton();
 
-    var configSlots = menu.getSlots(ExSemantics.EX_1);
-    configSlots.addAll(menu.getSlots(ExSemantics.EX_3));
+    var configSlots = menu.getSlots(MMRSemantics.MMR_1);
+    configSlots.addAll(menu.getSlots(MMRSemantics.MMR_3));
     int i = 0;
     for (; i < configSlots.size(); i++) {
       var button = new SetAmountButton(btn -> {

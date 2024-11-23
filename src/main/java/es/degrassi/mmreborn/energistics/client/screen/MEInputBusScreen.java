@@ -4,13 +4,12 @@ import appeng.api.config.FuzzyMode;
 import appeng.api.config.Settings;
 import appeng.client.gui.Icon;
 import appeng.client.gui.style.ScreenStyle;
-import appeng.client.gui.style.StyleManager;
 import appeng.client.gui.widgets.IconButton;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.definitions.AEItems;
 import appeng.core.localization.ButtonToolTips;
-import es.degrassi.mmreborn.energistics.client.container.ExSemantics;
+import es.degrassi.mmreborn.energistics.client.container.MMRSemantics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputBusEntity;
 import net.minecraft.client.gui.components.Button;
@@ -30,8 +29,8 @@ public class MEInputBusScreen extends GridConnectedScreen<MEInputBusEntity, MEIn
     addToLeftToolbar(this.fuzzyMode);
     widgets.addOpenPriorityButton();
 
-    var configSlots = menu.getSlots(ExSemantics.EX_1);
-    configSlots.addAll(menu.getSlots(ExSemantics.EX_3));
+    var configSlots = menu.getSlots(MMRSemantics.MMR_1);
+    configSlots.addAll(menu.getSlots(MMRSemantics.MMR_3));
     int i = 0;
     for (; i < configSlots.size(); i++) {
       var button = new SetAmountButton(btn -> {

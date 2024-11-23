@@ -9,7 +9,6 @@ import appeng.menu.slot.AppEngSlot;
 import appeng.menu.slot.FakeSlot;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
-import es.degrassi.mmreborn.energistics.common.entity.MEInputBusEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
 import lombok.Getter;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,13 +29,6 @@ public class MEInputHatchContainer extends GridConnectedContainer<MEInputHatchEn
   private static final int PAGE = 36;
   private static final int LINE = 18;
 
-  private static final SlotSemantic[] CONFIG_PATTERN = new SlotSemantic[] {
-      ExSemantics.EX_1, ExSemantics.EX_3
-  };
-  private static final SlotSemantic[] STORAGE_PATTERN = new SlotSemantic[] {
-      ExSemantics.EX_2, ExSemantics.EX_4
-  };
-
   public static final MenuType<MEInputHatchContainer> TYPE = MenuTypeBuilder
       .create(MEInputHatchContainer::new, MEInputHatchEntity.class)
       .build(ModularMachineryRebornEnergistics.rl("input_hatch"));
@@ -52,13 +44,13 @@ public class MEInputHatchContainer extends GridConnectedContainer<MEInputHatchEn
     for (int x = 0; x < config.size(); x++) {
       int page = x / PAGE;
       int row = (x - page * PAGE) / LINE;
-      this.configSlots.add(this.addSlot(new FakeSlot(config, x), CONFIG_PATTERN[2 * page + row]));
+      this.configSlots.add(this.addSlot(new FakeSlot(config, x), MMRSemantics.INPUT_CONFIG_PATTERN[2 * page + row]));
     }
     var storage = entity.getStorage().createMenuWrapper();
     for (int x = 0; x < storage.size(); x++) {
       int page = x / PAGE;
       int row = (x - page * PAGE) / LINE;
-      this.addSlot(new AppEngSlot(storage, x), STORAGE_PATTERN[2 * page + row]);
+      this.addSlot(new AppEngSlot(storage, x), MMRSemantics.INPUT_STORAGE_PATTERN[2 * page + row]);
     }
   }
 
@@ -75,8 +67,8 @@ public class MEInputHatchContainer extends GridConnectedContainer<MEInputHatchEn
 
   public void showPage(int page) {
     for (int index = 0; index < (getSize().isAdvanced() ? 2 : 1); index ++) {
-      var slots = this.getSlots(CONFIG_PATTERN[index]);
-      slots.addAll(this.getSlots(STORAGE_PATTERN[index]));
+      var slots = this.getSlots(MMRSemantics.INPUT_CONFIG_PATTERN[index]);
+      slots.addAll(this.getSlots(MMRSemantics.INPUT_STORAGE_PATTERN[index]));
       for (var slot : slots) {
         if (slot instanceof AppEngSlot as) {
           as.setActive(page == 0);

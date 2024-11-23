@@ -17,22 +17,22 @@
       "bottom": 26,
       "grid": "HORIZONTAL"
     },
-    "EX_1": {
+    "MMR_1": {
       "left": 8,
       "top": 53,
       "grid": "HORIZONTAL"
     },
-    "EX_2": {
+    "MMR_2": {
       "left": 8,
       "top": 71,
       "grid": "HORIZONTAL"
     },
-    "EX_3": {
+    "MMR_3": {
       "left": 8,
       "top": 113,
       "grid": "HORIZONTAL"
     },
-    "EX_4": {
+    "MMR_4": {
       "left": 8,
       "top": 131,
       "grid": "HORIZONTAL"
