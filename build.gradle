@@ -120,6 +120,13 @@ repositories {
     }
   }
   maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
+  maven {
+    name = "TerraformersMC"
+    url = "https://maven.terraformersmc.com/"
+    content {
+      includeGroup "dev.emi"
+    }
+  }
   mavenCentral()
 }
 
@@ -255,6 +262,7 @@ unifiedPublishing {
                 depends "applied-energistics-2"
                 optional "kubejs"
                 optional "jei"
+                optional "emi"
                 optional "jade"
             }
         }
@@ -270,6 +278,7 @@ unifiedPublishing {
           depends "modular-machinery-reborn"
           optional "kubejs"
           optional "jei"
+          optional "emi"
           optional "jade"
         }
       }

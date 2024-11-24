@@ -1,8 +1,8 @@
 package es.degrassi.mmreborn.energistics.mixin;
 
 import es.degrassi.mmreborn.common.crafting.helper.ComponentRequirement;
+import es.degrassi.mmreborn.common.crafting.requirement.PositionedRequirement;
 import es.degrassi.mmreborn.common.crafting.requirement.RequirementItem;
-import es.degrassi.mmreborn.common.crafting.requirement.jei.JeiPositionedRequirement;
 import es.degrassi.mmreborn.common.machine.IOType;
 import es.degrassi.mmreborn.common.registration.RequirementTypeRegistration;
 import es.degrassi.mmreborn.common.util.CopyHandlerHelper;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Mixin(RequirementItem.class)
 public abstract class RequirementItemMixin extends ComponentRequirement<ItemStack, RequirementItem> implements ComponentRequirement.ChancedRequirement {
-  public RequirementItemMixin(IOType actionType, JeiPositionedRequirement position) {
+  public RequirementItemMixin(IOType actionType, PositionedRequirement position) {
     super(RequirementTypeRegistration.ITEM.get(), actionType, position);
   }
 

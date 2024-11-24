@@ -1,8 +1,8 @@
 package es.degrassi.mmreborn.energistics.mixin;
 
 import es.degrassi.mmreborn.common.crafting.helper.ComponentRequirement;
+import es.degrassi.mmreborn.common.crafting.requirement.PositionedRequirement;
 import es.degrassi.mmreborn.common.crafting.requirement.RequirementFluid;
-import es.degrassi.mmreborn.common.crafting.requirement.jei.JeiPositionedRequirement;
 import es.degrassi.mmreborn.common.machine.IOType;
 import es.degrassi.mmreborn.common.registration.RequirementTypeRegistration;
 import es.degrassi.mmreborn.common.util.CopyHandlerHelper;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RequirementFluid.class)
 public abstract class RequirementFluidMixin extends ComponentRequirement<FluidStack, RequirementFluid> implements ComponentRequirement.ChancedRequirement {
-  public RequirementFluidMixin(IOType actionType, JeiPositionedRequirement position) {
+  public RequirementFluidMixin(IOType actionType, PositionedRequirement position) {
     super(RequirementTypeRegistration.FLUID.get(), actionType, position);
   }
 
