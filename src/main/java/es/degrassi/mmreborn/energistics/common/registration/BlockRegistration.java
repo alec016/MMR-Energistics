@@ -5,6 +5,7 @@ import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEChemicalHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEFluidHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEItemBusBlock;
+import es.degrassi.mmreborn.energistics.common.block.MESourceHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.neoforged.bus.api.IEventBus;
@@ -42,9 +43,11 @@ public class BlockRegistration {
 
   public static final DeferredBlock<MEBlock> ME_INPUT_CHEMICAL_HATCH;
   public static final DeferredBlock<MEBlock> ME_ADVANCED_INPUT_CHEMICAL_HATCH;
-
   public static final DeferredBlock<MEBlock> ME_OUTPUT_CHEMICAL_HATCH;
   public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_CHEMICAL_HATCH;
+
+  public static final DeferredBlock<MEBlock> ME_INPUT_SOURCE_HATCH;
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_INPUT_SOURCE_HATCH;
 
   static {
     if (Mods.isMekPossible()) {
@@ -65,6 +68,18 @@ public class BlockRegistration {
       ME_ADVANCED_INPUT_CHEMICAL_HATCH = null;
       ME_OUTPUT_CHEMICAL_HATCH = null;
       ME_ADVANCED_OUTPUT_CHEMICAL_HATCH = null;
+    }
+
+    if (Mods.isArsPossible()) {
+      ME_INPUT_SOURCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_INPUT_SOURCE_HATCH.getSerializedName(),
+              () -> new MESourceHatchBlock(MEHatchSize.ME_INPUT_SOURCE_HATCH));
+      ME_ADVANCED_INPUT_SOURCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH.getSerializedName(),
+              () -> new MESourceHatchBlock(MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH));
+    } else {
+      ME_INPUT_SOURCE_HATCH = null;
+      ME_ADVANCED_INPUT_SOURCE_HATCH = null;
     }
   }
 

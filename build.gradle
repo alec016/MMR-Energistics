@@ -64,11 +64,14 @@ configurations {
 }
 
 repositories {
+  maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
   maven {
     name = "Jared's maven"
     url = "https://maven.blamejared.com/"
     content {
       includeGroup "mezz.jei"
+      includeGroup "com.hollingsworth.ars_nouveau"
+      includeGroup "vazkii.patchouli"
     }
   }
   maven {
@@ -127,6 +130,21 @@ repositories {
       includeGroup "dev.emi"
     }
   }
+  maven {
+    name = "Illusive Soulworks maven"
+    url = "https://maven.theillusivec4.top/"
+  }
+  maven {
+    name = "OctoStudios"
+    url = uri("https://maven.octo-studios.com/releases")
+  }
+  maven {
+    name = 'GeckoLib'
+    url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    content {
+      includeGroup("software.bernie.geckolib")
+    }
+  }
   mavenCentral()
   mavenLocal()
 }
@@ -138,6 +156,7 @@ dependencies {
   implementation "net.neoforged:neoforge:${neo_version}"
   compileOnly localRuntime("es.degrassi:modular_machinery_reborn:${minecraft_version}-${mmr_version}")
   compileOnly localRuntime("es.degrassi:modular_machinery_reborn_mekanism:${minecraft_version}-${mmr_mekanism_version}")
+  compileOnly localRuntime("es.degrassi:modular_machinery_reborn_ars:${minecraft_version}-${mmr_ars_version}")
 
   // ProbeJS
   localRuntime("curse.maven:probejs-585406:5820894")
@@ -148,11 +167,18 @@ dependencies {
 
   // Applied Energistics
   localRuntime compileOnly("curse.maven:applied-energistics-2-223794:${ae2_version}")
+  localRuntime compileOnly("curse.maven:applied-mekanistics-574300:${ae2_mekanism_version}")
+  localRuntime compileOnly("curse.maven:ars-energistique-905641:${ae2_ars_version}")
 
   // Mekanism Stuff
-  localRuntime compileOnly("curse.maven:applied-mekanistics-574300:${ae2_mekanism_version}")
   compileOnly("mekanism:Mekanism:${mekanism_version}:api")
   runtimeOnly("mekanism:Mekanism:${mekanism_version}:all")
+
+  // Ars Stuff
+  localRuntime ("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
+  localRuntime ("vazkii.patchouli:Patchouli:1.21-${patchouli_version}")
+  localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+  localRuntime compileOnly ("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}.765")
 
   // KubeJS
   localRuntime compileOnly("dev.latvian.mods:kubejs-neoforge:${kubejs_version}")
@@ -265,7 +291,11 @@ unifiedPublishing {
                 depends "modular-machinery-reborn"
                 depends "applied-energistics-2"
                 optional "modular-machinery-reborn-mekanism"
+                optional "modular-machinery-reborn-ars-nouveau"
                 optional "applied-mekanistics"
+                optional "ars-energistique"
+                optional "ars-nouveau"
+                optional "mekanism"
                 optional "kubejs"
                 optional "jei"
                 optional "emi"
@@ -283,7 +313,11 @@ unifiedPublishing {
           depends "ae2"
           depends "modular-machinery-reborn"
           optional "modular-machinery-reborn-mekanism"
+          optional "modular-machinery-reborn-ars-nouveau"
           optional "applied-mekanistics"
+          optional "ars-energistique"
+          optional "ars-nouveau"
+          optional "mekanism"
           optional "kubejs"
           optional "jei"
           optional "emi"

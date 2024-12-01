@@ -43,6 +43,10 @@ public class MMREnergisticsTags {
     public static final TagKey<Block> ME_CHEMICAL_INPUT = new Blocks(false, "me_chemical_inputhatch").get();
     public static final TagKey<Block> ME_CHEMICAL_OUTPUT = new Blocks(false, "me_chemical_outputhatch").get();
 
+    public static final TagKey<Block> ME_SOURCE = new Blocks(false, "me_source_hatch").get();
+    public static final TagKey<Block> ME_SOURCE_INPUT = new Blocks(false, "me_source_inputhatch").get();
+    public static final TagKey<Block> ME_SOURCE_OUTPUT = new Blocks(false, "me_source_outputhatch").get();
+
     private Blocks(boolean isNeoForge, String name) {
       super(blockTag(name, isNeoForge));
     }

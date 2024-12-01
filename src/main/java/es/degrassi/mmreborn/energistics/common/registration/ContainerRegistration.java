@@ -4,6 +4,7 @@ import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
@@ -51,10 +52,14 @@ public class ContainerRegistration {
       "advanced_output_hatch",
       () -> MEOutputHatchContainer.ADVANCED_TYPE
   );
+
   public static final DeferredHolder<MenuType<?>, MenuType<MEInputChemicalHatchContainer>> INPUT_CHEMICAL_HATCH;
   public static final DeferredHolder<MenuType<?>, MenuType<MEInputChemicalHatchContainer>> ADVANCED_INPUT_CHEMICAL_HATCH;
   public static final DeferredHolder<MenuType<?>, MenuType<MEOutputChemicalHatchContainer>> OUTPUT_CHEMICAL_HATCH;
   public static final DeferredHolder<MenuType<?>, MenuType<MEOutputChemicalHatchContainer>> ADVANCED_OUTPUT_CHEMICAL_HATCH;
+
+  public static final DeferredHolder<MenuType<?>, MenuType<MEInputSourceHatchContainer>> INPUT_SOURCE_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEInputSourceHatchContainer>> ADVANCED_INPUT_SOURCE_HATCH;
 
   static {
     if (Mods.isMekPossible()) {
@@ -79,6 +84,20 @@ public class ContainerRegistration {
       ADVANCED_INPUT_CHEMICAL_HATCH = null;
       OUTPUT_CHEMICAL_HATCH = null;
       ADVANCED_OUTPUT_CHEMICAL_HATCH = null;
+    }
+
+    if (Mods.isArsPossible()) {
+      INPUT_SOURCE_HATCH = CONTAINERS.register(
+          "input_source_hatch",
+          () -> MEInputSourceHatchContainer.TYPE
+      );
+      ADVANCED_INPUT_SOURCE_HATCH = CONTAINERS.register(
+          "advanced_input_source_hatch",
+          () -> MEInputSourceHatchContainer.ADVANCED_TYPE
+      );
+    } else {
+      INPUT_SOURCE_HATCH = null;
+      ADVANCED_INPUT_SOURCE_HATCH = null;
     }
   }
 

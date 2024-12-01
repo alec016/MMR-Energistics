@@ -40,5 +40,14 @@ public class EAERegistryHandler {
       Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(), 4, "group.mmr.output_hatch");
       Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get(), 4, "group.mmr.advanced_output_hatch");
     }
+
+    if (Mods.isArsPossible()) {
+      Upgrades.add(AEItems.FUZZY_CARD, ItemRegistration.ME_INPUT_SOURCE_HATCH.get(), 1, "gui.mmr.input_source_hatch");
+      Upgrades.add(AEItems.CRAFTING_CARD, ItemRegistration.ME_INPUT_SOURCE_HATCH.get(), 1, "gui.mmr.input_source_hatch");
+      Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_INPUT_SOURCE_HATCH.get(), 4, "group.mmr.input_source_hatch");
+      Upgrades.add(AEItems.FUZZY_CARD, ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(), 1, "gui.mmr.advanced_input_source_hatch");
+      Upgrades.add(AEItems.CRAFTING_CARD, ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(), 1, "gui.mmr.advanced_input_source_hatch");
+      Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(), 4, "group.mmr.advanced_input_source_hatch");
+    }
   }
 }

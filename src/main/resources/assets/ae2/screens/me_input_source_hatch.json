@@ -1,0 +1,48 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
+  "background": {
+    "texture": "guis/me_input.png",
+    "srcRect": [0, 0, 176, 194]
+  },
+  "slots": {
+    "MMR_1": {
+      "left": 8,
+      "top": 53,
+      "grid": "HORIZONTAL"
+    },
+    "MMR_2": {
+      "left": 8,
+      "top": 71,
+      "grid": "HORIZONTAL"
+    }
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.mmr.me_input_source_hatch"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    },
+    "config": {
+      "text": {
+        "translate": "gui.ae2.Config"
+      },
+      "position": {
+        "left": 8,
+        "top": 24
+      }
+    }
+  },
+  "widgets": {
+    "openPriority": {
+      "left": 152,
+      "top": -5,
+      "width": 20,
+      "height": 20
+    }
+  }
+}

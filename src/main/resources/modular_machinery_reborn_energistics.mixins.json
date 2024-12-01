@@ -6,7 +6,8 @@
     "IOInventoryAccessor",
     "RequirementChemicalMixin",
     "RequirementFluidMixin",
-    "RequirementItemMixin"
+    "RequirementItemMixin",
+    "RequirementSourceMixin"
   ],
   "client": [
   ],

@@ -1,0 +1,39 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
+  "background": {
+    "texture": "guis/me_advanced_output.png",
+    "srcRect": [0, 0, 176, 168]
+  },
+  "slots": {
+    "MMR_2": {
+      "left": 8,
+      "top": 27,
+      "grid": "HORIZONTAL"
+    },
+    "MMR_4": {
+      "left": 8,
+      "top": 45,
+      "grid": "HORIZONTAL"
+    }
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.mmr.me_advanced_output_source_hatch"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  },
+  "widgets": {
+    "openPriority": {
+      "left": 152,
+      "top": -5,
+      "width": 20,
+      "height": 20
+    }
+  }
+}

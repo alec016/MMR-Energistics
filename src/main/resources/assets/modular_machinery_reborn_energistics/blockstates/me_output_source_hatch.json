@@ -1,0 +1,224 @@
+{
+  "variants": {
+    "facing=up,spin=0,active=true": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 270
+    },
+    "facing=up,spin=0,active=false": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 270
+    },
+    "facing=up,spin=1,active=true": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 270
+    },
+    "facing=up,spin=1,active=false": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 270
+    },
+    "facing=up,spin=2,active=true": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 270
+    },
+    "facing=up,spin=2,active=false": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 270
+    },
+    "facing=up,spin=3,active=true": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 270
+    },
+    "facing=up,spin=3,active=false": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 270
+    },
+    "facing=down,spin=0,active=true": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 90
+    },
+    "facing=down,spin=0,active=false": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 90
+    },
+    "facing=down,spin=1,active=true": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 90
+    },
+    "facing=down,spin=1,active=false": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 90
+    },
+    "facing=down,spin=2,active=true": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 90
+    },
+    "facing=down,spin=2,active=false": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 90
+    },
+    "facing=down,spin=3,active=true": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "x": 90
+    },
+    "facing=down,spin=3,active=false": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "x": 90
+    },
+    "facing=north,spin=0,active=true": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active"
+    },
+    "facing=north,spin=0,active=false": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive"
+    },
+    "facing=north,spin=1,active=true": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active"
+    },
+    "facing=north,spin=1,active=false": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive"
+    },
+    "facing=north,spin=2,active=true": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active"
+    },
+    "facing=north,spin=2,active=false": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive"
+    },
+    "facing=north,spin=3,active=true": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active"
+    },
+    "facing=north,spin=3,active=false": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive"
+    },
+    "facing=south,spin=0,active=true": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 180
+    },
+    "facing=south,spin=0,active=false": {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 180
+    },
+    "facing=south,spin=1,active=true": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 180
+    },
+    "facing=south,spin=1,active=false": {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 180
+    },
+    "facing=south,spin=2,active=true": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 180
+    },
+    "facing=south,spin=2,active=false": {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 180
+    },
+    "facing=south,spin=3,active=true": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 180
+    },
+    "facing=south,spin=3,active=false": {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 180
+    },
+    "facing=west,spin=0,active=true":  {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 270
+    },
+    "facing=west,spin=0,active=false":  {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 270
+    },
+    "facing=west,spin=1,active=true":  {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 270
+    },
+    "facing=west,spin=1,active=false":  {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 270
+    },
+    "facing=west,spin=2,active=true":  {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 270
+    },
+    "facing=west,spin=2,active=false":  {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 270
+    },
+    "facing=west,spin=3,active=true":  {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 270
+    },
+    "facing=west,spin=3,active=false":  {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 270
+    },
+    "facing=east,spin=0,active=true":  {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 90
+    },
+    "facing=east,spin=0,active=false":  {
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 90
+    },
+    "facing=east,spin=1,active=true":  {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 90
+    },
+    "facing=east,spin=1,active=false":  {
+      "ae2:z": 270,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 90
+    },
+    "facing=east,spin=2,active=true":  {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 90
+    },
+    "facing=east,spin=2,active=false":  {
+      "ae2:z": 180,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 90
+    },
+    "facing=east,spin=3,active=true":  {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_active",
+      "y": 90
+    },
+    "facing=east,spin=3,active=false":  {
+      "ae2:z": 90,
+      "model": "modular_machinery_reborn_energistics:block/me_output_source_hatch_inactive",
+      "y": 90
+    }
+  }
+}

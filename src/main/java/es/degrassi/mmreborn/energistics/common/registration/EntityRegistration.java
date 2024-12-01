@@ -5,6 +5,7 @@ import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputBusEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputChemicalHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
+import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputBusEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputChemicalHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
@@ -85,6 +86,9 @@ public class EntityRegistration {
   public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_OUTPUT_CHEMICAL_HATCH;
   public static final Supplier<BlockEntityType<MEEntity>> ME_OUTPUT_CHEMICAL_HATCH;
 
+  public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_INPUT_SOURCE_HATCH;
+  public static final Supplier<BlockEntityType<MEEntity>> ME_INPUT_SOURCE_HATCH;
+
   static {
     if (Mods.isMekPossible()) {
       ME_ADVANCED_INPUT_CHEMICAL_HATCH = ENTITY_TYPE.register(
@@ -121,6 +125,26 @@ public class EntityRegistration {
       ME_ADVANCED_INPUT_CHEMICAL_HATCH = null;
       ME_OUTPUT_CHEMICAL_HATCH = null;
       ME_ADVANCED_OUTPUT_CHEMICAL_HATCH = null;
+    }
+
+    if (Mods.isArsPossible()) {
+      ME_INPUT_SOURCE_HATCH = ENTITY_TYPE.register(
+          MEHatchSize.ME_INPUT_SOURCE_HATCH.getSerializedName(),
+          () -> new BlockEntityType<>(
+              (pos, state) -> new MEInputSourceHatchEntity(pos, state, MEHatchSize.ME_INPUT_SOURCE_HATCH),
+              Set.of(BlockRegistration.ME_INPUT_SOURCE_HATCH.get()),
+              null)
+      );
+      ME_ADVANCED_INPUT_SOURCE_HATCH = ENTITY_TYPE.register(
+          MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH.getSerializedName(),
+          () -> new BlockEntityType<>(
+              (pos, state) -> new MEInputSourceHatchEntity(pos, state, MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH),
+              Set.of(BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get()),
+              null)
+      );
+    } else {
+      ME_INPUT_SOURCE_HATCH = null;
+      ME_ADVANCED_INPUT_SOURCE_HATCH = null;
     }
   }
 

@@ -79,6 +79,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   }
 
   private static BlockEntityType<MEEntity> getEntityType(MEHatchSize size) {
+    // TODO: add output
     return switch (size) {
       case ME_INPUT_BUS -> EntityRegistration.ME_INPUT_BUS.get();
       case ME_ADVANCED_INPUT_BUS -> EntityRegistration.ME_ADVANCED_INPUT_BUS.get();
@@ -92,6 +93,10 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
       case ME_ADVANCED_INPUT_CHEMICAL_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get();
       case ME_OUTPUT_CHEMICAL_HATCH -> EntityRegistration.ME_OUTPUT_CHEMICAL_HATCH.get();
       case ME_ADVANCED_OUTPUT_CHEMICAL_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get();
+      case ME_INPUT_SOURCE_HATCH -> EntityRegistration.ME_INPUT_SOURCE_HATCH.get();
+      case ME_ADVANCED_INPUT_SOURCE_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get();
+      case ME_OUTPUT_SOURCE_HATCH -> null;
+      case ME_ADVANCED_OUTPUT_SOURCE_HATCH -> null;
     };
   }
 
