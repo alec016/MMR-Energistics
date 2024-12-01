@@ -264,6 +264,8 @@ unifiedPublishing {
             relations {
                 depends "modular-machinery-reborn"
                 depends "applied-energistics-2"
+                optional "modular-machinery-reborn-mekanism"
+                optional "applied-mekanistics"
                 optional "kubejs"
                 optional "jei"
                 optional "emi"
@@ -280,6 +282,8 @@ unifiedPublishing {
         relations {
           depends "ae2"
           depends "modular-machinery-reborn"
+          optional "modular-machinery-reborn-mekanism"
+          optional "applied-mekanistics"
           optional "kubejs"
           optional "jei"
           optional "emi"
