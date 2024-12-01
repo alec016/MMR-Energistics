@@ -3,15 +3,20 @@ package es.degrassi.mmreborn.energistics.client;
 import appeng.init.client.InitScreens;
 import es.degrassi.mmreborn.client.ModularMachineryRebornClient;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputBusScreen;
+import es.degrassi.mmreborn.energistics.client.screen.MEInputChemicalHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputBusScreen;
+import es.degrassi.mmreborn.energistics.client.screen.MEOutputChemicalHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputHatchScreen;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
 import es.degrassi.mmreborn.energistics.common.registration.ItemRegistration;
+import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -31,6 +36,16 @@ public class ModularMachineryRebornEnergisticsClient {
         BlockRegistration.ME_ADVANCED_INPUT_HATCH.get(),
         BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get()
     );
+
+    if (Mods.isMekPossible()) {
+      event.register(
+          ModularMachineryRebornClient::blockColor,
+          BlockRegistration.ME_INPUT_CHEMICAL_HATCH.get(),
+          BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get(),
+          BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get()
+      );
+    }
   }
 
   @SubscribeEvent
@@ -46,6 +61,16 @@ public class ModularMachineryRebornEnergisticsClient {
         ItemRegistration.ME_ADVANCED_INPUT_HATCH.get(),
         ItemRegistration.ME_ADVANCED_OUTPUT_HATCH.get()
     );
+
+    if (Mods.isMekPossible()) {
+      event.register(
+          ModularMachineryRebornClient::itemColor,
+          ItemRegistration.ME_INPUT_CHEMICAL_HATCH.get(),
+          ItemRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get(),
+          ItemRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(),
+          ItemRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get()
+      );
+    }
   }
 
   @SubscribeEvent
@@ -59,5 +84,16 @@ public class ModularMachineryRebornEnergisticsClient {
     InitScreens.register(event, MEInputHatchContainer.ADVANCED_TYPE, MEInputHatchScreen::new, "/screens/me_advanced_input_hatch.json");
     InitScreens.register(event, MEOutputHatchContainer.TYPE, MEOutputHatchScreen::new, "/screens/me_output_hatch.json");
     InitScreens.register(event, MEOutputHatchContainer.ADVANCED_TYPE, MEOutputHatchScreen::new, "/screens/me_advanced_output_hatch.json");
+
+    if (Mods.isMekPossible()) {
+      InitScreens.register(event, MEInputChemicalHatchContainer.TYPE, MEInputChemicalHatchScreen::new, "/screens" +
+          "/me_input_chemical_hatch.json");
+      InitScreens.register(event, MEInputChemicalHatchContainer.ADVANCED_TYPE, MEInputChemicalHatchScreen::new, "/screens" +
+          "/me_advanced_input_chemical_hatch.json");
+      InitScreens.register(event, MEOutputChemicalHatchContainer.TYPE, MEOutputChemicalHatchScreen::new, "/screens" +
+          "/me_output_chemical_hatch.json");
+      InitScreens.register(event, MEOutputChemicalHatchContainer.ADVANCED_TYPE, MEOutputChemicalHatchScreen::new, "/screens" +
+          "/me_advanced_output_chemical_hatch.json");
+    }
   }
 }

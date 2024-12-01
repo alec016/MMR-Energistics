@@ -175,6 +175,10 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
       case ME_ADVANCED_INPUT_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_HATCH.get();
       case ME_OUTPUT_HATCH -> ItemRegistration.ME_OUTPUT_HATCH.get();
       case ME_ADVANCED_OUTPUT_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_HATCH.get();
+      case ME_INPUT_CHEMICAL_HATCH -> ItemRegistration.ME_INPUT_CHEMICAL_HATCH.get();
+      case ME_ADVANCED_INPUT_CHEMICAL_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get();
+      case ME_OUTPUT_CHEMICAL_HATCH -> ItemRegistration.ME_OUTPUT_CHEMICAL_HATCH.get();
+      case ME_ADVANCED_OUTPUT_CHEMICAL_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get();
     };
   }
 

@@ -2,9 +2,12 @@ package es.degrassi.mmreborn.energistics.common.registration;
 
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
+import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.bus.api.IEventBus;
@@ -48,6 +51,36 @@ public class ContainerRegistration {
       "advanced_output_hatch",
       () -> MEOutputHatchContainer.ADVANCED_TYPE
   );
+  public static final DeferredHolder<MenuType<?>, MenuType<MEInputChemicalHatchContainer>> INPUT_CHEMICAL_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEInputChemicalHatchContainer>> ADVANCED_INPUT_CHEMICAL_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEOutputChemicalHatchContainer>> OUTPUT_CHEMICAL_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEOutputChemicalHatchContainer>> ADVANCED_OUTPUT_CHEMICAL_HATCH;
+
+  static {
+    if (Mods.isMekPossible()) {
+      INPUT_CHEMICAL_HATCH = CONTAINERS.register(
+          "input_chemical_hatch",
+          () -> MEInputChemicalHatchContainer.TYPE
+      );
+      ADVANCED_INPUT_CHEMICAL_HATCH = CONTAINERS.register(
+          "advanced_input_chemical_hatch",
+          () -> MEInputChemicalHatchContainer.ADVANCED_TYPE
+      );
+      OUTPUT_CHEMICAL_HATCH = CONTAINERS.register(
+          "output_chemical_hatch",
+          () -> MEOutputChemicalHatchContainer.TYPE
+      );
+      ADVANCED_OUTPUT_CHEMICAL_HATCH = CONTAINERS.register(
+          "advanced_output_chemical_hatch",
+          () -> MEOutputChemicalHatchContainer.ADVANCED_TYPE
+      );
+    } else {
+      INPUT_CHEMICAL_HATCH = null;
+      ADVANCED_INPUT_CHEMICAL_HATCH = null;
+      OUTPUT_CHEMICAL_HATCH = null;
+      ADVANCED_OUTPUT_CHEMICAL_HATCH = null;
+    }
+  }
 
 
   public static void register(IEventBus bus) {

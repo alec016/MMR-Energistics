@@ -1,0 +1,285 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
+  "background": {
+    "texture": "guis/me_advanced_input.png",
+    "textureWidth": 425,
+    "srcRect": [0, 0, 338, 254]
+  },
+  "slots": {
+    "PLAYER_INVENTORY": {
+      "left": 89,
+      "bottom": 84,
+      "grid": "BREAK_AFTER_9COLS"
+    },
+    "PLAYER_HOTBAR": {
+      "left": 89,
+      "bottom": 26,
+      "grid": "HORIZONTAL"
+    },
+    "MMR_1": {
+      "left": 8,
+      "top": 53,
+      "grid": "HORIZONTAL"
+    },
+    "MMR_2": {
+      "left": 8,
+      "top": 71,
+      "grid": "HORIZONTAL"
+    },
+    "MMR_3": {
+      "left": 8,
+      "top": 113,
+      "grid": "HORIZONTAL"
+    },
+    "MMR_4": {
+      "left": 8,
+      "top": 131,
+      "grid": "HORIZONTAL"
+    }
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.mmr.me_advanced_input_chemical_hatch"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    },
+    "config": {
+      "text": {
+        "translate": "gui.ae2.Config"
+      },
+      "position": {
+        "left": 8,
+        "top": 24
+      }
+    }
+  },
+  "widgets": {
+    "openPriority": {
+      "right": 25,
+      "top": -5,
+      "width": 20,
+      "height": 20
+    },
+    "amtButton1": {
+      "left": 8,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton2": {
+      "left": 26,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton3": {
+      "left": 44,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton4": {
+      "left": 62,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton5": {
+      "left": 80,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton6": {
+      "left": 98,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton7": {
+      "left": 116,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton8": {
+      "left": 134,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton9": {
+      "left": 152,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton10": {
+      "left": 170,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton11": {
+      "left": 188,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton12": {
+      "left": 206,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton13": {
+      "left": 224,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton14": {
+      "left": 242,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton15": {
+      "left": 260,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton16": {
+      "left": 278,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton17": {
+      "left": 296,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton18": {
+      "left": 314,
+      "top": 35,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton19": {
+      "left": 8,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton20": {
+      "left": 26,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton21": {
+      "left": 44,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton22": {
+      "left": 62,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton23": {
+      "left": 80,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton24": {
+      "left": 98,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton25": {
+      "left": 116,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton26": {
+      "left": 134,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton27": {
+      "left": 152,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton28": {
+      "left": 170,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton29": {
+      "left": 188,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton30": {
+      "left": 206,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton31": {
+      "left": 224,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton32": {
+      "left": 242,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton33": {
+      "left": 260,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton34": {
+      "left": 278,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton35": {
+      "left": 296,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    },
+    "amtButton36": {
+      "left": 314,
+      "top": 95,
+      "width": 16,
+      "height": 16
+    }
+  }
+}

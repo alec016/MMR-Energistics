@@ -2,9 +2,11 @@ package es.degrassi.mmreborn.energistics.common.registration;
 
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
+import es.degrassi.mmreborn.energistics.common.block.MEChemicalHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEFluidHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEItemBusBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
+import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -37,6 +39,34 @@ public class BlockRegistration {
   public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_HATCH =
       BLOCKS.register(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH.getSerializedName(),
           () -> new MEFluidHatchBlock(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH));
+
+  public static final DeferredBlock<MEBlock> ME_INPUT_CHEMICAL_HATCH;
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_INPUT_CHEMICAL_HATCH;
+
+  public static final DeferredBlock<MEBlock> ME_OUTPUT_CHEMICAL_HATCH;
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_CHEMICAL_HATCH;
+
+  static {
+    if (Mods.isMekPossible()) {
+      ME_INPUT_CHEMICAL_HATCH =
+          BLOCKS.register(MEHatchSize.ME_INPUT_CHEMICAL_HATCH.getSerializedName(),
+              () -> new MEChemicalHatchBlock(MEHatchSize.ME_INPUT_CHEMICAL_HATCH));
+      ME_ADVANCED_INPUT_CHEMICAL_HATCH =
+          BLOCKS.register(MEHatchSize.ME_ADVANCED_INPUT_CHEMICAL_HATCH.getSerializedName(),
+              () -> new MEChemicalHatchBlock(MEHatchSize.ME_ADVANCED_INPUT_CHEMICAL_HATCH));
+      ME_OUTPUT_CHEMICAL_HATCH =
+          BLOCKS.register(MEHatchSize.ME_OUTPUT_CHEMICAL_HATCH.getSerializedName(),
+              () -> new MEChemicalHatchBlock(MEHatchSize.ME_OUTPUT_CHEMICAL_HATCH));
+      ME_ADVANCED_OUTPUT_CHEMICAL_HATCH =
+          BLOCKS.register(MEHatchSize.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.getSerializedName(),
+              () -> new MEChemicalHatchBlock(MEHatchSize.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH));
+    } else {
+      ME_INPUT_CHEMICAL_HATCH = null;
+      ME_ADVANCED_INPUT_CHEMICAL_HATCH = null;
+      ME_OUTPUT_CHEMICAL_HATCH = null;
+      ME_ADVANCED_OUTPUT_CHEMICAL_HATCH = null;
+    }
+  }
 
 
   public static void register(final IEventBus bus) {

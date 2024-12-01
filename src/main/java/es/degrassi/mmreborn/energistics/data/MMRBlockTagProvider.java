@@ -3,6 +3,8 @@ package es.degrassi.mmreborn.energistics.data;
 import es.degrassi.mmreborn.data.MMRTags;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
+import es.degrassi.mmreborn.energistics.common.util.Mods;
+import es.degrassi.mmreborn.mekanism.data.MMRMekanismTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -59,5 +61,27 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
 
     tag(MMRTags.Blocks.FLUID_OUTPUT)
         .addTag(MMREnergisticsTags.Blocks.ME_FLUID_OUTPUT);
+
+    if (Mods.isMMRMekLoaded()) {
+      tag(MMREnergisticsTags.Blocks.ME_CHEMICAL_OUTPUT)
+          .add(
+              BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(),
+              BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get()
+          );
+      tag(MMREnergisticsTags.Blocks.ME_CHEMICAL_INPUT)
+          .add(
+              BlockRegistration.ME_INPUT_CHEMICAL_HATCH.get(),
+              BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get()
+          );
+
+      tag(MMREnergisticsTags.Blocks.ME_CHEMICAL)
+          .addTag(MMREnergisticsTags.Blocks.ME_CHEMICAL_OUTPUT)
+          .addTag(MMREnergisticsTags.Blocks.ME_CHEMICAL_INPUT);
+
+      tag(MMRMekanismTags.Blocks.CHEMICAL_INPUT)
+          .addOptionalTag(MMREnergisticsTags.Blocks.ME_CHEMICAL_INPUT);
+      tag(MMRMekanismTags.Blocks.CHEMICAL_OUTPUT)
+          .addOptionalTag(MMREnergisticsTags.Blocks.ME_CHEMICAL_OUTPUT);
+    }
   }
 }

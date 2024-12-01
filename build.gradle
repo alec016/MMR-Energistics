@@ -128,6 +128,7 @@ repositories {
     }
   }
   mavenCentral()
+  mavenLocal()
 }
 
 dependencies {
@@ -136,6 +137,7 @@ dependencies {
   annotationProcessor "org.projectlombok:lombok:${project.lombok_version}"
   implementation "net.neoforged:neoforge:${neo_version}"
   compileOnly localRuntime("es.degrassi:modular_machinery_reborn:${minecraft_version}-${mmr_version}")
+  compileOnly localRuntime("es.degrassi:modular_machinery_reborn_mekanism:${minecraft_version}-${mmr_mekanism_version}")
 
   // ProbeJS
   localRuntime("curse.maven:probejs-585406:5820894")
@@ -147,14 +149,16 @@ dependencies {
   // Applied Energistics
   localRuntime compileOnly("curse.maven:applied-energistics-2-223794:${ae2_version}")
 
+  // Mekanism Stuff
+  localRuntime compileOnly("curse.maven:applied-mekanistics-574300:${ae2_mekanism_version}")
+  compileOnly("mekanism:Mekanism:${mekanism_version}:api")
+  runtimeOnly("mekanism:Mekanism:${mekanism_version}:all")
+
   // KubeJS
   localRuntime compileOnly("dev.latvian.mods:kubejs-neoforge:${kubejs_version}")
 
   // Jade
   localRuntime compileOnly("curse.maven:jade-324717:${jade_version}")
-
-  // Mekanism
-  localRuntime("mekanism:Mekanism:${mekanism_version}")
 }
 
 tasks.withType(ProcessResources).configureEach {

@@ -14,7 +14,11 @@ public enum MEHatchSize implements StringRepresentable {
   ME_INPUT_HATCH(9),
   ME_ADVANCED_INPUT_HATCH(true, 9*4),
   ME_OUTPUT_HATCH(9),
-  ME_ADVANCED_OUTPUT_HATCH(true, 9*2);
+  ME_ADVANCED_OUTPUT_HATCH(true, 9*2),
+  ME_INPUT_CHEMICAL_HATCH(9),
+  ME_ADVANCED_INPUT_CHEMICAL_HATCH(true, 9*4),
+  ME_OUTPUT_CHEMICAL_HATCH(9),
+  ME_ADVANCED_OUTPUT_CHEMICAL_HATCH(true, 9*2);
 
   @Getter
   private double idlePowerDrainOnConnected;
@@ -40,7 +44,7 @@ public enum MEHatchSize implements StringRepresentable {
   }
 
   public boolean isInput() {
-    return this == ME_INPUT_HATCH || this == ME_ADVANCED_INPUT_HATCH || this == ME_INPUT_BUS || this == ME_ADVANCED_INPUT_BUS;
+    return this == ME_INPUT_HATCH || this == ME_ADVANCED_INPUT_HATCH || this == ME_INPUT_BUS || this == ME_ADVANCED_INPUT_BUS || this == ME_INPUT_CHEMICAL_HATCH || this == ME_ADVANCED_INPUT_CHEMICAL_HATCH;
   }
 
   @Override

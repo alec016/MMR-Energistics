@@ -11,6 +11,11 @@
   "block.modular_machinery_reborn_energistics.me_advanced_input_hatch": "ME Advanced Input Hatch",
   "block.modular_machinery_reborn_energistics.me_advanced_output_hatch": "ME Advanced Output Hatch",
 
+  "block.modular_machinery_reborn_energistics.me_input_chemical_hatch": "ME Input Chemical Hatch",
+  "block.modular_machinery_reborn_energistics.me_output_chemical_hatch": "ME Output Chemical Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_input_chemical_hatch": "ME Advanced Input Chemical Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_output_chemical_hatch": "ME Advanced Output Chemical Hatch",
+
   "mmr.gui.me_network.online": "Device Online",
   "mmr.gui.me_network.offline": "Device Offline",
   "mmr.gui.me_network.channel": "Device Missing Channel",
@@ -25,6 +30,11 @@
   "gui.mmr.me_output_hatch": "ME Output Hatch",
   "gui.mmr.me_advanced_input_hatch": "ME Advanced Input Hatch",
   "gui.mmr.me_advanced_output_hatch": "ME Advanced Output Hatch",
+
+  "gui.mmr.me_input_chemical_hatch": "ME Input Chemical Hatch",
+  "gui.mmr.me_output_chemical_hatch": "ME Output Chemical Hatch",
+  "gui.mmr.me_advanced_input_chemical_hatch": "ME Advanced Input Chemical Hatch",
+  "gui.mmr.me_advanced_output_chemical_hatch": "ME Advanced Output Chemical Hatch",
 
   "config.jade.plugin_modular_machinery_reborn_energistics.me_entity_component_provider": "Modular Machinery Reborn Energistics provider"
 }

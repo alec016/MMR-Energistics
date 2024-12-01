@@ -88,6 +88,10 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
       case ME_ADVANCED_INPUT_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_HATCH.get();
       case ME_OUTPUT_HATCH -> EntityRegistration.ME_OUTPUT_HATCH.get();
       case ME_ADVANCED_OUTPUT_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_HATCH.get();
+      case ME_INPUT_CHEMICAL_HATCH -> EntityRegistration.ME_INPUT_CHEMICAL_HATCH.get();
+      case ME_ADVANCED_INPUT_CHEMICAL_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get();
+      case ME_OUTPUT_CHEMICAL_HATCH -> EntityRegistration.ME_OUTPUT_CHEMICAL_HATCH.get();
+      case ME_ADVANCED_OUTPUT_CHEMICAL_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get();
     };
   }
 
