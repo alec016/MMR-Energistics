@@ -166,7 +166,6 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
 
   @Nullable
   public MEItem item() {
-    // TODO: add output
     return switch (size) {
       case ME_INPUT_BUS -> ItemRegistration.ME_INPUT_BUS.get();
       case ME_ADVANCED_INPUT_BUS -> ItemRegistration.ME_ADVANCED_INPUT_BUS.get();
@@ -182,8 +181,8 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
       case ME_ADVANCED_OUTPUT_CHEMICAL_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get();
       case ME_INPUT_SOURCE_HATCH -> ItemRegistration.ME_INPUT_SOURCE_HATCH.get();
       case ME_ADVANCED_INPUT_SOURCE_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get();
-      case ME_OUTPUT_SOURCE_HATCH -> null;
-      case ME_ADVANCED_OUTPUT_SOURCE_HATCH -> null;
+      case ME_OUTPUT_SOURCE_HATCH -> ItemRegistration.ME_OUTPUT_SOURCE_HATCH.get();
+      case ME_ADVANCED_OUTPUT_SOURCE_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get();
     };
   }
 

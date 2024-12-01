@@ -48,6 +48,8 @@ public class BlockRegistration {
 
   public static final DeferredBlock<MEBlock> ME_INPUT_SOURCE_HATCH;
   public static final DeferredBlock<MEBlock> ME_ADVANCED_INPUT_SOURCE_HATCH;
+  public static final DeferredBlock<MEBlock> ME_OUTPUT_SOURCE_HATCH;
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_SOURCE_HATCH;
 
   static {
     if (Mods.isMekPossible()) {
@@ -77,9 +79,17 @@ public class BlockRegistration {
       ME_ADVANCED_INPUT_SOURCE_HATCH =
           BLOCKS.register(MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH.getSerializedName(),
               () -> new MESourceHatchBlock(MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH));
+      ME_OUTPUT_SOURCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_OUTPUT_SOURCE_HATCH.getSerializedName(),
+              () -> new MESourceHatchBlock(MEHatchSize.ME_OUTPUT_SOURCE_HATCH));
+      ME_ADVANCED_OUTPUT_SOURCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH.getSerializedName(),
+              () -> new MESourceHatchBlock(MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH));
     } else {
       ME_INPUT_SOURCE_HATCH = null;
       ME_ADVANCED_INPUT_SOURCE_HATCH = null;
+      ME_OUTPUT_SOURCE_HATCH = null;
+      ME_ADVANCED_OUTPUT_SOURCE_HATCH = null;
     }
   }
 

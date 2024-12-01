@@ -9,6 +9,7 @@ import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputBusEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputChemicalHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
+import es.degrassi.mmreborn.energistics.common.entity.MEOutputSourceHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -88,6 +89,8 @@ public class EntityRegistration {
 
   public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_INPUT_SOURCE_HATCH;
   public static final Supplier<BlockEntityType<MEEntity>> ME_INPUT_SOURCE_HATCH;
+  public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_OUTPUT_SOURCE_HATCH;
+  public static final Supplier<BlockEntityType<MEEntity>> ME_OUTPUT_SOURCE_HATCH;
 
   static {
     if (Mods.isMekPossible()) {
@@ -142,9 +145,25 @@ public class EntityRegistration {
               Set.of(BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get()),
               null)
       );
+      ME_OUTPUT_SOURCE_HATCH = ENTITY_TYPE.register(
+          MEHatchSize.ME_OUTPUT_SOURCE_HATCH.getSerializedName(),
+          () -> new BlockEntityType<>(
+              (pos, state) -> new MEOutputSourceHatchEntity(pos, state, MEHatchSize.ME_OUTPUT_SOURCE_HATCH),
+              Set.of(BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get()),
+              null)
+      );
+      ME_ADVANCED_OUTPUT_SOURCE_HATCH = ENTITY_TYPE.register(
+          MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH.getSerializedName(),
+          () -> new BlockEntityType<>(
+              (pos, state) -> new MEOutputSourceHatchEntity(pos, state, MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH),
+              Set.of(BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()),
+              null)
+      );
     } else {
       ME_INPUT_SOURCE_HATCH = null;
       ME_ADVANCED_INPUT_SOURCE_HATCH = null;
+      ME_OUTPUT_SOURCE_HATCH = null;
+      ME_ADVANCED_OUTPUT_SOURCE_HATCH = null;
     }
   }
 

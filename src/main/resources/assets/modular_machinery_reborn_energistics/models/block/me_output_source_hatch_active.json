@@ -4,6 +4,6 @@
     "bg_all": "modular_machinery_reborn:block/casing_plain",
     "ov_top": "modular_machinery_reborn:block/overlay_transparent",
     "ov_side": "modular_machinery_reborn:block/overlay_transparent",
-    "ov_front": "modular_machinery_reborn_energistics:block/overlay_me_output_chemical_hatch_active"
+    "ov_front": "modular_machinery_reborn_energistics:block/overlay_me_output_source_hatch_active"
   }
 }

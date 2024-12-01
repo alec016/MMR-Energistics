@@ -45,6 +45,8 @@ public class ItemRegistration {
 
   public static final DeferredItem<MEItem> ME_INPUT_SOURCE_HATCH;
   public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_SOURCE_HATCH;
+  public static final DeferredItem<MEItem> ME_OUTPUT_SOURCE_HATCH;
+  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_SOURCE_HATCH;
 
   static {
     if (Mods.isMekPossible()) {
@@ -68,9 +70,15 @@ public class ItemRegistration {
           () -> new MEItem(BlockRegistration.ME_INPUT_SOURCE_HATCH.get(), MEHatchSize.ME_INPUT_SOURCE_HATCH));
       ME_ADVANCED_INPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH.getSerializedName(),
           () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(), MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH));
+      ME_OUTPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_OUTPUT_SOURCE_HATCH.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get(), MEHatchSize.ME_OUTPUT_SOURCE_HATCH));
+      ME_ADVANCED_OUTPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH));
     } else {
       ME_INPUT_SOURCE_HATCH = null;
       ME_ADVANCED_INPUT_SOURCE_HATCH = null;
+      ME_OUTPUT_SOURCE_HATCH = null;
+      ME_ADVANCED_OUTPUT_SOURCE_HATCH = null;
     }
   }
 

@@ -9,6 +9,7 @@ import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchConta
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputBusScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputChemicalHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputHatchScreen;
@@ -16,6 +17,7 @@ import es.degrassi.mmreborn.energistics.client.screen.MEInputSourceHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputBusScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputChemicalHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputHatchScreen;
+import es.degrassi.mmreborn.energistics.client.screen.MEOutputSourceHatchScreen;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
 import es.degrassi.mmreborn.energistics.common.registration.ItemRegistration;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
@@ -50,11 +52,12 @@ public class ModularMachineryRebornEnergisticsClient {
     }
 
     if (Mods.isArsPossible()) {
-      // TODO: add output
       event.register(
           ModularMachineryRebornClient::blockColor,
           BlockRegistration.ME_INPUT_SOURCE_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get()
+          BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(),
+          BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
       );
     }
   }
@@ -84,11 +87,12 @@ public class ModularMachineryRebornEnergisticsClient {
     }
 
     if (Mods.isArsPossible()) {
-      // TODO: add output
       event.register(
           ModularMachineryRebornClient::itemColor,
           ItemRegistration.ME_INPUT_SOURCE_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get()
+          ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(),
+          ItemRegistration.ME_OUTPUT_SOURCE_HATCH.get(),
+          ItemRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
       );
     }
   }
@@ -121,7 +125,11 @@ public class ModularMachineryRebornEnergisticsClient {
           "/me_input_source_hatch.json");
       InitScreens.register(event, MEInputSourceHatchContainer.ADVANCED_TYPE, MEInputSourceHatchScreen::new, "/screens" +
           "/me_advanced_input_source_hatch.json");
-      // TODO: add output
+      InitScreens.register(event, MEOutputSourceHatchContainer.TYPE, MEOutputSourceHatchScreen::new, "/screens" +
+          "/me_output_source_hatch.json");
+      InitScreens.register(event, MEOutputSourceHatchContainer.ADVANCED_TYPE, MEOutputSourceHatchScreen::new,
+          "/screens" +
+          "/me_advanced_output_source_hatch.json");
     }
   }
 }

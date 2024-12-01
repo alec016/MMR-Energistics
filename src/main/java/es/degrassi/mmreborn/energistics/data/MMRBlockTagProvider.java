@@ -8,7 +8,6 @@ import es.degrassi.mmreborn.energistics.common.util.Mods;
 import es.degrassi.mmreborn.mekanism.data.MMRMekanismTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -94,7 +93,10 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
           );
 
       tag(MMREnergisticsTags.Blocks.ME_SOURCE_OUTPUT)
-          .add(new Block[]{});
+          .add(
+              BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get(),
+              BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
+          );
 
       tag(MMREnergisticsTags.Blocks.ME_SOURCE)
           .addTag(MMREnergisticsTags.Blocks.ME_SOURCE_OUTPUT)

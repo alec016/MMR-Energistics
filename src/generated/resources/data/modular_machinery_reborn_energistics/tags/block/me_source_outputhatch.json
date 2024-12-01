@@ -1,3 +1,6 @@
 {
-  "values": []
+  "values": [
+    "modular_machinery_reborn_energistics:me_output_source_hatch",
+    "modular_machinery_reborn_energistics:me_advanced_output_source_hatch"
+  ]
 }

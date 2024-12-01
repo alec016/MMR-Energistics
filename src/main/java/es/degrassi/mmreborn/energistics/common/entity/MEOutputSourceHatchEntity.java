@@ -34,13 +34,13 @@ import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
 import es.degrassi.mmreborn.ars.common.machine.SourceHatch;
 import es.degrassi.mmreborn.common.machine.IOType;
 import es.degrassi.mmreborn.common.machine.MachineComponent;
-import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
+import es.degrassi.mmreborn.energistics.common.util.AESourceHolder;
 import es.degrassi.mmreborn.energistics.common.util.KeyStorage;
 import es.degrassi.mmreborn.energistics.common.util.reflect.AEReflect;
-import gripe._90.arseng.me.key.SourceKey;
 import gripe._90.arseng.me.key.SourceKeyType;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import lombok.Getter;
@@ -48,7 +48,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -59,7 +58,7 @@ import java.util.Optional;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEInputSourceHatchEntity extends MEEntity {
+public class MEOutputSourceHatchEntity extends MEEntity {
   private final KeyStorage internalBuffer; // Do not use KeyCounter, use our simple implementation
   private final SourceStorage inventory;
   private final IUpgradeInventory upgrades;
@@ -72,15 +71,14 @@ public class MEInputSourceHatchEntity extends MEEntity {
   private int priority;
   private @Nullable MEStorage networkStorage;
 
-  public MEInputSourceHatchEntity(BlockPos pos, BlockState blockState, MEHatchSize size) {
+  public MEOutputSourceHatchEntity(BlockPos pos, BlockState blockState, MEHatchSize size) {
     super(pos, blockState, size);
     this.internalBuffer = new KeyStorage();
     int slots = size.getSlots();
     this.requestActionSource = new RequestActionSource(this, getMainNode()::getNode);
-    this.upgrades = UpgradeInventories.forMachine(blockState.getBlock().asItem(), 6, this::onUpgradesChanged);
+    this.upgrades = UpgradeInventories.forMachine(blockState.getBlock().asItem(), 4, this::onUpgradesChanged);
     this.storage = ConfigInventory
         .storage(slots)
-        .allowOverstacking(true)
         .supportedType(SourceKeyType.TYPE)
         .slotFilter(this::isAllowedInStorageSlot)
         .changeListener(this::onStorageChanged)
@@ -97,9 +95,13 @@ public class MEInputSourceHatchEntity extends MEEntity {
     this.inventory = createInventory();
   }
 
+  public SourceStorage copyTank() {
+    return createInventory();
+  }
+
   @Nullable
   public MachineComponent provideComponent() {
-    return new SourceHatch(IOType.INPUT) {
+    return new SourceHatch(IOType.OUTPUT) {
       public SourceStorage getContainerProvider() {
         return inventory;
       }
@@ -280,7 +282,7 @@ public class MEInputSourceHatchEntity extends MEEntity {
     AEReflect.cancel(craftingTracker);
   }
 
-  private void updatePlan() {
+  public void updatePlan() {
     boolean hadWork = this.hasWorkToDo();
 
     for (int x = 0; x < this.storage.size(); ++x) {
@@ -298,15 +300,14 @@ public class MEInputSourceHatchEntity extends MEEntity {
 
       });
     }
-
   }
 
   private void updatePlan(int slot) {
     GenericStack stored = this.storage.getStack(slot);
     if (stored != null) {
-      this.plannedWork[slot] = new GenericStack(SourceKey.KEY, storage.getCapacity(SourceKeyType.TYPE) - stored.amount());
+      this.plannedWork[slot] = new GenericStack(stored.what(), -stored.amount());
     } else {
-      this.plannedWork[slot] = new GenericStack(SourceKey.KEY, SourceKeyType.TYPE.getAmountPerOperation());
+      this.plannedWork[slot] = null;
     }
   }
 
@@ -326,130 +327,7 @@ public class MEInputSourceHatchEntity extends MEEntity {
   }
 
   protected SourceStorage createInventory() {
-    return new SourceStorage((int) storage.getCapacity(SourceKeyType.TYPE)) {
-      @Override
-      public int receiveSource(int toReceive, boolean simulate) {
-        if (!canReceive() || toReceive <= 0) return 0;
-        return (int) storage.insert(0, SourceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
-      }
-
-      @Override
-      public int extractSource(int toExtract, boolean simulate) {
-        if (!canExtract() || toExtract <= 0) return 0;
-        return (int) storage.extract(0, SourceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
-      }
-
-      @Override
-      public void setSource(int source) {
-        GenericStack stack = storage.getStack(0);
-        if (stack == null) stack = new GenericStack(SourceKey.KEY, source);
-        else stack = new GenericStack(stack.what(), source);
-        storage.setStack(0, stack);
-      }
-
-      @Override
-      public int getSource() {
-        GenericStack stack = storage.getStack(0);
-        if (stack == null) return 0;
-        return (int) stack.amount();
-      }
-
-      public void deserializeNBT(HolderLookup.Provider lookupProvider, Tag tag) {
-        if (!(tag instanceof CompoundTag nbt)) return;
-        storage.readFromChildTag(nbt, "storage", lookupProvider);
-      }
-
-      @Override
-      public Tag serializeNBT(HolderLookup.Provider lookupProvider) {
-        CompoundTag nbt = new CompoundTag();
-        storage.writeToChildTag(nbt, "storage", lookupProvider);
-        return nbt;
-      }
-    };
-        /*new BasicChemicalTank(
-        16000,
-        ((chemical, automationType) -> getSize().isInput() || automationType == AutomationType.INTERNAL),
-        ((chemical, automationType) -> !getSize().isInput() || automationType == AutomationType.INTERNAL),
-        ConstantPredicates.alwaysTrue(),
-        ChemicalAttributeValidator.ALWAYS_ALLOW,
-        null
-    ) {
-      @Override
-      public int getChemicalTanks() {
-        return storage.size();
-      }
-
-      @Override
-      public boolean isValid(ChemicalStack stack) {
-        for (int i = 0; i < storage.size(); i++) {
-          if (storage.isAllowedIn(i, MekanismKey.of(stack)))
-            return true;
-        }
-        return false;
-      }
-
-      @Override
-      public ChemicalStack getChemicalInTank(int tank) {
-        if (tank < 0 || tank >= getChemicalTanks()) {
-          return ChemicalStack.EMPTY;
-        }
-        GenericStack stack = storage.getStack(tank);
-        if (stack == null) return ChemicalStack.EMPTY;
-        return ((MekanismKey) stack.what()).getStack();
-      }
-
-      @Override
-      public long getChemicalTankCapacity(int tank) {
-        return storage.getCapacity(MekanismKeyType.TYPE);
-      }
-
-      @Override
-      public boolean isValid(int tank, ChemicalStack stack) {
-        return storage.isAllowedIn(tank, MekanismKey.of(stack));
-      }
-
-      private static Actionable actionableFromAction(Action action) {
-        return switch (action) {
-          case SIMULATE -> Actionable.SIMULATE;
-          case EXECUTE -> Actionable.MODULATE;
-        };
-      }
-
-      @Override
-      public ChemicalStack insert(ChemicalStack resource, Action action, AutomationType automationType) {
-        if (resource == null || resource.isEmpty()) return ChemicalStack.EMPTY;
-        return resource.copyWithAmount(storage.insert(MekanismKey.of(resource), resource.getAmount(), actionableFromAction(action), actionSource));
-      }
-
-      @Override
-      public ChemicalStack extract(long amount, Action action, AutomationType automationType) {
-        if (amount <= 0) return ChemicalStack.EMPTY;
-        for (AEKey key : storage.getAvailableStacks().keySet()) {
-          if (key instanceof MekanismKey mkey) {
-            long extracted = storage.extract(mkey, amount, actionableFromAction(action), actionSource);
-            if (extracted == amount)
-              return mkey.getStack().copyWithAmount(extracted);
-          }
-
-        }
-
-        return ChemicalStack.EMPTY;
-      }
-
-      @Override
-      public void onContentsChanged() {
-        onInventoryChanged();
-      }
-
-      @Override
-      public void setStack(ChemicalStack stack) {
-      }
-
-      @Override
-      public boolean isEmpty() {
-        return true;
-      }
-    };*/
+    return new AESourceHolder(this);
   }
 
   protected void syncME() {
@@ -476,9 +354,9 @@ public class MEInputSourceHatchEntity extends MEEntity {
   public void openMenu(Player player, MenuHostLocator locator) {
     if (!getLevel().isClientSide()) {
       if (getSize().isAdvanced())
-        MenuOpener.open(MEInputSourceHatchContainer.ADVANCED_TYPE, player, locator);
+        MenuOpener.open(MEOutputSourceHatchContainer.ADVANCED_TYPE, player, locator);
       else
-        MenuOpener.open(MEInputSourceHatchContainer.TYPE, player, locator);
+        MenuOpener.open(MEOutputSourceHatchContainer.TYPE, player, locator);
     }
   }
 
@@ -495,15 +373,15 @@ public class MEInputSourceHatchEntity extends MEEntity {
   @Override
   public void returnToMainMenu(Player player, ISubMenu subMenu) {
     if (getSize().isAdvanced())
-      MenuOpener.open(MEInputSourceHatchContainer.ADVANCED_TYPE, player, subMenu.getLocator());
+      MenuOpener.open(MEOutputSourceHatchContainer.ADVANCED_TYPE, player, subMenu.getLocator());
     else
-      MenuOpener.open(MEInputSourceHatchContainer.TYPE, player, subMenu.getLocator());
+      MenuOpener.open(MEOutputSourceHatchContainer.TYPE, player, subMenu.getLocator());
   }
 
   private class RequestActionSource extends MachineSource {
     private final RequestContext context;
 
-    RequestActionSource(final MEInputSourceHatchEntity machine, IActionHost host) {
+    RequestActionSource(final MEOutputSourceHatchEntity machine, IActionHost host) {
       super(host);
       this.context = machine.new RequestContext();
     }
@@ -518,7 +396,7 @@ public class MEInputSourceHatchEntity extends MEEntity {
     }
 
     public int getPriority() {
-      return MEInputSourceHatchEntity.this.getPriority();
+      return MEOutputSourceHatchEntity.this.getPriority();
     }
   }
 
@@ -527,15 +405,15 @@ public class MEInputSourceHatchEntity extends MEEntity {
     }
 
     public TickingRequest getTickingRequest(IGridNode node) {
-      return new TickingRequest(TickRates.Interface, !MEInputSourceHatchEntity.this.hasWorkToDo());
+      return new TickingRequest(TickRates.Interface, !MEOutputSourceHatchEntity.this.hasWorkToDo());
     }
 
     public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
-      if (!MEInputSourceHatchEntity.this.getMainNode().isActive()) {
+      if (!MEOutputSourceHatchEntity.this.getMainNode().isActive()) {
         return TickRateModulation.SLEEP;
       } else {
-        boolean couldDoWork = MEInputSourceHatchEntity.this.updateStorage();
-        return MEInputSourceHatchEntity.this.hasWorkToDo() ? (couldDoWork ? TickRateModulation.URGENT : TickRateModulation.SLOWER) : TickRateModulation.SLEEP;
+        boolean couldDoWork = MEOutputSourceHatchEntity.this.updateStorage();
+        return MEOutputSourceHatchEntity.this.hasWorkToDo() ? (couldDoWork ? TickRateModulation.URGENT : TickRateModulation.SLOWER) : TickRateModulation.SLEEP;
       }
     }
   }

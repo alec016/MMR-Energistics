@@ -8,6 +8,7 @@ import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchConta
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
@@ -60,6 +61,8 @@ public class ContainerRegistration {
 
   public static final DeferredHolder<MenuType<?>, MenuType<MEInputSourceHatchContainer>> INPUT_SOURCE_HATCH;
   public static final DeferredHolder<MenuType<?>, MenuType<MEInputSourceHatchContainer>> ADVANCED_INPUT_SOURCE_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEOutputSourceHatchContainer>> OUTPUT_SOURCE_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEOutputSourceHatchContainer>> ADVANCED_OUTPUT_SOURCE_HATCH;
 
   static {
     if (Mods.isMekPossible()) {
@@ -95,9 +98,19 @@ public class ContainerRegistration {
           "advanced_input_source_hatch",
           () -> MEInputSourceHatchContainer.ADVANCED_TYPE
       );
+      OUTPUT_SOURCE_HATCH = CONTAINERS.register(
+          "output_source_hatch",
+          () -> MEOutputSourceHatchContainer.TYPE
+      );
+      ADVANCED_OUTPUT_SOURCE_HATCH = CONTAINERS.register(
+          "advanced_output_source_hatch",
+          () -> MEOutputSourceHatchContainer.ADVANCED_TYPE
+      );
     } else {
       INPUT_SOURCE_HATCH = null;
       ADVANCED_INPUT_SOURCE_HATCH = null;
+      OUTPUT_SOURCE_HATCH = null;
+      ADVANCED_OUTPUT_SOURCE_HATCH = null;
     }
   }
 

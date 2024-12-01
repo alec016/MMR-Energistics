@@ -34,8 +34,7 @@ public abstract class RequirementSourceMixin extends ComponentRequirement<Intege
   @Redirect(method = "canStartCrafting", at = @At(value = "INVOKE", target = "Les/degrassi/mmreborn/ars/common/util/CopyHandlerHelper;copyTank(Lcom/hollingsworth/arsnouveau/common/capability/SourceStorage;Lnet/minecraft/core/RegistryAccess;)Lcom/hollingsworth/arsnouveau/common/capability/SourceStorage;"))
   public SourceStorage copyTank(SourceStorage handler, RegistryAccess registryAccess) {
     if (handler instanceof AESourceHolder holder) {
-      // TODO: add copy holder
-      return null;
+      return holder.getOwner().copyTank();
     }
     return CopyHandlerHelper.copyTank(handler, registryAccess);
   }
