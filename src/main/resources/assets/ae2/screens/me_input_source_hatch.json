@@ -2,18 +2,13 @@
   "$schema": "schema.json",
   "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
   "background": {
-    "texture": "guis/me_input.png",
-    "srcRect": [0, 0, 176, 194]
+    "texture": "guis/me_source.png",
+    "srcRect": [0, 0, 176, 150]
   },
   "slots": {
-    "MMR_1": {
-      "left": 8,
-      "top": 53,
-      "grid": "HORIZONTAL"
-    },
     "MMR_2": {
-      "left": 8,
-      "top": 71,
+      "left": 80,
+      "top": 27,
       "grid": "HORIZONTAL"
     }
   },
@@ -25,15 +20,6 @@
       "position": {
         "left": 8,
         "top": 6
-      }
-    },
-    "config": {
-      "text": {
-        "translate": "gui.ae2.Config"
-      },
-      "position": {
-        "left": 8,
-        "top": 24
       }
     }
   },
