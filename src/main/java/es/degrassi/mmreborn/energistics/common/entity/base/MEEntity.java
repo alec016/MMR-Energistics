@@ -284,6 +284,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   public void markForUpdate() {
     if (this.isRequestModelUpdate()) {
       this.requestModelDataUpdate();
+      this.requestModelDataUpdate();
     }
 
     this.setChanged();

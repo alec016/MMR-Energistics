@@ -1,20 +1,27 @@
 package es.degrassi.mmreborn.energistics.common.block;
 
+import appeng.api.networking.IGrid;
+import appeng.api.networking.IGridNode;
 import appeng.api.orientation.IOrientableBlock;
 import appeng.api.orientation.IOrientationStrategy;
 import appeng.api.orientation.OrientationStrategies;
 import appeng.block.IOwnerAwareBlockEntity;
+import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.hooks.WrenchHook;
-import appeng.me.helpers.IGridConnectedBlockEntity;
+import appeng.me.GridConnection;
 import appeng.menu.locator.MenuLocators;
 import appeng.util.InteractionUtil;
 import es.degrassi.mmreborn.common.block.BlockMachineComponent;
+import es.degrassi.mmreborn.energistics.api.node.MMREGridNode;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
 import es.degrassi.mmreborn.energistics.common.item.MEItem;
 import es.degrassi.mmreborn.energistics.common.registration.ItemRegistration;
+import es.degrassi.mmreborn.energistics.mixin.CableBusStorageAccessor;
+import es.degrassi.mmreborn.energistics.mixin.CableContainerAccessor;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -30,6 +37,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -93,24 +101,36 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
 
   @Override
   protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-    alertDevice(level, state, pos, neighborPos);
+    alertDevice(level, pos, neighborPos);
   }
 
   @Override
   public void onNeighborChange(BlockState state, LevelReader level, BlockPos pos, BlockPos neighborPos) {
-    alertDevice(level, state, pos, neighborPos);
+    alertDevice(level, pos, neighborPos);
   }
 
-  private void alertDevice(LevelReader level, BlockState state, BlockPos pos, BlockPos neighborPos) {
+  private void alertDevice(LevelReader level, BlockPos pos, BlockPos neighborPos) {
     if (level.isClientSide()) return;
     if (level.getBlockEntity(pos) instanceof MEEntity machine) {
       machine.onOrientationChanged();
-      if (level.getBlockEntity(neighborPos) instanceof IGridConnectedBlockEntity gridEntity) {
+      if (level.getBlockEntity(neighborPos) instanceof CableBusBlockEntity gridEntity) {
         machine.getMainNode().ifPresent((grid, node) -> {
+          IGridNode node2 = ((CableBusStorageAccessor) ((CableContainerAccessor) gridEntity.getCableBus()).getStorage()).getCenter().getGridNode();
+          if (node2 == null) return;
+          IGrid grid2 = node2.getGrid();
+          MMREGridNode n = (MMREGridNode) node;
+          if (n.mmre$hasConnection(node2)) return;
+          Direction side = null;
+          for (Direction s : Direction.values()) {
+            if (pos.relative(s).equals(neighborPos)) {
+              side = s;
+              break;
+            }
+          }
+          if (side != null && machine.getGridConnectableSides(machine.getOrientation()).contains(side))
+            GridConnection.create(node, node2, side);
           grid.getTickManager().alertDevice(node);
-        });
-        gridEntity.getMainNode().ifPresent((grid, node) -> {
-          grid.getTickManager().alertDevice(node);
+          grid2.getTickManager().alertDevice(node2);
         });
       }
     }
@@ -127,13 +147,6 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
           ownerAware.setOwner(player);
         }
       }
-
-//      player = null;
-//      if (placer instanceof Player) {
-//        player = (Player)placer;
-//      }
-//
-//      blockEntity.importSettings(SettingsFrom.DISMANTLE_ITEM, stack.getComponents(), player);
     }
   }
 

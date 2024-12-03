@@ -3,6 +3,9 @@
   "package": "es.degrassi.mmreborn.energistics.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "CableBusStorageAccessor",
+    "CableContainerAccessor",
+    "GridNodeMixin",
     "IOInventoryAccessor",
     "RequirementChemicalMixin",
     "RequirementFluidMixin",
