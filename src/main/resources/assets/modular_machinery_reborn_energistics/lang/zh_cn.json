@@ -11,6 +11,16 @@
   "block.modular_machinery_reborn_energistics.me_advanced_input_hatch": "高级ME流体输入仓",
   "block.modular_machinery_reborn_energistics.me_advanced_output_hatch": "高级ME流体输出仓",
 
+  "block.modular_machinery_reborn_energistics.me_input_chemical_hatch": "ME Input Chemical Hatch",
+  "block.modular_machinery_reborn_energistics.me_output_chemical_hatch": "ME Output Chemical Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_input_chemical_hatch": "ME Advanced Input Chemical Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_output_chemical_hatch": "ME Advanced Output Chemical Hatch",
+
+  "block.modular_machinery_reborn_energistics.me_input_source_hatch": "ME Input Source Hatch",
+  "block.modular_machinery_reborn_energistics.me_output_source_hatch": "ME Output Source Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_input_source_hatch": "ME Advanced Input Source Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_output_source_hatch": "ME Advanced Output Source Hatch",
+
   "mmr.gui.me_network.online": "设备在线",
   "mmr.gui.me_network.offline": "设备离线",
   "mmr.gui.me_network.channel": "设备缺少频道",
@@ -25,6 +35,16 @@
   "gui.mmr.me_output_hatch": "ME流体输出仓",
   "gui.mmr.me_advanced_input_hatch": "高级ME流体输入仓",
   "gui.mmr.me_advanced_output_hatch": "高级ME流体输出仓",
+
+  "gui.mmr.me_input_chemical_hatch": "ME化学品输入仓",
+  "gui.mmr.me_output_chemical_hatch": "ME化学品输出仓",
+  "gui.mmr.me_advanced_input_chemical_hatch": "高级ME化学品输入仓",
+  "gui.mmr.me_advanced_output_chemical_hatch": "高级ME化学品输出仓",
+
+  "gui.mmr.me_input_source_hatch": "ME魔源输入仓",
+  "gui.mmr.me_output_source_hatch": "ME魔源输出仓",
+  "gui.mmr.me_advanced_input_source_hatch": "高级ME魔源输入仓",
+  "gui.mmr.me_advanced_output_source_hatch": "高级ME魔源输出仓",
 
   "config.jade.plugin_modular_machinery_reborn_energistics.me_entity_component_provider": "模块化机械:重置 应用能源附属"
 }
