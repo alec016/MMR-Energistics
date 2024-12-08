@@ -178,7 +178,7 @@ dependencies {
   localRuntime ("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
   localRuntime ("vazkii.patchouli:Patchouli:1.21-${patchouli_version}")
   localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
-  localRuntime compileOnly ("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}.765")
+  localRuntime compileOnly ("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}.841")
 
   // KubeJS
   localRuntime compileOnly("dev.latvian.mods:kubejs-neoforge:${kubejs_version}")

@@ -18,24 +18,4 @@ public abstract class RequirementSourceMixin extends ComponentRequirement<Intege
   public RequirementSourceMixin(IOType actionType, PositionedRequirement position) {
     super(RequirementTypeRegistration.SOURCE.get(), actionType, position);
   }
-
-  @Redirect(method = "canStartCrafting", at = @At(value = "INVOKE", target = "Lcom/hollingsworth/arsnouveau/common" +
-      "/capability/SourceStorage;extractSource(IZ)I", ordinal = 1))
-  public int extract(SourceStorage instance, int toExtract, boolean simulate) {
-    return instance.extractSource(toExtract, true);
-  }
-
-  @Redirect(method = "canStartCrafting", at = @At(value = "INVOKE", target = "Lcom/hollingsworth/arsnouveau/common" +
-      "/capability/SourceStorage;receiveSource(IZ)I", ordinal = 1))
-  public int receive(SourceStorage instance, int toReceive, boolean simulate) {
-    return instance.receiveSource(toReceive, true);
-  }
-
-  @Redirect(method = "canStartCrafting", at = @At(value = "INVOKE", target = "Les/degrassi/mmreborn/ars/common/util/CopyHandlerHelper;copyTank(Lcom/hollingsworth/arsnouveau/common/capability/SourceStorage;Lnet/minecraft/core/RegistryAccess;)Lcom/hollingsworth/arsnouveau/common/capability/SourceStorage;"))
-  public SourceStorage copyTank(SourceStorage handler, RegistryAccess registryAccess) {
-    if (handler instanceof AESourceHolder holder) {
-      return holder.getOwner().copyTank();
-    }
-    return CopyHandlerHelper.copyTank(handler, registryAccess);
-  }
 }

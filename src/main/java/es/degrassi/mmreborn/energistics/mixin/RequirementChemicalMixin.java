@@ -35,31 +35,6 @@ public abstract class RequirementChemicalMixin extends ComponentRequirement<Chem
     super(RequirementTypeRegistration.CHEMICAL.get(), actionType, position);
   }
 
-  @Redirect(at = @At(value = "INVOKE", target = "Les/degrassi/mmreborn/mekanism/common/util/CopyHandlerHelper;copyTank(Lmekanism/api/chemical/BasicChemicalTank;Lnet/minecraft/core/HolderLookup$Provider;)Lmekanism/api/chemical/BasicChemicalTank;"), method = "canStartCrafting")
-  public BasicChemicalTank copyTank(BasicChemicalTank inventory, HolderLookup.Provider pRegistries) {
-    if (inventory instanceof AEChemicalTankHolder holder) {
-      return holder.getOwner().copyTank();
-    }
-    return CopyHandlerHelper.copyTank(inventory, pRegistries);
-  }
-
-  @Redirect(at = @At(value = "INVOKE", target = "Lmekanism/api/chemical/BasicChemicalTank;extract" +
-      "(JLmekanism/api/Action;Lmekanism/api/AutomationType;)Lmekanism/api/chemical/ChemicalStack;", ordinal = 1),
-      method = "startCrafting")
-  public ChemicalStack extract(BasicChemicalTank instance, long amount, Action action, AutomationType automationType) {
-    return instance.extract(amount, Action.SIMULATE, automationType);
-  }
-
-  @Redirect(at = @At(value = "INVOKE", target = "Lmekanism/api/chemical/BasicChemicalTank;insert" +
-      "(Lmekanism/api/chemical/ChemicalStack;Lmekanism/api/Action;Lmekanism/api/AutomationType;)" +
-      "Lmekanism/api/chemical/ChemicalStack;", ordinal = 1), method = "canStartCrafting")
-  public ChemicalStack insert(BasicChemicalTank instance, ChemicalStack stack, Action action, AutomationType automationType) {
-    if (instance instanceof AEChemicalTankHolder holder) {
-      return holder.insert(stack, Action.SIMULATE, automationType);
-    }
-    return instance.insert(stack, action, automationType);
-  }
-
   @Redirect(at = @At(value = "INVOKE", target = "Lmekanism/api/chemical/BasicChemicalTank;getStack()Lmekanism/api/chemical/ChemicalStack;"), method = "canStartCrafting")
   public ChemicalStack getStack(BasicChemicalTank instance) {
     for (int i = 0; i < instance.getChemicalTanks(); i++) {

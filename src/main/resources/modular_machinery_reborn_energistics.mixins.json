@@ -6,7 +6,6 @@
     "CableBusStorageAccessor",
     "CableContainerAccessor",
     "GridNodeMixin",
-    "IOInventoryAccessor",
     "RequirementChemicalMixin",
     "RequirementFluidMixin",
     "RequirementItemMixin",
