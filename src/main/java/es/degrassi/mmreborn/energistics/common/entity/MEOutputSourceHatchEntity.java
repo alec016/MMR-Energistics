@@ -33,7 +33,6 @@ import com.google.common.collect.ImmutableSet;
 import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
 import es.degrassi.mmreborn.ars.common.machine.SourceHatch;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -100,7 +99,7 @@ public class MEOutputSourceHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public MachineComponent provideComponent() {
+  public SourceHatch provideComponent() {
     return new SourceHatch(IOType.OUTPUT) {
       public SourceStorage getContainerProvider() {
         return inventory;
@@ -256,9 +255,7 @@ public class MEOutputSourceHatchEntity extends MEEntity {
 
   public void notifyNeighbors() {
     if (getMainNode().isActive()) {
-      this.getMainNode().ifPresent((grid, node) -> {
-        grid.getTickManager().wakeDevice(node);
-      });
+      this.getMainNode().ifPresent((grid, node) -> grid.getTickManager().wakeDevice(node));
     }
 
     this.invalidateCapabilities();

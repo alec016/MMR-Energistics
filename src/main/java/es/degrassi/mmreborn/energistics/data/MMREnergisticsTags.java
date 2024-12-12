@@ -31,13 +31,17 @@ public class MMREnergisticsTags {
   }
 
   public static class Blocks extends Tag<Block> {
-    public static final TagKey<Block> ME_BUS = new Blocks(false, "me_bus").get();
-    public static final TagKey<Block> ME_INPUT_BUS = new Blocks(false, "me_inputbus").get();
-    public static final TagKey<Block> ME_OUTPUT_BUS = new Blocks(false, "me_outputbus").get();
+    public static final TagKey<Block> ME_BUS = new Blocks(false, "me_itembus").get();
+    public static final TagKey<Block> ME_INPUT_BUS = new Blocks(false, "me_iteminputbus").get();
+    public static final TagKey<Block> ME_OUTPUT_BUS = new Blocks(false, "me_itemoutputbus").get();
 
-    public static final TagKey<Block> ME_FLUID = new Blocks(false, "me_hatch").get();
-    public static final TagKey<Block> ME_FLUID_INPUT = new Blocks(false, "me_inputhatch").get();
-    public static final TagKey<Block> ME_FLUID_OUTPUT = new Blocks(false, "me_outputhatch").get();
+    public static final TagKey<Block> ME_FLUID = new Blocks(false, "me_fluidhatch").get();
+    public static final TagKey<Block> ME_FLUID_INPUT = new Blocks(false, "me_fluidinputhatch").get();
+    public static final TagKey<Block> ME_FLUID_OUTPUT = new Blocks(false, "me_fluidoutputhatch").get();
+
+    public static final TagKey<Block> ME_EXPERIENCE = new Blocks(false, "me_experiencehatch").get();
+    public static final TagKey<Block> ME_EXPERIENCE_INPUT = new Blocks(false, "me_experienceinputhatch").get();
+    public static final TagKey<Block> ME_EXPERIENCE_OUTPUT = new Blocks(false, "me_experienceoutputhatch").get();
 
     public static final TagKey<Block> ME_CHEMICAL = new Blocks(false, "me_chemical_hatch").get();
     public static final TagKey<Block> ME_CHEMICAL_INPUT = new Blocks(false, "me_chemical_inputhatch").get();

@@ -5,7 +5,6 @@ import appeng.api.util.IConfigManager;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.SetStockAmountMenu;
 import appeng.menu.slot.AppEngSlot;
-import appeng.menu.slot.FakeSlot;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;

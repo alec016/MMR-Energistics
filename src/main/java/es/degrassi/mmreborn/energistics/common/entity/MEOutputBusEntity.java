@@ -34,7 +34,7 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.MachineComponent;
+import es.degrassi.mmreborn.common.machine.component.ItemBus;
 import es.degrassi.mmreborn.common.util.IOInventory;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
@@ -98,8 +98,8 @@ public class MEOutputBusEntity extends MEEntity {
   }
 
   @Nullable
-  public MachineComponent provideComponent() {
-    return new MachineComponent.ItemBus(IOType.OUTPUT) {
+  public ItemBus provideComponent() {
+    return new ItemBus(IOType.OUTPUT) {
       public IOInventory getContainerProvider() {
         return inventory;
       }
@@ -113,9 +113,7 @@ public class MEOutputBusEntity extends MEEntity {
 
   public void notifyNeighbors() {
     if (getMainNode().isActive()) {
-      this.getMainNode().ifPresent((grid, node) -> {
-        grid.getTickManager().wakeDevice(node);
-      });
+      this.getMainNode().ifPresent((grid, node) -> grid.getTickManager().wakeDevice(node));
     }
 
     this.invalidateCapabilities();

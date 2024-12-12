@@ -98,15 +98,6 @@ public class AEChemicalTankHolder extends BasicChemicalTank {
 
       return resource.copyWithAmount(resource.getAmount() - inserted);
     }
-//    if (resource == null || resource.isEmpty()) return resource;
-//    long inserted = owner.getStorage().insert(
-//        ,
-//        resource.getAmount(),
-//        actionableFromAction(action),
-//        owner.getActionSource()
-//    );
-//    if (inserted >= resource.getAmount()) return resource.copyWithAmount(0);
-//    return resource.copyWithAmount(resource.getAmount() - inserted);
   }
 
   @Override

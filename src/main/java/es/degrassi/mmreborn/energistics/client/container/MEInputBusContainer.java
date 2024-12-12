@@ -2,7 +2,6 @@ package es.degrassi.mmreborn.energistics.client.container;
 
 import appeng.api.config.Settings;
 import appeng.api.util.IConfigManager;
-import appeng.menu.SlotSemantic;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.SetStockAmountMenu;
 import appeng.menu.slot.AppEngSlot;

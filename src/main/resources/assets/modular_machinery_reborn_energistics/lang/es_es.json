@@ -21,6 +21,11 @@
   "block.modular_machinery_reborn_energistics.me_advanced_input_source_hatch": "ME Advanced Input Source Hatch",
   "block.modular_machinery_reborn_energistics.me_advanced_output_source_hatch": "ME Advanced Output Source Hatch",
 
+  "block.modular_machinery_reborn_energistics.me_input_experience_hatch": "ME Input Experience Hatch",
+  "block.modular_machinery_reborn_energistics.me_output_experience_hatch": "ME Output Experience Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_input_experience_hatch": "ME Advanced Input Experience Hatch",
+  "block.modular_machinery_reborn_energistics.me_advanced_output_experience_hatch": "ME Advanced Output Experience Hatch",
+
   "mmr.gui.me_network.online": "Device Online",
   "mmr.gui.me_network.offline": "Device Offline",
   "mmr.gui.me_network.channel": "Device Missing Channel",
@@ -45,6 +50,11 @@
   "gui.mmr.me_output_source_hatch": "ME Output Source Hatch",
   "gui.mmr.me_advanced_input_source_hatch": "ME Advanced Input Source Hatch",
   "gui.mmr.me_advanced_output_source_hatch": "ME Advanced Output Source Hatch",
+
+  "gui.mmr.me_input_experience_hatch": "ME Input Experience Hatch",
+  "gui.mmr.me_output_experience_hatch": "ME Output Experience Hatch",
+  "gui.mmr.me_advanced_input_experience_hatch": "ME Advanced Input Experience Hatch",
+  "gui.mmr.me_advanced_output_experience_hatch": "ME Advanced Output Experience Hatch",
 
   "config.jade.plugin_modular_machinery_reborn_energistics.me_entity_component_provider": "Modular Machinery Reborn Energistics provider"
 }

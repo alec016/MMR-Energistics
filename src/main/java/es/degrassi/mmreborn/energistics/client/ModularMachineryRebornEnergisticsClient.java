@@ -4,18 +4,22 @@ import appeng.init.client.InitScreens;
 import es.degrassi.mmreborn.client.ModularMachineryRebornClient;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEInputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputBusScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputChemicalHatchScreen;
+import es.degrassi.mmreborn.energistics.client.screen.MEInputExperienceHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputSourceHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputBusScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputChemicalHatchScreen;
+import es.degrassi.mmreborn.energistics.client.screen.MEOutputExperienceHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputSourceHatchScreen;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
@@ -60,6 +64,16 @@ public class ModularMachineryRebornEnergisticsClient {
           BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
       );
     }
+
+    if (Mods.isExperiencePossible()) {
+      event.register(
+          ModularMachineryRebornClient::blockColor,
+          BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.get(),
+          BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(),
+          BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get()
+      );
+    }
   }
 
   @SubscribeEvent
@@ -95,6 +109,16 @@ public class ModularMachineryRebornEnergisticsClient {
           ItemRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
       );
     }
+
+    if (Mods.isExperiencePossible()) {
+      event.register(
+          ModularMachineryRebornClient::itemColor,
+          ItemRegistration.ME_INPUT_EXPERIENCE_HATCH.get(),
+          ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(),
+          ItemRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(),
+          ItemRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get()
+      );
+    }
   }
 
   @SubscribeEvent
@@ -128,8 +152,18 @@ public class ModularMachineryRebornEnergisticsClient {
       InitScreens.register(event, MEOutputSourceHatchContainer.TYPE, MEOutputSourceHatchScreen::new, "/screens" +
           "/me_output_source_hatch.json");
       InitScreens.register(event, MEOutputSourceHatchContainer.ADVANCED_TYPE, MEOutputSourceHatchScreen::new,
-          "/screens" +
-          "/me_advanced_output_source_hatch.json");
+          "/screens/me_advanced_output_source_hatch.json");
+    }
+
+    if (Mods.isExperiencePossible()) {
+      InitScreens.register(event, MEInputExperienceHatchContainer.TYPE, MEInputExperienceHatchScreen::new, "/screens" +
+          "/me_input_experience_hatch.json");
+      InitScreens.register(event, MEInputExperienceHatchContainer.ADVANCED_TYPE, MEInputExperienceHatchScreen::new, "/screens" +
+          "/me_advanced_input_experience_hatch.json");
+      InitScreens.register(event, MEOutputExperienceHatchContainer.TYPE, MEOutputExperienceHatchScreen::new,
+          "/screens/me_output_experience_hatch.json");
+      InitScreens.register(event, MEOutputExperienceHatchContainer.ADVANCED_TYPE, MEOutputExperienceHatchScreen::new,
+          "/screens/me_advanced_output_experience_hatch.json");
     }
   }
 }

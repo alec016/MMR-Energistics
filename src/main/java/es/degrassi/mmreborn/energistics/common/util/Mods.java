@@ -9,6 +9,14 @@ public interface Mods {
     return isMekLoaded() && isMMRMekLoaded() && isAppMekLoaded();
   }
 
+  static boolean isArsPossible() {
+    return isArsLoaded() && isMMRArsLoaded() && isAppArsLoaded();
+  }
+
+  static boolean isExperiencePossible() {
+    return isExperienceLibLoaded() && isAppExLoaded();
+  }
+
   static boolean isMekLoaded() {
     return list.isLoaded("mekanism");
   }
@@ -21,10 +29,6 @@ public interface Mods {
     return list.isLoaded("modular_machinery_reborn_mekanism");
   }
 
-  static boolean isArsPossible() {
-    return isArsLoaded() && isMMRArsLoaded() && isAppArsLoaded();
-  }
-
   static boolean isArsLoaded() {
     return list.isLoaded("ars_nouveau");
   }
@@ -35,5 +39,13 @@ public interface Mods {
 
   static boolean isMMRArsLoaded() {
     return list.isLoaded("modular_machinery_reborn_ars");
+  }
+
+  static boolean isExperienceLibLoaded() {
+    return list.isLoaded("experiencelib");
+  }
+
+  static boolean isAppExLoaded() {
+    return list.isLoaded("appex");
   }
 }

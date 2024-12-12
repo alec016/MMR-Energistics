@@ -37,7 +37,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -177,7 +176,6 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
     return super.useWithoutItem(state, level, pos, player, hitResult);
   }
 
-  @Nullable
   public MEItem item() {
     return switch (size) {
       case ME_INPUT_BUS -> ItemRegistration.ME_INPUT_BUS.get();
@@ -196,6 +194,10 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
       case ME_ADVANCED_INPUT_SOURCE_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get();
       case ME_OUTPUT_SOURCE_HATCH -> ItemRegistration.ME_OUTPUT_SOURCE_HATCH.get();
       case ME_ADVANCED_OUTPUT_SOURCE_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get();
+      case ME_INPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_INPUT_EXPERIENCE_HATCH.get();
+      case ME_ADVANCED_INPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get();
+      case ME_OUTPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get();
+      case ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get();
     };
   }
 

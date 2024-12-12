@@ -3,6 +3,7 @@ package es.degrassi.mmreborn.energistics.common.registration;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEChemicalHatchBlock;
+import es.degrassi.mmreborn.energistics.common.block.MEExperienceHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEFluidHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEItemBusBlock;
 import es.degrassi.mmreborn.energistics.common.block.MESourceHatchBlock;
@@ -51,6 +52,11 @@ public class BlockRegistration {
   public static final DeferredBlock<MEBlock> ME_OUTPUT_SOURCE_HATCH;
   public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_SOURCE_HATCH;
 
+  public static final DeferredBlock<MEBlock> ME_INPUT_EXPERIENCE_HATCH;
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_INPUT_EXPERIENCE_HATCH;
+  public static final DeferredBlock<MEBlock> ME_OUTPUT_EXPERIENCE_HATCH;
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH;
+
   static {
     if (Mods.isMekPossible()) {
       ME_INPUT_CHEMICAL_HATCH =
@@ -90,6 +96,26 @@ public class BlockRegistration {
       ME_ADVANCED_INPUT_SOURCE_HATCH = null;
       ME_OUTPUT_SOURCE_HATCH = null;
       ME_ADVANCED_OUTPUT_SOURCE_HATCH = null;
+    }
+
+    if (Mods.isExperiencePossible()) {
+      ME_INPUT_EXPERIENCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_INPUT_EXPERIENCE_HATCH.getSerializedName(),
+              () -> new MEExperienceHatchBlock(MEHatchSize.ME_INPUT_EXPERIENCE_HATCH));
+      ME_ADVANCED_INPUT_EXPERIENCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.getSerializedName(),
+              () -> new MEExperienceHatchBlock(MEHatchSize.ME_ADVANCED_INPUT_EXPERIENCE_HATCH));
+      ME_OUTPUT_EXPERIENCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_OUTPUT_EXPERIENCE_HATCH.getSerializedName(),
+              () -> new MEExperienceHatchBlock(MEHatchSize.ME_OUTPUT_EXPERIENCE_HATCH));
+      ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH =
+          BLOCKS.register(MEHatchSize.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.getSerializedName(),
+              () -> new MEExperienceHatchBlock(MEHatchSize.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH));
+    } else {
+      ME_INPUT_EXPERIENCE_HATCH = null;
+      ME_ADVANCED_INPUT_EXPERIENCE_HATCH = null;
+      ME_OUTPUT_EXPERIENCE_HATCH = null;
+      ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH = null;
     }
   }
 

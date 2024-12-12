@@ -8,8 +8,7 @@
     "GridNodeMixin",
     "RequirementChemicalMixin",
     "RequirementFluidMixin",
-    "RequirementItemMixin",
-    "RequirementSourceMixin"
+    "RequirementItemMixin"
   ],
   "client": [
   ],

@@ -51,5 +51,16 @@ public class EAERegistryHandler {
       Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_OUTPUT_SOURCE_HATCH.get(), 4, "group.mmr.output_source_hatch");
       Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get(), 4, "group.mmr.advanced_output_source_hatch");
     }
+
+    if (Mods.isExperiencePossible()) {
+      Upgrades.add(AEItems.FUZZY_CARD, ItemRegistration.ME_INPUT_EXPERIENCE_HATCH.get(), 1, "gui.mmr.input_experience_hatch");
+      Upgrades.add(AEItems.CRAFTING_CARD, ItemRegistration.ME_INPUT_EXPERIENCE_HATCH.get(), 1, "gui.mmr.input_experience_hatch");
+      Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_INPUT_EXPERIENCE_HATCH.get(), 4, "group.mmr.input_experience_hatch");
+      Upgrades.add(AEItems.FUZZY_CARD, ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(), 1, "gui.mmr.advanced_input_experience_hatch");
+      Upgrades.add(AEItems.CRAFTING_CARD, ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(), 1, "gui.mmr.advanced_input_experience_hatch");
+      Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(), 4, "group.mmr.advanced_input_experience_hatch");
+      Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(), 4, "group.mmr.output_experience_hatch");
+      Upgrades.add(AEItems.SPEED_CARD, ItemRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get(), 4, "group.mmr.advanced_output_experience_hatch");
+    }
   }
 }

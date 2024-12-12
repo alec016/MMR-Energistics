@@ -31,7 +31,6 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -110,7 +109,7 @@ public class MEInputChemicalHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public MachineComponent provideComponent() {
+  public ChemicalHatch provideComponent() {
     return new ChemicalHatch(IOType.INPUT) {
       public BasicChemicalTank getContainerProvider() {
         return inventory;
@@ -274,9 +273,7 @@ public class MEInputChemicalHatchEntity extends MEEntity {
 
   public void notifyNeighbors() {
     if (getMainNode().isActive()) {
-      this.getMainNode().ifPresent((grid, node) -> {
-        grid.getTickManager().wakeDevice(node);
-      });
+      this.getMainNode().ifPresent((grid, node) -> grid.getTickManager().wakeDevice(node));
     }
 
     this.invalidateCapabilities();

@@ -3,10 +3,12 @@ package es.degrassi.mmreborn.energistics.common.registration;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEInputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEOutputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
@@ -64,6 +66,11 @@ public class ContainerRegistration {
   public static final DeferredHolder<MenuType<?>, MenuType<MEOutputSourceHatchContainer>> OUTPUT_SOURCE_HATCH;
   public static final DeferredHolder<MenuType<?>, MenuType<MEOutputSourceHatchContainer>> ADVANCED_OUTPUT_SOURCE_HATCH;
 
+  public static final DeferredHolder<MenuType<?>, MenuType<MEInputExperienceHatchContainer>> INPUT_EXPERIENCE_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEInputExperienceHatchContainer>> ADVANCED_INPUT_EXPERIENCE_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEOutputExperienceHatchContainer>> OUTPUT_EXPERIENCE_HATCH;
+  public static final DeferredHolder<MenuType<?>, MenuType<MEOutputExperienceHatchContainer>> ADVANCED_OUTPUT_EXPERIENCE_HATCH;
+
   static {
     if (Mods.isMekPossible()) {
       INPUT_CHEMICAL_HATCH = CONTAINERS.register(
@@ -111,6 +118,30 @@ public class ContainerRegistration {
       ADVANCED_INPUT_SOURCE_HATCH = null;
       OUTPUT_SOURCE_HATCH = null;
       ADVANCED_OUTPUT_SOURCE_HATCH = null;
+    }
+
+    if (Mods.isExperiencePossible()) {
+      INPUT_EXPERIENCE_HATCH = CONTAINERS.register(
+          "input_experience_hatch",
+          () -> MEInputExperienceHatchContainer.TYPE
+      );
+      ADVANCED_INPUT_EXPERIENCE_HATCH = CONTAINERS.register(
+          "advanced_input_experience_hatch",
+          () -> MEInputExperienceHatchContainer.ADVANCED_TYPE
+      );
+      OUTPUT_EXPERIENCE_HATCH = CONTAINERS.register(
+          "output_experience_hatch",
+          () -> MEOutputExperienceHatchContainer.TYPE
+      );
+      ADVANCED_OUTPUT_EXPERIENCE_HATCH = CONTAINERS.register(
+          "advanced_output_experience_hatch",
+          () -> MEOutputExperienceHatchContainer.ADVANCED_TYPE
+      );
+    } else {
+      INPUT_EXPERIENCE_HATCH = null;
+      ADVANCED_INPUT_EXPERIENCE_HATCH = null;
+      OUTPUT_EXPERIENCE_HATCH = null;
+      ADVANCED_OUTPUT_EXPERIENCE_HATCH = null;
     }
   }
 

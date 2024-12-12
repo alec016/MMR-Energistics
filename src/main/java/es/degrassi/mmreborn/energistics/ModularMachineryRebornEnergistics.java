@@ -12,7 +12,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.CommandEvent;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +31,6 @@ public class ModularMachineryRebornEnergistics {
 
     MOD_BUS.register(new ModularMachineryRebornEnergisticsClient());
 
-    MOD_BUS.addListener(this::registerCapabilities);
     MOD_BUS.addListener(this::commonSetup);
     MOD_BUS.addListener(this::reloadConfig);
 
@@ -49,9 +47,6 @@ public class ModularMachineryRebornEnergistics {
     if(event.getConfig().getSpec() == MMRConfig.getSpec()) {
       MEHatchSize.loadFromConfig();
     }
-  }
-
-  private void registerCapabilities(final RegisterCapabilitiesEvent event) {
   }
 
   @Contract("_ -> new")

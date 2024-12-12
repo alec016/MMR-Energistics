@@ -37,11 +37,8 @@ public class ReflectKit {
 
   public static Field reflectField(Class<?> owner, String... names) throws NoSuchFieldException {
     Field f = null;
-    int var4 = names.length;
 
-    for(int var5 = 0; var5 < var4; ++var5) {
-      String name = names[var5];
-
+    for (String name : names) {
       try {
         f = owner.getDeclaredField(name);
         break;
@@ -58,6 +55,7 @@ public class ReflectKit {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> T readField(Object owner, Field field) {
     try {
       return (T) Moon.getField(field, owner);
@@ -85,6 +83,7 @@ public class ReflectKit {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> T executeMethod2(Object owner, Method method, Object... args) {
     try {
       return (T) method.invoke(owner, args);

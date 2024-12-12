@@ -33,7 +33,7 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.MachineComponent;
+import es.degrassi.mmreborn.common.machine.component.FluidHatch;
 import es.degrassi.mmreborn.common.util.HybridTank;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
@@ -106,8 +106,8 @@ public class MEInputHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public MachineComponent provideComponent() {
-    return new MachineComponent.FluidHatch(IOType.INPUT) {
+  public FluidHatch provideComponent() {
+    return new FluidHatch(IOType.INPUT) {
       public HybridTank getContainerProvider() {
         return inventory;
       }
@@ -270,9 +270,7 @@ public class MEInputHatchEntity extends MEEntity {
 
   public void notifyNeighbors() {
     if (getMainNode().isActive()) {
-      this.getMainNode().ifPresent((grid, node) -> {
-        grid.getTickManager().wakeDevice(node);
-      });
+      this.getMainNode().ifPresent((grid, node) -> grid.getTickManager().wakeDevice(node));
     }
 
     this.invalidateCapabilities();

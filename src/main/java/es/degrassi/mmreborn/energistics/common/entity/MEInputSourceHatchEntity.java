@@ -33,7 +33,6 @@ import com.google.common.collect.ImmutableSet;
 import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
 import es.degrassi.mmreborn.ars.common.machine.SourceHatch;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -98,7 +97,7 @@ public class MEInputSourceHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public MachineComponent provideComponent() {
+  public SourceHatch provideComponent() {
     return new SourceHatch(IOType.INPUT) {
       public SourceStorage getContainerProvider() {
         return inventory;
@@ -254,9 +253,7 @@ public class MEInputSourceHatchEntity extends MEEntity {
 
   public void notifyNeighbors() {
     if (getMainNode().isActive()) {
-      this.getMainNode().ifPresent((grid, node) -> {
-        grid.getTickManager().wakeDevice(node);
-      });
+      this.getMainNode().ifPresent((grid, node) -> grid.getTickManager().wakeDevice(node));
     }
 
     this.invalidateCapabilities();
@@ -366,90 +363,6 @@ public class MEInputSourceHatchEntity extends MEEntity {
         return nbt;
       }
     };
-        /*new BasicChemicalTank(
-        16000,
-        ((chemical, automationType) -> getSize().isInput() || automationType == AutomationType.INTERNAL),
-        ((chemical, automationType) -> !getSize().isInput() || automationType == AutomationType.INTERNAL),
-        ConstantPredicates.alwaysTrue(),
-        ChemicalAttributeValidator.ALWAYS_ALLOW,
-        null
-    ) {
-      @Override
-      public int getChemicalTanks() {
-        return storage.size();
-      }
-
-      @Override
-      public boolean isValid(ChemicalStack stack) {
-        for (int i = 0; i < storage.size(); i++) {
-          if (storage.isAllowedIn(i, MekanismKey.of(stack)))
-            return true;
-        }
-        return false;
-      }
-
-      @Override
-      public ChemicalStack getChemicalInTank(int tank) {
-        if (tank < 0 || tank >= getChemicalTanks()) {
-          return ChemicalStack.EMPTY;
-        }
-        GenericStack stack = storage.getStack(tank);
-        if (stack == null) return ChemicalStack.EMPTY;
-        return ((MekanismKey) stack.what()).getStack();
-      }
-
-      @Override
-      public long getChemicalTankCapacity(int tank) {
-        return storage.getCapacity(MekanismKeyType.TYPE);
-      }
-
-      @Override
-      public boolean isValid(int tank, ChemicalStack stack) {
-        return storage.isAllowedIn(tank, MekanismKey.of(stack));
-      }
-
-      private static Actionable actionableFromAction(Action action) {
-        return switch (action) {
-          case SIMULATE -> Actionable.SIMULATE;
-          case EXECUTE -> Actionable.MODULATE;
-        };
-      }
-
-      @Override
-      public ChemicalStack insert(ChemicalStack resource, Action action, AutomationType automationType) {
-        if (resource == null || resource.isEmpty()) return ChemicalStack.EMPTY;
-        return resource.copyWithAmount(storage.insert(MekanismKey.of(resource), resource.getAmount(), actionableFromAction(action), actionSource));
-      }
-
-      @Override
-      public ChemicalStack extract(long amount, Action action, AutomationType automationType) {
-        if (amount <= 0) return ChemicalStack.EMPTY;
-        for (AEKey key : storage.getAvailableStacks().keySet()) {
-          if (key instanceof MekanismKey mkey) {
-            long extracted = storage.extract(mkey, amount, actionableFromAction(action), actionSource);
-            if (extracted == amount)
-              return mkey.getStack().copyWithAmount(extracted);
-          }
-
-        }
-
-        return ChemicalStack.EMPTY;
-      }
-
-      @Override
-      public void onContentsChanged() {
-        onInventoryChanged();
-      }
-
-      @Override
-      public void setStack(ChemicalStack stack) {
-      }
-
-      @Override
-      public boolean isEmpty() {
-        return true;
-      }
-    };*/
   }
 
   protected void syncME() {

@@ -42,8 +42,7 @@ public class Moon {
       VarHandle m = LOOKUP.findVarHandle(Field.class, "modifiers", Integer.TYPE);
       int modify = field.getModifiers();
       m.set(field, modify & -17);
-    } catch (IllegalAccessException | NoSuchFieldException var3) {
-      ReflectiveOperationException e = var3;
+    } catch (IllegalAccessException | NoSuchFieldException e) {
       MMRLogger.INSTANCE.error(e.getMessage());
     }
 

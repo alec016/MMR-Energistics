@@ -8,21 +8,16 @@ import es.degrassi.mmreborn.common.crafting.requirement.RequirementFluid;
 import es.degrassi.mmreborn.common.integration.ingredient.HybridFluid;
 import es.degrassi.mmreborn.common.machine.IOType;
 import es.degrassi.mmreborn.common.machine.MachineComponent;
+import es.degrassi.mmreborn.common.machine.component.FluidHatch;
 import es.degrassi.mmreborn.common.registration.ComponentRegistration;
 import es.degrassi.mmreborn.common.registration.RequirementTypeRegistration;
-import es.degrassi.mmreborn.common.util.CopyHandlerHelper;
 import es.degrassi.mmreborn.common.util.HybridTank;
-import es.degrassi.mmreborn.energistics.common.util.AETankHolder;
-import net.minecraft.core.HolderLookup;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RequirementFluid.class)
 public abstract class RequirementFluidMixin extends ComponentRequirement<FluidStack, RequirementFluid> implements ComponentRequirement.ChancedRequirement {
@@ -42,7 +37,7 @@ public abstract class RequirementFluidMixin extends ComponentRequirement<FluidSt
   public boolean isValidComponent(ProcessingComponent<?> component, RecipeCraftingContext ctx) {
     MachineComponent<?> cmp = component.component();
     return cmp.getComponentType().equals(ComponentRegistration.COMPONENT_FLUID.get()) &&
-        cmp instanceof MachineComponent.FluidHatch hatch &&
+        cmp instanceof FluidHatch hatch &&
         hatch.getIOType() == this.getActionType() &&
         mme$containsFluid(hatch.getContainerProvider(), getActionType().isInput());
   }

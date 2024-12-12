@@ -1,7 +1,6 @@
 package es.degrassi.mmreborn.energistics.client.screen;
 
 import appeng.client.gui.style.ScreenStyle;
-import appeng.client.gui.style.StyleManager;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputBusEntity;
 import net.minecraft.network.chat.Component;

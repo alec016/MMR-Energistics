@@ -22,7 +22,11 @@ public enum MEHatchSize implements StringRepresentable {
   ME_INPUT_SOURCE_HATCH(true, 1),
   ME_ADVANCED_INPUT_SOURCE_HATCH(true, true, 1),
   ME_OUTPUT_SOURCE_HATCH(false, 1),
-  ME_ADVANCED_OUTPUT_SOURCE_HATCH(false, true, 1);
+  ME_ADVANCED_OUTPUT_SOURCE_HATCH(false, true, 1),
+  ME_INPUT_EXPERIENCE_HATCH(true, 1),
+  ME_ADVANCED_INPUT_EXPERIENCE_HATCH(true, true, 1),
+  ME_OUTPUT_EXPERIENCE_HATCH(false, 1),
+  ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH(false, true, 1);
 
   @Getter
   private double idlePowerDrainOnConnected;

@@ -34,7 +34,7 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.MachineComponent;
+import es.degrassi.mmreborn.common.machine.component.ItemBus;
 import es.degrassi.mmreborn.common.util.IOInventory;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
@@ -53,7 +53,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
@@ -107,8 +106,8 @@ public class MEInputBusEntity extends MEEntity {
   }
 
   @Nullable
-  public MachineComponent provideComponent() {
-    return new MachineComponent.ItemBus(IOType.INPUT) {
+  public ItemBus provideComponent() {
+    return new ItemBus(IOType.INPUT) {
       public IOInventory getContainerProvider() {
         return inventory;
       }
@@ -271,9 +270,7 @@ public class MEInputBusEntity extends MEEntity {
 
   public void notifyNeighbors() {
     if (getMainNode().isActive()) {
-      this.getMainNode().ifPresent((grid, node) -> {
-        grid.getTickManager().wakeDevice(node);
-      });
+      this.getMainNode().ifPresent((grid, node) -> grid.getTickManager().wakeDevice(node));
     }
 
     this.invalidateCapabilities();

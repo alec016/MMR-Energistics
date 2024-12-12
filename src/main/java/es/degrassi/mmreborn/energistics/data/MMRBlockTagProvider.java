@@ -107,5 +107,28 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
       tag(MMRArsTags.Blocks.SOURCE_OUTPUT)
           .addOptionalTag(MMREnergisticsTags.Blocks.ME_SOURCE_OUTPUT);
     }
+
+    if (Mods.isExperiencePossible()) {
+      tag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_INPUT)
+          .add(
+              BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.get(),
+              BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get()
+          );
+
+      tag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_OUTPUT)
+          .add(
+              BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(),
+              BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get()
+          );
+
+      tag(MMREnergisticsTags.Blocks.ME_EXPERIENCE)
+          .addTag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_OUTPUT)
+          .addTag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_INPUT);
+
+      tag(MMRTags.Blocks.EXPERIENCE_INPUT)
+          .addOptionalTag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_INPUT);
+      tag(MMRTags.Blocks.EXPERIENCE_OUTPUT)
+          .addOptionalTag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_OUTPUT);
+    }
   }
 }

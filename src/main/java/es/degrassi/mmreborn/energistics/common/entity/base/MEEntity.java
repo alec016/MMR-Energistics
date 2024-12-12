@@ -96,6 +96,10 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
       case ME_ADVANCED_INPUT_SOURCE_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get();
       case ME_OUTPUT_SOURCE_HATCH -> EntityRegistration.ME_OUTPUT_SOURCE_HATCH.get();
       case ME_ADVANCED_OUTPUT_SOURCE_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get();
+      case ME_INPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_INPUT_EXPERIENCE_HATCH.get();
+      case ME_ADVANCED_INPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get();
+      case ME_OUTPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get();
+      case ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get();
     };
   }
 
@@ -214,6 +218,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
     return isOnline();
   }
 
+  @Nullable
   public final TickableSubscription subscribeServerTick(Runnable runnable) {
     if (!getLevel().isClientSide()) {
       TickableSubscription sub = new TickableSubscription(runnable);
