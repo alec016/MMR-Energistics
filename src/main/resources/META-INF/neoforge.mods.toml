@@ -34,6 +34,13 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
+modId = "ae2"
+type="required"
+versionRange = "[${ae2_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
 modId = "modular_machinery_reborn"
 type="required"
 versionRange = "[${mmr_version},)"
@@ -41,8 +48,36 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "ae2"
-type="required"
-versionRange = "[${ae2_version},)"
+modId = "modular_machinery_reborn_mekanism"
+type="optional"
+versionRange = "[${mmr_mekanism_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "modular_machinery_reborn_ars"
+type="optional"
+versionRange = "[${mmr_ars_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "appex"
+type="optional"
+versionRange = "[${appex_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "arseng"
+type="optional"
+versionRange = "[${ae2_ars_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "appmek"
+type="optional"
+versionRange = "[${ae2_mekanism_version},)"
 ordering = "AFTER"
 side = "BOTH"

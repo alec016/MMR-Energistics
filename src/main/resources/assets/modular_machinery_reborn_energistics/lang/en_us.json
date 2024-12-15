@@ -30,6 +30,7 @@
   "mmr.gui.me_network.offline": "Device Offline",
   "mmr.gui.me_network.channel": "Device Missing Channel",
   "mmr.gui.me_network.booting": "Network Booting",
+  "mmre.info.node.color": "Color: %s",
 
   "gui.mmr.me_input_bus": "ME Input Bus",
   "gui.mmr.me_output_bus": "ME Output Bus",

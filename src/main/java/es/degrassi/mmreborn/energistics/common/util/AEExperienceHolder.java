@@ -9,9 +9,11 @@ import es.degrassi.mmreborn.energistics.common.entity.MEOutputExperienceHatchEnt
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @Getter
+@ParametersAreNonnullByDefault
 public class AEExperienceHolder extends BasicExperienceTank {
   private final MEOutputExperienceHatchEntity owner;
   public AEExperienceHolder(MEOutputExperienceHatchEntity owner) {
@@ -58,14 +60,14 @@ public class AEExperienceHolder extends BasicExperienceTank {
     return owner.getStorage().extract(0, ExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
   }
 
-  public void deserializeNBT(HolderLookup.Provider lookupProvider, Tag tag) {
-    if (!(tag instanceof CompoundTag nbt)) return;
-    owner.getStorage().readFromChildTag(nbt, "storage", lookupProvider);
+  public void deserializeNBT(HolderLookup.Provider lookupProvider, CompoundTag tag) {
+    super.deserializeNBT(lookupProvider, tag);
+    owner.getStorage().readFromChildTag(tag, "storage", lookupProvider);
   }
 
   @Override
-  public Tag serializeNBT(HolderLookup.Provider lookupProvider) {
-    CompoundTag nbt = new CompoundTag();
+  public CompoundTag serializeNBT(HolderLookup.Provider lookupProvider) {
+    CompoundTag nbt = super.serializeNBT(lookupProvider);
     owner.getStorage().writeToChildTag(nbt, "storage", lookupProvider);
     return nbt;
   }

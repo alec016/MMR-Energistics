@@ -1,6 +1,8 @@
 package es.degrassi.mmreborn.energistics.common.util;
 
 import appeng.api.networking.GridFlags;
+import appeng.api.networking.IManagedGridNode;
+import appeng.api.util.AEColor;
 import appeng.me.helpers.BlockEntityNodeListener;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
@@ -8,6 +10,7 @@ import lombok.Getter;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 
+import java.nio.file.attribute.FileAttribute;
 import java.util.EnumSet;
 
 @Getter
@@ -25,6 +28,10 @@ public class GridNodeHolder {
         .setExposedOnSides(EnumSet.allOf(Direction.class))
         .setTagName("proxy")
         .setVisualRepresentation(((MEBlock) entity.getBlockState().getBlock()).item());
+  }
+
+  public void setGridColor(AEColor gridColor) {
+    getMainNode().setGridColor(gridColor);
   }
 
   protected void createMainNode() {
@@ -53,5 +60,13 @@ public class GridNodeHolder {
   public SerializableManagedGridNode deserializeGridNode(CompoundTag tag) {
     this.getMainNode().deserializeNBT(machine.getLevel().registryAccess(), tag);
     return this.getMainNode();
+  }
+
+  public boolean hasColor() {
+    return getMainNode().getGridColor() != null && getMainNode().getGridColor() != AEColor.TRANSPARENT;
+  }
+
+  public AEColor getColor() {
+    return getMainNode().getGridColor();
   }
 }

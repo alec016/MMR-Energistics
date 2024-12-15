@@ -17,7 +17,9 @@ public class CreativeTabsRegistration {
       "modular_machinery_reborn_energistics", () -> CreativeModeTab.builder()
           .title(Component.translatable("itemGroup.modular_machinery_reborn_energistics.group"))
           .icon(ItemRegistration.ME_ADVANCED_INPUT_BUS.get()::getDefaultInstance)
-          .displayItems((params, output) -> ItemRegistration.ITEMS.getEntries().forEach(entry -> output.accept(entry.get())))
+          .displayItems((params, output) -> {
+            ItemRegistration.ITEMS.getEntries().forEach(entry -> output.accept(entry.get()));
+          })
           .build()
   );
 

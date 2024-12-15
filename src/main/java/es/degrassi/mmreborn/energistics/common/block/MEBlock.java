@@ -5,6 +5,7 @@ import appeng.api.networking.IGridNode;
 import appeng.api.orientation.IOrientableBlock;
 import appeng.api.orientation.IOrientationStrategy;
 import appeng.api.orientation.OrientationStrategies;
+import appeng.api.util.AEColor;
 import appeng.block.IOwnerAwareBlockEntity;
 import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.hooks.WrenchHook;
@@ -27,7 +28,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -41,6 +44,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -158,12 +162,44 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
     if (InteractionUtil.isInAlternateUseMode(player))
       return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
+    boolean consumeWater = false;
+    boolean consumeDye = false;
+    AEColor color = null;
+    if (stack.is(Tags.Items.DYES) && stack.getItem() instanceof DyeItem dye) {
+      color = AEColor.fromDye(dye.getDyeColor());
+      consumeDye = !player.isCreative();
+    }
+
+    if (stack.is(Tags.Items.BUCKETS_WATER)) {
+      color = AEColor.TRANSPARENT;
+      consumeWater = !player.isCreative();
+    }
+
     BlockEntity te = level.getBlockEntity(pos);
     if (te instanceof MEEntity machine) {
-      machine.openMenu(player, MenuLocators.forBlockEntity(te));
-      return ItemInteractionResult.SUCCESS;
+      if (color != null) {
+        if (machine.getGridColor() == color) {
+          return openMenu(machine, player, te);
+        }
+        machine.setGridColor(color);
+        int index = player.getInventory().findSlotMatchingItem(stack);
+        if (consumeWater) {
+          player.getInventory().removeItem(index, 1);
+          player.getInventory().placeItemBackInInventory(new ItemStack(Items.BUCKET));
+        }
+        if (consumeDye) {
+          player.getInventory().removeItem(index, 1);
+        }
+        return ItemInteractionResult.CONSUME;
+      }
+      return openMenu(machine, player, te);
     }
     return ItemInteractionResult.FAIL;
+  }
+
+  private ItemInteractionResult openMenu(MEEntity machine, Player player, BlockEntity te) {
+    machine.openMenu(player, MenuLocators.forBlockEntity(te));
+    return ItemInteractionResult.SUCCESS;
   }
 
   @Override

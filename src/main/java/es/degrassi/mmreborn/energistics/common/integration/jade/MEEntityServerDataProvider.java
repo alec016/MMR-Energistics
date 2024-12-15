@@ -24,6 +24,9 @@ public class MEEntityServerDataProvider implements IServerDataProvider<BlockAcce
         boolean hasChannel = node.meetsChannelRequirements();
         tag.putBoolean("hasChannel", hasChannel);
       }
+      if (machine.hasColor()) {
+        tag.putString("color", machine.getGridColor().name());
+      }
       nbt.put(ModularMachineryRebornEnergistics.MODID, tag);
     }
   }

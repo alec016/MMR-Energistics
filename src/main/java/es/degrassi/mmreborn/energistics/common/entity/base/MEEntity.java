@@ -7,6 +7,7 @@ import appeng.api.networking.crafting.ICraftingRequester;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.orientation.BlockOrientation;
 import appeng.api.upgrades.IUpgradeableObject;
+import appeng.api.util.AEColor;
 import appeng.helpers.IPriorityHost;
 import appeng.helpers.InterfaceLogic;
 import appeng.helpers.InterfaceLogicHost;
@@ -39,6 +40,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -76,6 +78,14 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
     for (int i = 0; i < slots; slot[i] = i++) {}
 
     return slot;
+  }
+
+  public void setGridColor(AEColor gridColor) {
+    nodeHolder.setGridColor(gridColor);
+  }
+
+  public boolean hasColor() {
+    return nodeHolder.hasColor();
   }
 
   private static BlockEntityType<MEEntity> getEntityType(MEHatchSize size) {
@@ -297,5 +307,9 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
     if (getLevel() == null) return;
     this.setRequestModelUpdate(false);
     this.getLevel().setBlockAndUpdate(this.getBlockPos(), this.getBlockState());
+  }
+
+  public AEColor getGridColor() {
+    return nodeHolder.getColor();
   }
 }

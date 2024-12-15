@@ -180,13 +180,16 @@ dependencies {
   localRuntime ("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
   localRuntime ("vazkii.patchouli:Patchouli:1.21-${patchouli_version}")
   localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
-  localRuntime compileOnly ("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}.841")
+  localRuntime compileOnly ("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}.846")
 
   // KubeJS
   localRuntime compileOnly("dev.latvian.mods:kubejs-neoforge:${kubejs_version}")
 
   // Jade
   localRuntime compileOnly("curse.maven:jade-324717:${jade_version}")
+
+  // The one probe
+  localRuntime compileOnly("mcjty.theoneprobe:theoneprobe:${top_version}") {transitive = false}
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -207,7 +210,12 @@ tasks.withType(ProcessResources).configureEach {
       pack_format_number     : pack_format_number,
       mekanism_version       : mekanism_version,
       mmr_version            : mmr_version,
-      ae2_version            : ae2_version
+      mmr_mekanism_version   : mmr_mekanism_version,
+      mmr_ars_version        : mmr_ars_version,
+      ae2_version            : ae2_version,
+      appex_version          : appex_version,
+      ae2_mekanism_version   : ae2_mekanism_version_string,
+      ae2_ars_version        : ae2_ars_version_string
   ]
   inputs.properties replaceProperties
 
