@@ -14,7 +14,6 @@ import appeng.api.networking.ticking.IGridTickable;
 import appeng.api.networking.ticking.TickRateModulation;
 import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.orientation.RelativeSide;
-import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.GenericStack;
@@ -40,6 +39,7 @@ import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
+import es.degrassi.mmreborn.energistics.common.util.AEInventoryHolder;
 import es.degrassi.mmreborn.energistics.common.util.KeyStorage;
 import es.degrassi.mmreborn.energistics.common.util.reflect.AEReflect;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -49,11 +49,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
@@ -304,44 +301,7 @@ public class MEOutputBusEntity extends MEEntity {
   }
 
   protected IOInventory createInventory() {
-    return new IOInventory(this, generateSlots(9), generateSlots(0), getOrientation().getSide(RelativeSide.FRONT)) {
-      @Override
-      public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
-        long inserted = storage.insert(slot, AEItemKey.of(stack), stack.getCount(), simulate ? Actionable.SIMULATE : Actionable.MODULATE);
-        if (inserted > storage.getCapacity(AEKeyType.items()))
-          return stack.copyWithCount(stack.getCount() - (int) storage.getCapacity(AEKeyType.items()));
-        return stack.copyWithCount(stack.getCount() - (int) inserted);
-      }
-
-      @Override
-      public int getSlots() {
-        return storage.size();
-      }
-
-      @Override
-      public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-        long extracted = storage.extract(slot, AEItemKey.of(getStackInSlot(slot)), amount, simulate ?
-            Actionable.SIMULATE : Actionable.MODULATE);
-        return getStackInSlot(slot).copyWithCount((int) extracted);
-      }
-
-      @Nonnull
-      public ItemStack getStackInSlot(int slot) {
-        GenericStack stack = storage.getStack(slot);
-        if (stack == null) return ItemStack.EMPTY;
-        if (AEItemKey.is(stack.what())) {
-          AEItemKey key = (AEItemKey) stack.what();
-          return key.toStack((int) stack.amount());
-        }
-        return ItemStack.EMPTY;
-      }
-
-      @Override
-      public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-        storage.setStack(slot, new GenericStack(AEItemKey.of(stack), stack.getCount()));
-      }
-    };
+    return new AEInventoryHolder(this, generateSlots(getSize().getSlots()), generateSlots(0), getOrientation().getSide(RelativeSide.FRONT));
   }
 
   protected void syncME() {

@@ -12,6 +12,7 @@ import appeng.api.util.AEColor;
 import appeng.helpers.IPriorityHost;
 import appeng.helpers.InterfaceLogic;
 import appeng.helpers.InterfaceLogicHost;
+import appeng.me.ManagedGridNode;
 import appeng.menu.ISubMenu;
 import appeng.menu.locator.MenuHostLocator;
 import es.degrassi.mmreborn.common.entity.base.BlockEntityRestrictedTick;
@@ -19,11 +20,12 @@ import es.degrassi.mmreborn.common.entity.base.MachineComponentEntity;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.data.MMRConfig;
-import es.degrassi.mmreborn.energistics.common.registration.EntityRegistration;
-import es.degrassi.mmreborn.energistics.common.util.ITickSubscription;
-import es.degrassi.mmreborn.energistics.common.util.TickableSubscription;
 import es.degrassi.mmreborn.energistics.common.entity.IMEConnectedEntity;
+import es.degrassi.mmreborn.energistics.common.registration.EntityRegistration;
 import es.degrassi.mmreborn.energistics.common.util.GridNodeHolder;
+import es.degrassi.mmreborn.energistics.common.util.ITickSubscription;
+import es.degrassi.mmreborn.energistics.common.util.SerializableManagedGridNode;
+import es.degrassi.mmreborn.energistics.common.util.TickableSubscription;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -42,7 +44,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 @Getter
 @Setter
@@ -118,7 +119,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   }
 
   @Override
-  public IManagedGridNode getMainNode() {
+  public SerializableManagedGridNode getMainNode() {
     return nodeHolder.getMainNode();
   }
 
@@ -175,13 +176,14 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   @Override
   protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
     super.saveAdditional(nbt, pRegistries);
-    this.getMainNode().saveToNBT(nbt);
+    nbt.put("node", this.getMainNode().serializeNBT(pRegistries));
   }
 
   @Override
   protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
     super.loadAdditional(nbt, pRegistries);
-    this.getMainNode().loadFromNBT(nbt);
+    if (nbt.contains("node"))
+      this.getMainNode().deserializeNBT(pRegistries, nbt.getCompound("node"));
   }
 
   private void executeTick() {
@@ -285,6 +287,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   }
 
   @Override
+  @Nullable
   public abstract InterfaceLogic getInterfaceLogic();
 
   public abstract void openMenu(Player player, MenuHostLocator locator);
@@ -333,5 +336,12 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
         drops.add(stack);
       }
     }
+  }
+
+  public int getRedstoneSignal() {
+    if (getStorage() != null) {
+      return getStorage().createMenuWrapper().getRedstoneSignal();
+    }
+    return 0;
   }
 }

@@ -7,6 +7,7 @@ import appeng.api.orientation.IOrientationStrategy;
 import appeng.api.orientation.OrientationStrategies;
 import appeng.api.util.AEColor;
 import appeng.block.IOwnerAwareBlockEntity;
+import appeng.blockentity.AEBaseInvBlockEntity;
 import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.hooks.WrenchHook;
 import appeng.me.GridConnection;
@@ -127,7 +128,6 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
           if (node2 == null) return;
           IGrid grid2 = node2.getGrid();
           MMREGridNode n = (MMREGridNode) node;
-          if (n.mmre$hasConnection(node2)) return;
           Direction side = null;
           for (Direction s : Direction.values()) {
             if (pos.relative(s).equals(neighborPos)) {
@@ -135,6 +135,12 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
               break;
             }
           }
+          boolean sameColor = true;
+          if (!node.getGridColor().equals(node2.getGridColor()) && !node.getGridColor().equals(AEColor.TRANSPARENT) && !node2.getGridColor().equals(AEColor.TRANSPARENT)) {
+            node.getConnections().remove(node.getInWorldConnections().get(side));
+            sameColor = false;
+          }
+          if (n.mmre$hasConnection(node2) || !sameColor) return;
           if (side != null && machine.getGridConnectableSides(machine.getOrientation()).contains(side))
             GridConnection.create(node, node2, side);
           grid.getTickManager().alertDevice(node);
@@ -247,5 +253,19 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
   @Override
   public IOrientationStrategy getOrientationStrategy() {
     return OrientationStrategies.full();
+  }
+
+  @Override
+  public boolean hasAnalogOutputSignal(BlockState state) {
+    return true;
+  }
+
+  @Override
+  public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    var te = this.getBlockEntity(level, pos);
+    if (te instanceof MEEntity invBlockEntity) {
+      return invBlockEntity.getRedstoneSignal();
+    }
+    return 0;
   }
 }

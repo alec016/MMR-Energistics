@@ -7,11 +7,8 @@ import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
 import com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry;
 import gripe._90.arseng.me.key.SourceKey;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
-import java.util.Objects;
 import java.util.Set;
 
 public class SourcePatternTarget implements PatternBusTarget {

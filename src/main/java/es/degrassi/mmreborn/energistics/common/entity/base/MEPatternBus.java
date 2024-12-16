@@ -5,7 +5,6 @@ import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyType;
-import appeng.api.stacks.GenericStack;
 import appeng.api.upgrades.IUpgradeInventory;
 import appeng.api.upgrades.UpgradeInventories;
 import appeng.api.util.IConfigManager;
@@ -31,6 +30,7 @@ import es.degrassi.mmreborn.energistics.common.util.Mods;
 import gripe._90.arseng.me.key.SourceKeyType;
 import lombok.Getter;
 import me.ramidzkh.mekae2.ae2.MekanismKeyType;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -41,18 +41,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.List;
 
+@Getter
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
-  protected final PatternBusLogic logic = createLogic();
-  @Getter
+  protected final PatternBusLogic logic;
   protected BlockPos controllerPos;
 
   public MEPatternBus(BlockPos pos, BlockState blockState, MEHatchSize size) {
     super(pos, blockState, size);
+    this.logic = createLogic();
   }
 
   public void setControllerPos(BlockPos controllerPos) {
@@ -85,10 +89,11 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
 
   @Override
   protected void syncME() {
-
+    this.saveChanges();
   }
 
   @Override
+  @Nullable
   public InterfaceLogic getInterfaceLogic() {
     return null;
   }
@@ -114,6 +119,7 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
   }
 
   @Override
+  @Nullable
   public GenericStackInv getConfig() {
     return null;
   }
@@ -122,7 +128,7 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
   public GenericStackInv getStorage() {
     ConfigInventory inv;
     ConfigInventory.Builder builder =
-        ConfigInventory.storage(logic.getPatternInventory().size() + logic.getReturnInv().size())
+        ConfigInventory.storage(logic.getPatternInventory().size())
         .allowOverstacking(true)
         .supportedTypes(AEKeyType.items(), AEKeyType.fluids());
     if (Mods.isAppExLoaded())
@@ -137,12 +143,6 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
     for (int i = 0; i < internal.size(); i++) {
       ItemStack stack = internal.getStackInSlot(i);
       inv.insert(AEItemKey.of(stack), stack.getCount(), Actionable.MODULATE, logic.getActionSource());
-    }
-
-    for (int i = 0; i < logic.getReturnInv().size(); i++) {
-      GenericStack stack = logic.getReturnInv().getStack(i);
-      if (stack == null) continue;
-      inv.insert(stack.what(), stack.amount(), Actionable.MODULATE, logic.getActionSource());
     }
 
     return inv;
@@ -181,6 +181,7 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
   }
 
   @Override
+  @Nullable
   public AEItemKey getTerminalIcon() {
     if (getController() == null) return AEItemKey.of(((MEBlock) getBlockState().getBlock()).item());
     return AEItemKey.of(ControllerItem.makeMachineItem(getController().getId()));
@@ -202,7 +203,8 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
   }
 
   @Override
-  public @Nullable MachineComponent<?> provideComponent() {
+  @Nullable
+  public MachineComponent<?> provideComponent() {
     return null;
   }
 

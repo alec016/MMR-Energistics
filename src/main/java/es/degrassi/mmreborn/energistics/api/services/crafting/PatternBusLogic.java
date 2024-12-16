@@ -31,7 +31,7 @@ import appeng.core.localization.GuiText;
 import appeng.core.localization.PlayerMessages;
 import appeng.core.settings.TickRates;
 import appeng.helpers.InterfaceLogicHost;
-import appeng.helpers.patternprovider.PatternProviderReturnInventory;
+import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import appeng.helpers.patternprovider.UnlockCraftingEvent;
 import appeng.me.helpers.MachineSource;
 import appeng.util.inv.AppEngInternalInventory;
@@ -49,6 +49,7 @@ import es.degrassi.mmreborn.energistics.api.services.crafting.target.FluidPatter
 import es.degrassi.mmreborn.energistics.api.services.crafting.target.ItemPatternTarget;
 import es.degrassi.mmreborn.energistics.api.services.crafting.target.PatternBusTarget;
 import es.degrassi.mmreborn.energistics.api.services.crafting.target.SourcePatternTarget;
+import es.degrassi.mmreborn.energistics.api.services.settings.MMRESettings;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
 import gripe._90.arseng.me.key.SourceKey;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -83,6 +84,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -95,7 +97,6 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   public static final String NBT_PRIORITY = "priority";
   public static final String NBT_SEND_LIST = "sendList";
   public static final String NBT_ADAPTERS = "adapters";
-  public static final String NBT_RETURN_INV = "returnInv";
 
   private final PatternBusLogicHost host;
   private final IManagedGridNode mainNode;
@@ -115,9 +116,6 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   private final Set<AEKey> patternInputs = new HashSet<>();
   // Pattern sending logic
   private final List<GenericStack> sendList = new ArrayList<>();
-  // Stack returning logic
-  @Getter
-  private final PatternProviderReturnInventory returnInv;
 
   private final PatternBusTargetCache[] targetCaches = new PatternBusTargetCache[6];
 
@@ -142,15 +140,10 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     this.actionSource = new MachineSource(mainNode::getNode);
 
     configManager = IConfigManager.builder(this::configChanged)
-        .registerSetting(Settings.BLOCKING_MODE, YesNo.NO)
+        .registerSetting(MMRESettings.BLOCKING_MODE, YesNo.NO)
         .registerSetting(Settings.PATTERN_ACCESS_TERMINAL, YesNo.YES)
-        .registerSetting(Settings.LOCK_CRAFTING_MODE, LockCraftingMode.NONE)
+        .registerSetting(MMRESettings.LOCK_CRAFTING_MODE, LockCraftingMode.NONE)
         .build();
-
-    this.returnInv = new PatternProviderReturnInventory(() -> {
-      this.mainNode.ifPresent((grid, node) -> grid.getTickManager().alertDevice(node));
-      this.host.saveChanges();
-    });
   }
 
   public void setPriority(int priority) {
@@ -187,8 +180,6 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
       adaptersTag.add(adapter.writeNBT(registries));
     }
     tag.put(NBT_ADAPTERS, adaptersTag);
-
-    tag.put(NBT_RETURN_INV, this.returnInv.writeToTag(registries));
   }
 
   public void readFromNBT(CompoundTag tag, HolderLookup.Provider registries) {
@@ -230,8 +221,6 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
       if (target != null)
         adapters.add(target);
     }
-
-    this.returnInv.readFromTag(tag.getList("returnInv", Tag.TAG_COMPOUND), registries);
   }
 
   public void saveChanges() {
@@ -439,7 +428,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   private void onPushPatternSuccess(IPatternDetails pattern) {
     resetCraftingLock();
 
-    var lockMode = configManager.getSetting(Settings.LOCK_CRAFTING_MODE);
+    var lockMode = configManager.getSetting(MMRESettings.LOCK_CRAFTING_MODE);
     switch (lockMode) {
       case LOCK_UNTIL_PULSE -> {
         if (getRedstoneState()) {
@@ -466,7 +455,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
    * @return null if the lock isn't in effect
    */
   public LockCraftingMode getCraftingLockedReason() {
-    var lockMode = configManager.getSetting(Settings.LOCK_CRAFTING_MODE);
+    var lockMode = configManager.getSetting(MMRESettings.LOCK_CRAFTING_MODE);
     if (lockMode == LockCraftingMode.LOCK_WHILE_LOW && !getRedstoneState()) {
       // Crafting locked by redstone signal
       return LockCraftingMode.LOCK_WHILE_LOW;
@@ -503,6 +492,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
       for (var entry : node.getInWorldConnections().entrySet()) {
         var otherNode = entry.getValue().getOtherSide(node);
         if (otherNode.getOwner() instanceof PatternBusLogicHost
+            || otherNode.getOwner() instanceof PatternProviderLogicHost
             || (otherNode.getOwner() instanceof InterfaceLogicHost
             && otherNode.getGrid().equals(mainNode.getGrid()))) {
           sides.remove(entry.getKey());
@@ -514,7 +504,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   }
 
   public boolean isBlocking() {
-    return this.configManager.getSetting(Settings.BLOCKING_MODE) == YesNo.YES;
+    return this.configManager.getSetting(MMRESettings.BLOCKING_MODE) == YesNo.YES;
   }
 
   @Nullable
@@ -605,14 +595,12 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   }
 
   private boolean hasWorkToDo() {
-    return (!sendList.isEmpty() && !adapters.isEmpty()) || !returnInv.isEmpty();
+    return !sendList.isEmpty() && !adapters.isEmpty();
   }
 
   private boolean doWork() {
     // Note: bitwise OR to avoid short-circuiting.
-    return returnInv.injectIntoNetwork(
-        mainNode.getGrid().getStorageService().getInventory(), actionSource, this::onStackReturnedToNetwork)
-        | sendStacksOut();
+    return sendStacksOut();
   }
 
   public InternalInventory getPatternInv() {
@@ -636,14 +624,11 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
       stack.what().addDrops(stack.amount(), drops, this.host.getBlockEntity().getLevel(),
           this.host.getBlockEntity().getBlockPos());
     }
-
-    this.returnInv.addDrops(drops, this.host.getBlockEntity().getLevel(), this.host.getBlockEntity().getBlockPos());
   }
 
   public void clearContent() {
     this.patternInventory.clear();
     this.sendList.clear();
-    this.returnInv.clear();
   }
 
   public void exportSettings(DataComponentMap.Builder builder) {
@@ -795,7 +780,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     var groups = new LinkedHashSet<PatternContainerGroup>(sides.size());
     for (var side : sides) {
       var sidePos = host.getBlockPos().relative(side);
-      var group = PatternContainerGroup.fromMachine(hostLevel, sidePos, side.getOpposite());
+      var group = PatternContainerGroup.fromMachine(Objects.requireNonNull(hostLevel), sidePos, side.getOpposite());
       if (group != null) {
         groups.add(group);
       }
@@ -829,7 +814,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
 
   public long getSortValue() {
     final BlockEntity te = this.host.getBlockEntity();
-    return te.getBlockPos().getZ() << 24 ^ te.getBlockPos().getX() << 8 ^ te.getBlockPos().getY();
+    return (long) te.getBlockPos().getZ() << 24 ^ (long) te.getBlockPos().getX() << 8 ^ te.getBlockPos().getY();
   }
 
   @Nullable
@@ -853,7 +838,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   }
 
   private void configChanged(IConfigManager manager, Setting<?> setting) {
-    if (setting == Settings.LOCK_CRAFTING_MODE) {
+    if (setting == MMRESettings.LOCK_CRAFTING_MODE) {
       resetCraftingLock();
     } else {
       saveChanges();
@@ -863,7 +848,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   private boolean getRedstoneState() {
     if (redstoneState == YesNo.UNDECIDED) {
       var be = this.host.getBlockEntity();
-      redstoneState = be.getLevel().hasNeighborSignal(be.getBlockPos())
+      redstoneState = Objects.requireNonNull(be.getLevel()).hasNeighborSignal(be.getBlockPos())
           ? YesNo.YES
           : YesNo.NO;
     }

@@ -1,6 +1,7 @@
 package es.degrassi.mmreborn.energistics.common.util;
 
 import appeng.api.networking.IGridNodeListener;
+import appeng.api.util.AEColor;
 import appeng.me.ManagedGridNode;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -16,11 +17,13 @@ public class SerializableManagedGridNode extends ManagedGridNode implements INBT
   public CompoundTag serializeNBT(HolderLookup.Provider provider) {
     CompoundTag tag = new CompoundTag();
     super.saveToNBT(tag);
+    tag.putString("gridColor", getGridColor().name());
     return tag;
   }
 
   @Override
   public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
     super.loadFromNBT(tag);
+    setGridColor(AEColor.valueOf(tag.getString("gridColor")));
   }
 }

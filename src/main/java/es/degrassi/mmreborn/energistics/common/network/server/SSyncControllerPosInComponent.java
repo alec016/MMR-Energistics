@@ -1,8 +1,7 @@
 package es.degrassi.mmreborn.energistics.common.network.server;
 
-import es.degrassi.mmreborn.common.network.server.SMachineUpdatePacket;
+import es.degrassi.mmreborn.api.controller.ControllerAccessible;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
-import es.degrassi.mmreborn.energistics.common.entity.base.ControllerAccessible;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

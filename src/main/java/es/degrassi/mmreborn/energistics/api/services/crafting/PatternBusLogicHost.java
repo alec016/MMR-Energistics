@@ -10,7 +10,7 @@ import appeng.api.util.IConfigManager;
 import appeng.api.util.IConfigurableObject;
 import appeng.helpers.IPriorityHost;
 import appeng.helpers.patternprovider.PatternContainer;
-import es.degrassi.mmreborn.energistics.common.entity.base.ControllerAccessible;
+import es.degrassi.mmreborn.api.controller.ControllerAccessible;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;

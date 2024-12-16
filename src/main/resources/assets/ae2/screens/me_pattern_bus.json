@@ -2,19 +2,14 @@
   "$schema": "schema.json",
   "includes": ["common/common.json", "common/player_inventory.json"],
   "background": {
-    "texture": "guis/pattern_provider.png",
-    "srcRect": [0, 0, 176, 215]
+    "texture": "guis/pattern_bus.png",
+    "srcRect": [0, 0, 176, 163]
   },
   "slots": {
     "ENCODED_PATTERN": {
       "left": 8,
       "top": 45,
       "grid": "BREAK_AFTER_9COLS"
-    },
-    "STORAGE": {
-      "left": 8,
-      "top": 97,
-      "grid": "HORIZONTAL"
     }
   },
   "text": {
@@ -34,15 +29,6 @@
       "position": {
         "left": 8,
         "top": 34
-      }
-    },
-    "interface_stored_items": {
-      "text": {
-        "translate": "gui.ae2.ReturnInventory"
-      },
-      "position": {
-        "left": 8,
-        "top": 86
       }
     }
   },
