@@ -26,11 +26,17 @@
   "block.modular_machinery_reborn_energistics.me_advanced_input_experience_hatch": "ME Advanced Input Experience Hatch",
   "block.modular_machinery_reborn_energistics.me_advanced_output_experience_hatch": "ME Advanced Output Experience Hatch",
 
+  "block.modular_machinery_reborn_energistics.me_pattern_bus": "ME Pattern Bus",
+  "block.modular_machinery_reborn_energistics.me_advanced_pattern_bus": "ME Advanced Pattern Bus",
+
   "mmr.gui.me_network.online": "Device Online",
   "mmr.gui.me_network.offline": "Device Offline",
   "mmr.gui.me_network.channel": "Device Missing Channel",
   "mmr.gui.me_network.booting": "Network Booting",
   "mmre.info.node.color": "Color: %s",
+
+  "gui.mmr.me_pattern_bus": "ME Pattern Bus",
+  "gui.mmr.me_advanced_pattern_bus": "ME Advanced Pattern Bus",
 
   "gui.mmr.me_input_bus": "ME Input Bus",
   "gui.mmr.me_output_bus": "ME Output Bus",

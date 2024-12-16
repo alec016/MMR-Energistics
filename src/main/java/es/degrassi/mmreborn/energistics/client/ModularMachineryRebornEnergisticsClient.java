@@ -12,6 +12,7 @@ import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchCo
 import es.degrassi.mmreborn.energistics.client.container.MEOutputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEPatternBusContainer;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputBusScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputChemicalHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEInputExperienceHatchScreen;
@@ -22,6 +23,7 @@ import es.degrassi.mmreborn.energistics.client.screen.MEOutputChemicalHatchScree
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputExperienceHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputSourceHatchScreen;
+import es.degrassi.mmreborn.energistics.client.screen.MEPatternBusScreen;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
 import es.degrassi.mmreborn.energistics.common.registration.ItemRegistration;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
@@ -42,7 +44,9 @@ public class ModularMachineryRebornEnergisticsClient {
         BlockRegistration.ME_INPUT_HATCH.get(),
         BlockRegistration.ME_OUTPUT_HATCH.get(),
         BlockRegistration.ME_ADVANCED_INPUT_HATCH.get(),
-        BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get()
+        BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get(),
+        BlockRegistration.ME_PATTERN_BUS.get(),
+        BlockRegistration.ME_ADVANCED_PATTERN_BUS.get()
     );
 
     if (Mods.isMekPossible()) {
@@ -87,7 +91,9 @@ public class ModularMachineryRebornEnergisticsClient {
         ItemRegistration.ME_INPUT_HATCH.get(),
         ItemRegistration.ME_OUTPUT_HATCH.get(),
         ItemRegistration.ME_ADVANCED_INPUT_HATCH.get(),
-        ItemRegistration.ME_ADVANCED_OUTPUT_HATCH.get()
+        ItemRegistration.ME_ADVANCED_OUTPUT_HATCH.get(),
+        ItemRegistration.ME_PATTERN_BUS.get(),
+        ItemRegistration.ME_ADVANCED_PATTERN_BUS.get()
     );
 
     if (Mods.isMekPossible()) {
@@ -132,6 +138,9 @@ public class ModularMachineryRebornEnergisticsClient {
     InitScreens.register(event, MEInputHatchContainer.ADVANCED_TYPE, MEInputHatchScreen::new, "/screens/me_advanced_input_hatch.json");
     InitScreens.register(event, MEOutputHatchContainer.TYPE, MEOutputHatchScreen::new, "/screens/me_output_hatch.json");
     InitScreens.register(event, MEOutputHatchContainer.ADVANCED_TYPE, MEOutputHatchScreen::new, "/screens/me_advanced_output_hatch.json");
+
+    InitScreens.register(event, MEPatternBusContainer.ADVANCED_TYPE, MEPatternBusScreen::new, "/screens/me_advanced_pattern_bus.json");
+    InitScreens.register(event, MEPatternBusContainer.TYPE, MEPatternBusScreen::new, "/screens/me_pattern_bus.json");
 
     if (Mods.isMekPossible()) {
       InitScreens.register(event, MEInputChemicalHatchContainer.TYPE, MEInputChemicalHatchScreen::new, "/screens" +

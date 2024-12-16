@@ -13,6 +13,7 @@ import es.degrassi.mmreborn.energistics.common.entity.MEOutputExperienceHatchEnt
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputSourceHatchEntity;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
+import es.degrassi.mmreborn.energistics.common.entity.base.MEPatternBus;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -81,6 +82,20 @@ public class EntityRegistration {
       () -> new BlockEntityType<>(
           (pos, state) -> new MEOutputHatchEntity(pos, state, MEHatchSize.ME_ADVANCED_OUTPUT_HATCH),
           Set.of(BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get()),
+          null)
+  );
+  public static final Supplier<BlockEntityType<MEEntity>> ME_PATTERN_BUS = ENTITY_TYPE.register(
+      MEHatchSize.ME_PATTERN_BUS.getSerializedName(),
+      () -> new BlockEntityType<>(
+          (pos, state) -> new MEPatternBus(pos, state, MEHatchSize.ME_PATTERN_BUS),
+          Set.of(BlockRegistration.ME_PATTERN_BUS.get()),
+          null)
+  );
+  public static final Supplier<BlockEntityType<MEEntity>> ME_ADVANCED_PATTERN_BUS = ENTITY_TYPE.register(
+      MEHatchSize.ME_ADVANCED_PATTERN_BUS.getSerializedName(),
+      () -> new BlockEntityType<>(
+          (pos, state) -> new MEPatternBus(pos, state, MEHatchSize.ME_ADVANCED_PATTERN_BUS),
+          Set.of(BlockRegistration.ME_ADVANCED_PATTERN_BUS.get()),
           null)
   );
 

@@ -43,6 +43,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +90,10 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
   protected @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder builder) {
     List<ItemStack> drops = super.getDrops(state, builder);
     drops.add(item().getDefaultInstance());
+    Object inv = builder.getParameter(LootContextParams.BLOCK_ENTITY);
+    if (inv instanceof MEEntity entity) {
+      entity.addDrops(drops);
+    }
     return drops;
   }
 
@@ -234,6 +239,8 @@ public abstract class MEBlock extends BlockMachineComponent implements IOrientab
       case ME_ADVANCED_INPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get();
       case ME_OUTPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get();
       case ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH -> ItemRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get();
+      case ME_PATTERN_BUS -> ItemRegistration.ME_PATTERN_BUS.get();
+      case ME_ADVANCED_PATTERN_BUS -> ItemRegistration.ME_ADVANCED_PATTERN_BUS.get();
     };
   }
 

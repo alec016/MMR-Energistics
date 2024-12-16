@@ -31,6 +31,8 @@ public class MMREnergisticsTags {
   }
 
   public static class Blocks extends Tag<Block> {
+    public static final TagKey<Block> ME_PATTERN = new Blocks(false, "me_pattern_bus").get();
+
     public static final TagKey<Block> ME_BUS = new Blocks(false, "me_itembus").get();
     public static final TagKey<Block> ME_INPUT_BUS = new Blocks(false, "me_iteminputbus").get();
     public static final TagKey<Block> ME_OUTPUT_BUS = new Blocks(false, "me_itemoutputbus").get();

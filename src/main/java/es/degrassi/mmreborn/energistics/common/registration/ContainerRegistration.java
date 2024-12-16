@@ -11,6 +11,7 @@ import es.degrassi.mmreborn.energistics.client.container.MEOutputChemicalHatchCo
 import es.degrassi.mmreborn.energistics.client.container.MEOutputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputSourceHatchContainer;
+import es.degrassi.mmreborn.energistics.client.container.MEPatternBusContainer;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
@@ -54,6 +55,15 @@ public class ContainerRegistration {
   public static final DeferredHolder<MenuType<?>, MenuType<MEOutputHatchContainer>> ADVANCED_OUTPUT_HATCH = CONTAINERS.register(
       "advanced_output_hatch",
       () -> MEOutputHatchContainer.ADVANCED_TYPE
+  );
+
+  public static final DeferredHolder<MenuType<?>, MenuType<MEPatternBusContainer>> PATTERN_BUS = CONTAINERS.register(
+      "pattern_bus",
+      () -> MEPatternBusContainer.TYPE
+  );
+  public static final DeferredHolder<MenuType<?>, MenuType<MEPatternBusContainer>> ADVANCED_PATTERN_BUS = CONTAINERS.register(
+      "advanced_pattern_bus",
+      () -> MEPatternBusContainer.ADVANCED_TYPE
   );
 
   public static final DeferredHolder<MenuType<?>, MenuType<MEInputChemicalHatchContainer>> INPUT_CHEMICAL_HATCH;

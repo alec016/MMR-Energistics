@@ -6,6 +6,7 @@ import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.crafting.ICraftingRequester;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.orientation.BlockOrientation;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.upgrades.IUpgradeableObject;
 import appeng.api.util.AEColor;
 import appeng.helpers.IPriorityHost;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -110,6 +112,8 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
       case ME_ADVANCED_INPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get();
       case ME_OUTPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get();
       case ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH -> EntityRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get();
+      case ME_PATTERN_BUS -> EntityRegistration.ME_PATTERN_BUS.get();
+      case ME_ADVANCED_PATTERN_BUS -> EntityRegistration.ME_ADVANCED_PATTERN_BUS.get();
     };
   }
 
@@ -163,7 +167,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
 
   private byte readyInvoked = 0;
 
-  private void onReady() {
+  protected void onReady() {
     readyInvoked++;
     nodeHolder.onLoad();
   }
@@ -310,6 +314,24 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   }
 
   public AEColor getGridColor() {
-    return nodeHolder.getColor();
+    return getNodeHolder().getColor();
+  }
+
+  public void addDrops(List<ItemStack> drops) {
+    if (getStorage() != null) {
+      getStorage().getAvailableStacks().iterator().forEachRemaining(entry -> {
+        if (AEItemKey.is(entry.getKey())) {
+          entry.getKey().addDrops(Integer.MAX_VALUE, drops, getLevel(), getBlockPos());
+        }
+      });
+    }
+    if (getUpgrades() != null) {
+      IItemHandler handler = getUpgrades().toItemHandler();
+      for (int i = 0; i < handler.getSlots(); i++) {
+        ItemStack stack = handler.getStackInSlot(i);
+        if (stack.isEmpty()) continue;
+        drops.add(stack);
+      }
+    }
   }
 }

@@ -38,6 +38,13 @@ public class ItemRegistration {
       ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH.getSerializedName(),
           () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_HATCH));
 
+  public static final DeferredItem<MEItem> ME_PATTERN_BUS =
+      ITEMS.register(MEHatchSize.ME_PATTERN_BUS.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_PATTERN_BUS.get(), MEHatchSize.ME_PATTERN_BUS));
+  public static final DeferredItem<MEItem> ME_ADVANCED_PATTERN_BUS =
+      ITEMS.register(MEHatchSize.ME_ADVANCED_PATTERN_BUS.getSerializedName(),
+          () -> new MEItem(BlockRegistration.ME_ADVANCED_PATTERN_BUS.get(), MEHatchSize.ME_ADVANCED_PATTERN_BUS));
+
   public static final DeferredItem<MEItem> ME_INPUT_CHEMICAL_HATCH;
   public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_CHEMICAL_HATCH;
   public static final DeferredItem<MEItem> ME_OUTPUT_CHEMICAL_HATCH;

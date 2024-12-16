@@ -6,6 +6,7 @@ import es.degrassi.mmreborn.energistics.common.block.MEChemicalHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEExperienceHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEFluidHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.MEItemBusBlock;
+import es.degrassi.mmreborn.energistics.common.block.MEPatternBusBlock;
 import es.degrassi.mmreborn.energistics.common.block.MESourceHatchBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
@@ -41,6 +42,13 @@ public class BlockRegistration {
   public static final DeferredBlock<MEBlock> ME_ADVANCED_OUTPUT_HATCH =
       BLOCKS.register(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH.getSerializedName(),
           () -> new MEFluidHatchBlock(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH));
+
+  public static final DeferredBlock<MEBlock> ME_PATTERN_BUS =
+      BLOCKS.register(MEHatchSize.ME_PATTERN_BUS.getSerializedName(),
+          () -> new MEPatternBusBlock(MEHatchSize.ME_PATTERN_BUS));
+  public static final DeferredBlock<MEBlock> ME_ADVANCED_PATTERN_BUS =
+      BLOCKS.register(MEHatchSize.ME_ADVANCED_PATTERN_BUS.getSerializedName(),
+          () -> new MEPatternBusBlock(MEHatchSize.ME_ADVANCED_PATTERN_BUS));
 
   public static final DeferredBlock<MEBlock> ME_INPUT_CHEMICAL_HATCH;
   public static final DeferredBlock<MEBlock> ME_ADVANCED_INPUT_CHEMICAL_HATCH;

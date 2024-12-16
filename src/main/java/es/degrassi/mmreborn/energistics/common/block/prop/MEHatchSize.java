@@ -3,6 +3,7 @@ package es.degrassi.mmreborn.energistics.common.block.prop;
 import es.degrassi.mmreborn.energistics.common.data.MMRConfig;
 import lombok.Getter;
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
@@ -26,7 +27,9 @@ public enum MEHatchSize implements StringRepresentable {
   ME_INPUT_EXPERIENCE_HATCH(true, 1),
   ME_ADVANCED_INPUT_EXPERIENCE_HATCH(true, true, 1),
   ME_OUTPUT_EXPERIENCE_HATCH(false, 1),
-  ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH(false, true, 1);
+  ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH(false, true, 1),
+  ME_PATTERN_BUS(true, 9),
+  ME_ADVANCED_PATTERN_BUS(true, true, 36);
 
   @Getter
   private double idlePowerDrainOnConnected;
@@ -55,7 +58,7 @@ public enum MEHatchSize implements StringRepresentable {
   }
 
   @Override
-  public String getSerializedName() {
+  public @NotNull String getSerializedName() {
     return name().toLowerCase(Locale.ROOT);
   }
 }

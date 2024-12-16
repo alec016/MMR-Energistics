@@ -22,6 +22,15 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
 
   @Override
   protected void addTags(HolderLookup.@NotNull Provider provider) {
+    tag(MMREnergisticsTags.Blocks.ME_PATTERN)
+        .add(
+            BlockRegistration.ME_PATTERN_BUS.get(),
+            BlockRegistration.ME_ADVANCED_PATTERN_BUS.get()
+        );
+
+    tag(MMRTags.Blocks.ALL_CASINGS)
+        .addTag(MMREnergisticsTags.Blocks.ME_PATTERN);
+
     tag(MMREnergisticsTags.Blocks.ME_FLUID_OUTPUT)
         .add(
             BlockRegistration.ME_OUTPUT_HATCH.get(),
