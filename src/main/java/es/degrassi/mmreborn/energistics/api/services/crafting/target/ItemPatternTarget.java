@@ -3,13 +3,13 @@ package es.degrassi.mmreborn.energistics.api.services.crafting.target;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
-import es.degrassi.mmreborn.common.util.IOInventory;
-import es.degrassi.mmreborn.common.util.ItemUtils;
+import es.degrassi.mmreborn.common.manager.handler.ItemHandler;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import java.util.Set;
@@ -19,7 +19,7 @@ public class ItemPatternTarget implements PatternBusTarget {
   private final IItemHandlerModifiable inv;
   private final BlockPos pos;
 
-  public ItemPatternTarget(IOInventory inv, BlockPos pos) {
+  public ItemPatternTarget(ItemHandler inv, BlockPos pos) {
     this.inv = inv;
     this.pos = pos;
   }
@@ -37,7 +37,7 @@ public class ItemPatternTarget implements PatternBusTarget {
   @Override
   public long insert(AEKey what, long amount, Actionable type) {
     if (!(what instanceof AEItemKey k)) return 0;
-    return ItemUtils.tryPlaceItemInInventory(k.toStack((int) amount), inv, type.isSimulate());
+    return tryPlaceItemInInventory(k.toStack((int) amount), inv, type.isSimulate());
   }
 
   @Override
@@ -53,5 +53,13 @@ public class ItemPatternTarget implements PatternBusTarget {
           }
           return false;
         });
+  }
+
+  public static int tryPlaceItemInInventory(ItemStack stack, IItemHandler handler, boolean simulate) {
+    ItemStack remainder = stack.copy();
+    for (int i = 0; i < handler.getSlots() && !remainder.isEmpty(); i++) {
+      remainder = handler.insertItem(i, remainder, simulate);
+    }
+    return stack.getCount() - remainder.getCount();
   }
 }

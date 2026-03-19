@@ -3,10 +3,9 @@ package es.degrassi.mmreborn.energistics.common.entity;
 import appeng.menu.ISubMenu;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuHostLocator;
-import es.degrassi.experiencelib.api.capability.IExperienceHandler;
 import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.ExperienceHatch;
+import es.degrassi.mmreborn.common.machine.component.ExperienceComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEExperienceHatchEntity;
@@ -34,12 +33,13 @@ public class MEOutputExperienceHatchEntity extends MEExperienceHatchEntity {
   }
 
   @Nullable
-  public ExperienceHatch provideComponent() {
-    return new ExperienceHatch(IOType.OUTPUT) {
-      public IExperienceHandler getContainerProvider() {
-        return inventory;
-      }
-    };
+  public ExperienceComponent provideComponent() {
+    return new ExperienceComponent(new es.degrassi.experiencelib.impl.capability.BasicExperienceHandler(1, inventory.getExperienceCapacity(), null) {
+      @Override public void setExperience(int tank, long amount) { inventory.setExperience(amount); }
+      @Override public long receiveExperience(int tank, long amount, boolean simulate) { return inventory.receiveExperience(amount, simulate); }
+      @Override public long extractExperience(int tank, long amount, boolean simulate) { return inventory.extractExperience(amount, simulate); }
+      @Override public long getExperience() { return inventory.getExperience(); }
+    }, IOType.OUTPUT);
   }
 
   protected BasicExperienceTank createInventory() {

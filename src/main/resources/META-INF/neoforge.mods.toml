@@ -48,6 +48,13 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
+modId = "experiencelib"
+type="required"
+versionRange = "[${experiencelib_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
 modId = "modular_machinery_reborn_mekanism"
 type="optional"
 versionRange = "[${mmr_mekanism_version},)"

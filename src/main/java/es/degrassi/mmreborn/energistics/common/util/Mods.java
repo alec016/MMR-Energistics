@@ -3,7 +3,10 @@ package es.degrassi.mmreborn.energistics.common.util;
 import net.neoforged.fml.ModList;
 
 public interface Mods {
-  ModList list = ModList.get();
+
+  private static boolean isLoaded(String modId) {
+    return ModList.get() != null && ModList.get().isLoaded(modId);
+  }
 
   static boolean isMekPossible() {
     return isMekLoaded() && isMMRMekLoaded() && isAppMekLoaded();
@@ -18,34 +21,34 @@ public interface Mods {
   }
 
   static boolean isMekLoaded() {
-    return list.isLoaded("mekanism");
+    return isLoaded("mekanism");
   }
 
   static boolean isAppMekLoaded() {
-    return list.isLoaded("appmek");
+    return isLoaded("appmek");
   }
 
   static boolean isMMRMekLoaded() {
-    return list.isLoaded("modular_machinery_reborn_mekanism");
+    return isLoaded("modular_machinery_reborn_mekanism");
   }
 
   static boolean isArsLoaded() {
-    return list.isLoaded("ars_nouveau");
+    return isLoaded("ars_nouveau");
   }
 
   static boolean isAppArsLoaded() {
-    return list.isLoaded("arseng");
+    return isLoaded("arseng");
   }
 
   static boolean isMMRArsLoaded() {
-    return list.isLoaded("modular_machinery_reborn_ars");
+    return isLoaded("modular_machinery_reborn_ars");
   }
 
   static boolean isExperienceLibLoaded() {
-    return list.isLoaded("experiencelib");
+    return isLoaded("experiencelib");
   }
 
   static boolean isAppExLoaded() {
-    return list.isLoaded("appex");
+    return isLoaded("appex");
   }
 }

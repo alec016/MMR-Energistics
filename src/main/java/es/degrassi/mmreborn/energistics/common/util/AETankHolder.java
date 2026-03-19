@@ -6,7 +6,7 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.GenericStack;
 import com.google.common.primitives.Ints;
-import es.degrassi.mmreborn.common.util.HybridTank;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -19,10 +19,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class AETankHolder extends HybridTank {
+public class AETankHolder extends FluidHandler {
   private final MEOutputHatchEntity owner;
   public AETankHolder(MEOutputHatchEntity owner) {
-    super((int) owner.getStorage().getCapacity(AEKeyType.fluids()));
+    super(new int[0], new int[0], (int) owner.getStorage().getCapacity(AEKeyType.fluids()));
     this.owner = owner;
   }
 
@@ -47,7 +47,6 @@ public class AETankHolder extends HybridTank {
     return owner.getStorage().size();
   }
 
-  @Override
   public boolean isFluidValid(FluidStack stack) {
     for (int i = 0; i < owner.getStorage().size(); i++) {
       if (owner.getStorage().isAllowedIn(i, AEFluidKey.of(stack)))
@@ -58,8 +57,8 @@ public class AETankHolder extends HybridTank {
 
   @Override
   public FluidStack getFluidInTank(int tank) {
-    AEKey var3 = owner.getStorage().getKey(tank);
-    if (var3 instanceof AEFluidKey what) {
+    AEKey key = owner.getStorage().getKey(tank);
+    if (key instanceof AEFluidKey what) {
       int amount = Ints.saturatedCast(owner.getStorage().getAmount(tank));
       return what.toStack(amount);
     } else {
@@ -116,9 +115,8 @@ public class AETankHolder extends HybridTank {
 
   public @NotNull FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
     for (int i = 0; i < owner.getStorage().size(); ++i) {
-      owner.getStorage().getKey(i);
-      AEKey var6 = owner.getStorage().getKey(i);
-      if (var6 instanceof AEFluidKey fluidKey) {
+      AEKey key = owner.getStorage().getKey(i);
+      if (key instanceof AEFluidKey fluidKey) {
         return this.extract(fluidKey, maxDrain, action);
       }
     }

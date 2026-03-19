@@ -34,8 +34,8 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.ItemBus;
-import es.degrassi.mmreborn.common.util.IOInventory;
+import es.degrassi.mmreborn.common.machine.component.ItemComponent;
+import es.degrassi.mmreborn.common.manager.handler.ItemHandler;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -55,7 +55,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -63,7 +62,7 @@ import java.util.Optional;
 @MethodsReturnNonnullByDefault
 public class MEInputBusEntity extends MEEntity {
   private final KeyStorage internalBuffer; // Do not use KeyCounter, use our simple implementation
-  private final IOInventory inventory;
+  private final ItemHandler inventory;
   private final IUpgradeInventory upgrades;
   private final GenericStack[] plannedWork;
   private final MultiCraftingTracker craftingTracker;
@@ -98,7 +97,7 @@ public class MEInputBusEntity extends MEEntity {
     this.plannedWork = new GenericStack[slots];
     this.cm = IConfigManager.builder(this::onConfigChanged).registerSetting(Settings.FUZZY_MODE, FuzzyMode.IGNORE_ALL).build();
     this.logic = new InterfaceLogic(getMainNode(), this, ((MEBlock) getBlockState().getBlock()).item());
-    inventory.setListener(this::onInventoryChanged);
+    inventory.setListener((slot, stack) -> onInventoryChanged());
     getMainNode()
         .addService(ICraftingRequester.class, this)
         .addService(IGridTickable.class, new Ticker());
@@ -107,12 +106,8 @@ public class MEInputBusEntity extends MEEntity {
   }
 
   @Nullable
-  public ItemBus provideComponent() {
-    return new ItemBus(IOType.INPUT) {
-      public IOInventory getContainerProvider() {
-        return inventory;
-      }
-    };
+  public ItemComponent provideComponent() {
+    return new ItemComponent(inventory, IOType.INPUT);
   }
 
   private boolean tryUsePlan(int slot, AEKey what, int amount) {
@@ -354,19 +349,14 @@ public class MEInputBusEntity extends MEEntity {
     return false;
   }
 
-  protected IOInventory createInventory() {
-    return new IOInventory(this, generateSlots(9), generateSlots(0), getOrientation().getSide(RelativeSide.FRONT)) {
+  protected ItemHandler createInventory() {
+    return new ItemHandler(generateSlots(9), generateSlots(0), 9, getOrientation().getSide(RelativeSide.FRONT)) {
       @Override
       public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
         if (stack == null || stack.isEmpty()) return ItemStack.EMPTY;
         long inserted = storage.insert(slot, AEItemKey.of(stack), stack.getCount(), simulate ? Actionable.SIMULATE :
             Actionable.MODULATE);
         return stack.copyWithCount(stack.getCount() - (int) inserted);
-      }
-
-      @Override
-      public int getSlots() {
-        return storage.size();
       }
 
       @Override

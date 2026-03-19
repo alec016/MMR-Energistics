@@ -38,11 +38,10 @@ import appeng.util.inv.AppEngInternalInventory;
 import appeng.util.inv.InternalInventoryHost;
 import appeng.util.inv.PlayerInternalInventory;
 import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
-import es.degrassi.appexp.me.key.ExperienceKey;
+import es.degrassi.appexp.me.key.AEExperienceKey;
 import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
-import es.degrassi.mmreborn.common.util.HybridTank;
-import es.degrassi.mmreborn.common.util.IOInventory;
-import es.degrassi.mmreborn.common.util.ItemUtils;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
+import es.degrassi.mmreborn.common.manager.handler.ItemHandler;
 import es.degrassi.mmreborn.energistics.api.services.crafting.target.ChemicalPatternTarget;
 import es.degrassi.mmreborn.energistics.api.services.crafting.target.ExperiencePatternTarget;
 import es.degrassi.mmreborn.energistics.api.services.crafting.target.FluidPatternTarget;
@@ -309,9 +308,11 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
 
     components:
     for (var component : host.getFoundComponents().entrySet()) {
-      var provider = component.getValue().getContainerProvider();
+      if (component.getValue().isEmpty()) continue;
+      var machineComponent = component.getValue().get();
+      var provider = machineComponent.getContainerProvider();
       if (provider == null) continue;
-      if (!component.getValue().getIOType().isInput()) continue;
+      if (!machineComponent.getIOType().isInput()) continue;
       if (
            provider instanceof Long ||
               provider instanceof Integer ||
@@ -326,14 +327,14 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
 
       for (var entry : inputs) {
         var key = entry.getKey();
-        if (key instanceof AEItemKey itemKey && provider instanceof IOInventory inv) {
-          int inserted = ItemUtils.tryPlaceItemInInventory(itemKey.toStack((int) entry.getLongValue()), inv, true);
+        if (key instanceof AEItemKey itemKey && provider instanceof ItemHandler inv) {
+          int inserted = ItemPatternTarget.tryPlaceItemInInventory(itemKey.toStack((int) entry.getLongValue()), inv, true);
           if (inserted >= entry.getLongValue()) {
             possibleTargets.add(new ItemPatternTarget(inv, component.getKey()));
             inputs.remove(entry);
             continue components;
           }
-        } else if (key instanceof AEFluidKey fluidKey && provider instanceof HybridTank tank) {
+        } else if (key instanceof AEFluidKey fluidKey && provider instanceof FluidHandler tank) {
           int inserted = tank.fill(fluidKey.toStack((int) entry.getLongValue()), IFluidHandler.FluidAction.SIMULATE);
           if (inserted >= entry.getLongValue()) {
             if (inserted >= entry.getLongValue()) {
@@ -361,7 +362,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
             }
           }
         } else if (Mods.isExperiencePossible()) {
-          if (key instanceof ExperienceKey && provider instanceof BasicExperienceTank tank) {
+          if (key instanceof AEExperienceKey && provider instanceof BasicExperienceTank tank) {
             long inserted = tank.receiveExperience(entry.getLongValue(), true);
             if (inserted >= entry.getLongValue()) {
               possibleTargets.add(new ExperiencePatternTarget(tank, component.getKey()));

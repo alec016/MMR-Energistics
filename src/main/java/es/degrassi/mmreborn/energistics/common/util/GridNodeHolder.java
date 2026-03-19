@@ -1,7 +1,6 @@
 package es.degrassi.mmreborn.energistics.common.util;
 
 import appeng.api.networking.GridFlags;
-import appeng.api.networking.IManagedGridNode;
 import appeng.api.util.AEColor;
 import appeng.me.helpers.BlockEntityNodeListener;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 
-import java.nio.file.attribute.FileAttribute;
 import java.util.EnumSet;
 
 @Getter

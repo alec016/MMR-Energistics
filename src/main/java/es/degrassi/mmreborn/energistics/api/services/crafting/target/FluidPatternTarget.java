@@ -3,7 +3,7 @@ package es.degrassi.mmreborn.energistics.api.services.crafting.target;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEKey;
-import es.degrassi.mmreborn.common.util.HybridTank;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -18,7 +18,7 @@ public class FluidPatternTarget implements PatternBusTarget {
   private final IFluidHandler tank;
   private final BlockPos pos;
 
-  public FluidPatternTarget(HybridTank tank, BlockPos pos) {
+  public FluidPatternTarget(FluidHandler tank, BlockPos pos) {
     this.tank = tank;
     this.pos = pos;
   }

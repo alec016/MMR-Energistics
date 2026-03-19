@@ -7,13 +7,13 @@ import appeng.api.orientation.IOrientationStrategy;
 import appeng.api.orientation.OrientationStrategies;
 import appeng.api.util.AEColor;
 import appeng.block.IOwnerAwareBlockEntity;
-import appeng.blockentity.AEBaseInvBlockEntity;
 import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.hooks.WrenchHook;
 import appeng.me.GridConnection;
 import appeng.menu.locator.MenuLocators;
 import appeng.util.InteractionUtil;
 import es.degrassi.mmreborn.common.block.BlockMachineComponent;
+import es.degrassi.mmreborn.common.block.BlockTickEntity;
 import es.degrassi.mmreborn.energistics.api.node.MMREGridNode;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
@@ -55,7 +55,7 @@ import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class MEBlock extends BlockMachineComponent implements IOrientableBlock {
+public abstract class MEBlock extends BlockMachineComponent implements IOrientableBlock, BlockTickEntity {
   public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
   protected final MEHatchSize size;
 

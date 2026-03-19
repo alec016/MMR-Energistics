@@ -33,8 +33,8 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.FluidHatch;
-import es.degrassi.mmreborn.common.util.HybridTank;
+import es.degrassi.mmreborn.common.machine.component.FluidComponent;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -54,14 +54,13 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MEInputHatchEntity extends MEEntity {
   private final KeyStorage internalBuffer; // Do not use KeyCounter, use our simple implementation
-  private final HybridTank inventory;
+  private final FluidHandler inventory;
   private final IUpgradeInventory upgrades;
   private final GenericStack[] plannedWork;
   private final MultiCraftingTracker craftingTracker;
@@ -106,12 +105,8 @@ public class MEInputHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public FluidHatch provideComponent() {
-    return new FluidHatch(IOType.INPUT) {
-      public HybridTank getContainerProvider() {
-        return inventory;
-      }
-    };
+  public FluidComponent provideComponent() {
+    return new FluidComponent(inventory, IOType.INPUT);
   }
 
   private boolean tryUsePlan(int slot, AEKey what, int amount) {
@@ -353,33 +348,11 @@ public class MEInputHatchEntity extends MEEntity {
     return false;
   }
 
-  protected HybridTank createInventory() {
-    return new HybridTank(16000) {
+  protected FluidHandler createInventory() {
+    return new FluidHandler(generateSlots(0), generateSlots(0), 16000) {
       @Override
       public int getTanks() {
         return storage.size();
-      }
-
-      public HybridTank setCapacity(int capacity) {
-        return this;
-      }
-
-      public HybridTank setValidator(Predicate<FluidStack> validator) {
-        return this;
-      }
-
-      @Override
-      public boolean isFluidValid(FluidStack stack) {
-        for (int i = 0; i < storage.size(); i++) {
-          if (storage.isAllowedIn(i, AEFluidKey.of(stack)))
-            return true;
-        }
-        return false;
-      }
-
-      @Override
-      public FluidStack getFluid() {
-        return FluidStack.EMPTY;
       }
 
       @Override
@@ -393,24 +366,8 @@ public class MEInputHatchEntity extends MEEntity {
       }
 
       @Override
-      public int getFluidAmount() {
-        return 0;
-      }
-
-      @Override
       public int getTankCapacity(int tank) {
         return (int) storage.getCapacity(AEKeyType.fluids());
-      }
-
-      public HybridTank readFromNBT(HolderLookup.Provider lookupProvider, CompoundTag nbt) {
-        storage.readFromChildTag(nbt, "storage", lookupProvider);
-        return this;
-      }
-
-      @Override
-      public CompoundTag writeToNBT(HolderLookup.Provider lookupProvider, CompoundTag nbt) {
-        storage.writeToChildTag(nbt, "storage", lookupProvider);
-        return nbt;
       }
 
       @Override
@@ -460,25 +417,6 @@ public class MEInputHatchEntity extends MEEntity {
           break;
         }
         return s;
-      }
-
-      @Override
-      protected void onContentsChanged() {
-        onInventoryChanged();
-      }
-
-      @Override
-      public void setFluid(FluidStack stack) {
-      }
-
-      @Override
-      public boolean isEmpty() {
-        return true;
-      }
-
-      @Override
-      public int getSpace() {
-        return 0;
       }
     };
   }

@@ -27,7 +27,7 @@ import appeng.helpers.MultiCraftingTracker;
 import appeng.me.helpers.MachineSource;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
-import es.degrassi.appexp.me.key.ExperienceKey;
+import es.degrassi.appexp.me.key.AEExperienceKey;
 import es.degrassi.appexp.me.key.ExperienceKeyType;
 import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
@@ -284,12 +284,12 @@ public abstract class MEExperienceHatchEntity extends MEEntity {
     GenericStack stored = this.storage.getStack(slot);
     if (stored != null) {
       if (getSize().isInput())
-        this.plannedWork[slot] = new GenericStack(ExperienceKey.KEY, storage.getCapacity(ExperienceKeyType.TYPE) - stored.amount());
+        this.plannedWork[slot] = new GenericStack(AEExperienceKey.KEY, storage.getCapacity(ExperienceKeyType.TYPE) - stored.amount());
       else
         this.plannedWork[slot] = new GenericStack(stored.what(), -stored.amount());
     } else {
       if (getSize().isInput())
-        this.plannedWork[slot] = new GenericStack(ExperienceKey.KEY, ExperienceKeyType.TYPE.getAmountPerOperation());
+        this.plannedWork[slot] = new GenericStack(AEExperienceKey.KEY, ExperienceKeyType.TYPE.getAmountPerOperation());
       else
         this.plannedWork[slot] = null;
     }

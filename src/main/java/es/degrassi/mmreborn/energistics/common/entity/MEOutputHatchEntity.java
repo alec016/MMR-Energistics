@@ -32,8 +32,8 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.FluidHatch;
-import es.degrassi.mmreborn.common.util.HybridTank;
+import es.degrassi.mmreborn.common.machine.component.FluidComponent;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -59,7 +59,7 @@ import java.util.Optional;
 @MethodsReturnNonnullByDefault
 public class MEOutputHatchEntity extends MEEntity {
   private final KeyStorage internalBuffer; // Do not use KeyCounter, use our simple implementation
-  private final HybridTank inventory;
+  private final FluidHandler inventory;
   private final IUpgradeInventory upgrades;
   private final GenericStack[] plannedWork;
   private final MultiCraftingTracker craftingTracker;
@@ -94,17 +94,13 @@ public class MEOutputHatchEntity extends MEEntity {
     this.inventory = createInventory();
   }
 
-  public HybridTank copyTank() {
+  public FluidHandler copyTank() {
     return createInventory();
   }
 
   @Nullable
-  public FluidHatch provideComponent() {
-    return new FluidHatch(IOType.OUTPUT) {
-      public HybridTank getContainerProvider() {
-        return inventory;
-      }
-    };
+  public FluidComponent provideComponent() {
+    return new FluidComponent(inventory, IOType.OUTPUT);
   }
 
   private boolean tryUsePlan(int slot, AEKey what, int amount) {
@@ -325,7 +321,7 @@ public class MEOutputHatchEntity extends MEEntity {
     return false;
   }
 
-  public HybridTank createInventory() {
+  public FluidHandler createInventory() {
     return new AETankHolder(this);
   }
 

@@ -4,7 +4,7 @@ import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.GenericStack;
-import es.degrassi.mmreborn.common.util.IOInventory;
+import es.degrassi.mmreborn.common.manager.handler.ItemHandler;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputBusEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -12,16 +12,16 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class AEInventoryHolder extends IOInventory {
+public class AEInventoryHolder extends ItemHandler {
   private final MEOutputBusEntity owner;
 
   public AEInventoryHolder(MEOutputBusEntity entity, int[] outSlots, int[] inSlots, Direction... sides) {
-    super(entity, inSlots, outSlots, sides);
+    super(inSlots, outSlots, Math.max(inSlots.length, outSlots.length), sides);
     this.owner = entity;
   }
 
   public AEInventoryHolder(MEOutputBusEntity entity, int[] outSlots, int[] inSlots) {
-    super(entity, outSlots, inSlots);
+    super(inSlots, outSlots, Math.max(inSlots.length, outSlots.length));
     this.owner = entity;
   }
 
@@ -33,11 +33,6 @@ public class AEInventoryHolder extends IOInventory {
     if (inserted > owner.getStorage().getCapacity(AEKeyType.items()))
       return stack.copyWithCount(stack.getCount() - (int) owner.getStorage().getCapacity(AEKeyType.items()));
     return stack.copyWithCount(stack.getCount() - (int) inserted);
-  }
-
-  @Override
-  public int getSlots() {
-    return owner.getStorage().size();
   }
 
   @Override

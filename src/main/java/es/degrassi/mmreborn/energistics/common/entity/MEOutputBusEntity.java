@@ -33,8 +33,8 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.ItemBus;
-import es.degrassi.mmreborn.common.util.IOInventory;
+import es.degrassi.mmreborn.common.machine.component.ItemComponent;
+import es.degrassi.mmreborn.common.manager.handler.ItemHandler;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
@@ -60,7 +60,7 @@ import java.util.Optional;
 @MethodsReturnNonnullByDefault
 public class MEOutputBusEntity extends MEEntity {
   private final KeyStorage internalBuffer; // Do not use KeyCounter, use our simple implementation
-  private final IOInventory inventory;
+  private final ItemHandler inventory;
   private final IUpgradeInventory upgrades;
   private final ConfigInventory storage;
   private final IConfigManager cm;
@@ -87,7 +87,7 @@ public class MEOutputBusEntity extends MEEntity {
     this.plannedWork = new GenericStack[slots];
     this.cm = IConfigManager.builder(this::onConfigChanged).build();
     this.logic = new InterfaceLogic(getMainNode(), this, ((MEBlock) getBlockState().getBlock()).item());
-    inventory.setListener(this::onInventoryChanged);
+    inventory.setListener((slot, stack) -> onInventoryChanged());
     getMainNode()
         .addService(ICraftingRequester.class, this)
         .addService(IGridTickable.class, new MEOutputBusEntity.Ticker());
@@ -95,12 +95,8 @@ public class MEOutputBusEntity extends MEEntity {
   }
 
   @Nullable
-  public ItemBus provideComponent() {
-    return new ItemBus(IOType.OUTPUT) {
-      public IOInventory getContainerProvider() {
-        return inventory;
-      }
-    };
+  public ItemComponent provideComponent() {
+    return new ItemComponent(inventory, IOType.OUTPUT);
   }
 
   private void readConfig() {
@@ -296,11 +292,11 @@ public class MEOutputBusEntity extends MEEntity {
     this.updatePlan();
   }
 
-  public IOInventory copyInventory() {
+  public ItemHandler copyInventory() {
     return createInventory();
   }
 
-  protected IOInventory createInventory() {
+  protected ItemHandler createInventory() {
     return new AEInventoryHolder(this, generateSlots(getSize().getSlots()), generateSlots(0), getOrientation().getSide(RelativeSide.FRONT));
   }
 

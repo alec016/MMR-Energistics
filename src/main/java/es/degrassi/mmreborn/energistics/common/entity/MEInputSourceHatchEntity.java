@@ -31,7 +31,7 @@ import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import com.google.common.collect.ImmutableSet;
 import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
-import es.degrassi.mmreborn.ars.common.machine.SourceHatch;
+import es.degrassi.mmreborn.ars.common.machine.component.SourceComponent;
 import es.degrassi.mmreborn.common.machine.IOType;
 import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
@@ -97,12 +97,8 @@ public class MEInputSourceHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public SourceHatch provideComponent() {
-    return new SourceHatch(IOType.INPUT) {
-      public SourceStorage getContainerProvider() {
-        return inventory;
-      }
-    };
+  public SourceComponent provideComponent() {
+    return new SourceComponent(inventory, IOType.INPUT);
   }
 
   private boolean tryUsePlan(int slot, AEKey what, int amount) {

@@ -12,7 +12,6 @@ import appeng.api.util.AEColor;
 import appeng.helpers.IPriorityHost;
 import appeng.helpers.InterfaceLogic;
 import appeng.helpers.InterfaceLogicHost;
-import appeng.me.ManagedGridNode;
 import appeng.menu.ISubMenu;
 import appeng.menu.locator.MenuHostLocator;
 import es.degrassi.mmreborn.common.entity.base.BlockEntityRestrictedTick;
@@ -47,7 +46,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "rawtypes"})
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEConnectedEntity, ITickSubscription, MachineComponentEntity, IUpgradeableObject, ICraftingRequester, IPriorityHost, InterfaceLogicHost {
@@ -124,7 +123,7 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
   }
 
   @Override
-  public void doRestrictedTick() {
+  public void tick() {
     this.executeTick();
     if (this.getBlockState().getValue(MEBlock.ACTIVE) != isOnline) {
       this.setBlockState(this.getBlockState().setValue(MEBlock.ACTIVE, isOnline));
@@ -132,11 +131,6 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
       this.updateSubscription();
       this.markForUpdate();
     }
-  }
-
-  @Override
-  public void onLoad() {
-    super.onLoad();
   }
 
   @Override
@@ -305,7 +299,6 @@ public abstract class MEEntity extends BlockEntityRestrictedTick implements IMEC
 
   public void markForUpdate() {
     if (this.isRequestModelUpdate()) {
-      this.requestModelDataUpdate();
       this.requestModelDataUpdate();
     }
 

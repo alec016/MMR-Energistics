@@ -2,7 +2,7 @@ package es.degrassi.mmreborn.energistics.api.services.crafting.target;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEKey;
-import es.degrassi.appexp.me.key.ExperienceKey;
+import es.degrassi.appexp.me.key.AEExperienceKey;
 import es.degrassi.experiencelib.api.capability.ExperienceLibCapabilities;
 import es.degrassi.experiencelib.api.capability.IExperienceHandler;
 import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Getter
 public class ExperiencePatternTarget implements PatternBusTarget {
-  private final IExperienceHandler tank;
+  private final BasicExperienceTank tank;
   private final BlockPos pos;
 
   public ExperiencePatternTarget(BasicExperienceTank tank, BlockPos pos) {
@@ -23,7 +23,15 @@ public class ExperiencePatternTarget implements PatternBusTarget {
   }
 
   public ExperiencePatternTarget(Level level, BlockPos pos) {
-    this.tank = level.getCapability(ExperienceLibCapabilities.EXPERIENCE.block(), pos, null);
+    IExperienceHandler handler = level.getCapability(ExperienceLibCapabilities.EXPERIENCE.block(), pos, null);
+    // Wrap the handler's first tank into a BasicExperienceTank-compatible object
+    if (handler != null && handler.getTanks() > 0) {
+      BasicExperienceTank wrapper = new BasicExperienceTank(handler.getExperienceCapacity(), null);
+      wrapper.setExperience(handler.getExperience());
+      this.tank = wrapper;
+    } else {
+      this.tank = null;
+    }
     this.pos = pos;
   }
 
@@ -34,15 +42,16 @@ public class ExperiencePatternTarget implements PatternBusTarget {
 
   @Override
   public long insert(AEKey what, long amount, Actionable type) {
-    if (!(what instanceof ExperienceKey)) return 0;
+    if (!(what instanceof AEExperienceKey) || tank == null) return 0;
     return tank.receiveExperience(amount, type.isSimulate());
   }
 
   @Override
   public boolean containsPatternInput(Set<AEKey> patternInputs) {
+    if (tank == null) return false;
     return patternInputs.stream()
-        .filter(key -> key instanceof ExperienceKey)
-        .map(ExperienceKey.class::cast)
+        .filter(key -> key instanceof AEExperienceKey)
+        .map(AEExperienceKey.class::cast)
         .anyMatch(experienceKey -> tank.getExperience() > 0);
   }
 }

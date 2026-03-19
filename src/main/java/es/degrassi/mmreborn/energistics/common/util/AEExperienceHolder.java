@@ -2,7 +2,7 @@ package es.degrassi.mmreborn.energistics.common.util;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.GenericStack;
-import es.degrassi.appexp.me.key.ExperienceKey;
+import es.degrassi.appexp.me.key.AEExperienceKey;
 import es.degrassi.appexp.me.key.ExperienceKeyType;
 import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputExperienceHatchEntity;
@@ -24,19 +24,19 @@ public class AEExperienceHolder extends BasicExperienceTank {
   @Override
   public long receiveExperience(long toReceive, boolean simulate) {
     if (!canReceive() || toReceive <= 0) return 0;
-    return owner.getStorage().insert(0, ExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
+    return owner.getStorage().insert(0, AEExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
   }
 
   @Override
   public long extractExperience(long toExtract, boolean simulate) {
     if (!canExtract() || toExtract <= 0) return 0;
-    return owner.getStorage().extract(0, ExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
+    return owner.getStorage().extract(0, AEExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
   }
 
   @Override
   public void setExperience(long experience) {
     GenericStack stack = owner.getStorage().getStack(0);
-    if (stack == null) stack = new GenericStack(ExperienceKey.KEY, experience);
+    if (stack == null) stack = new GenericStack(AEExperienceKey.KEY, experience);
     else stack = new GenericStack(stack.what(), experience);
     owner.getStorage().setStack(0, stack);
   }
@@ -51,13 +51,13 @@ public class AEExperienceHolder extends BasicExperienceTank {
   @Override
   public long receiveExperienceRecipe(long toReceive, boolean simulate) {
     if (toReceive <= 0) return 0;
-    return owner.getStorage().insert(0, ExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
+    return owner.getStorage().insert(0, AEExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
   }
 
   @Override
   public long extractExperienceRecipe(long toExtract, boolean simulate) {
     if (toExtract <= 0) return 0;
-    return owner.getStorage().extract(0, ExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
+    return owner.getStorage().extract(0, AEExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
   }
 
   public void deserializeNBT(HolderLookup.Provider lookupProvider, CompoundTag tag) {

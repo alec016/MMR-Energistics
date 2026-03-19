@@ -37,7 +37,7 @@ import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
 import es.degrassi.mmreborn.energistics.common.util.KeyStorage;
 import es.degrassi.mmreborn.energistics.common.util.reflect.AEReflect;
-import es.degrassi.mmreborn.mekanism.common.machine.ChemicalHatch;
+import es.degrassi.mmreborn.mekanism.common.machine.component.ChemicalComponent;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import lombok.Getter;
 import me.ramidzkh.mekae2.ae2.MekanismKey;
@@ -109,12 +109,8 @@ public class MEInputChemicalHatchEntity extends MEEntity {
   }
 
   @Nullable
-  public ChemicalHatch provideComponent() {
-    return new ChemicalHatch(IOType.INPUT) {
-      public BasicChemicalTank getContainerProvider() {
-        return inventory;
-      }
-    };
+  public ChemicalComponent provideComponent() {
+    return new ChemicalComponent(inventory, IOType.INPUT);
   }
 
   private boolean tryUsePlan(int slot, AEKey what, int amount) {
