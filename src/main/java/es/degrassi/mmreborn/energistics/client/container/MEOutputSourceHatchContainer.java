@@ -3,6 +3,8 @@ package es.degrassi.mmreborn.energistics.client.container;
 import appeng.api.util.IConfigManager;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.slot.AppEngSlot;
+import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
+import es.degrassi.mmreborn.ars.common.machine.component.SourceComponent;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputSourceHatchEntity;
@@ -11,7 +13,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
 @Getter
-public class MEOutputSourceHatchContainer extends GridConnectedContainer<MEOutputSourceHatchEntity> {
+public class MEOutputSourceHatchContainer extends GridConnectedContainer<MEOutputSourceHatchEntity, SourceComponent,
+    SourceStorage> {
   private final MEHatchSize size;
 
   private static final int PAGE = 18;

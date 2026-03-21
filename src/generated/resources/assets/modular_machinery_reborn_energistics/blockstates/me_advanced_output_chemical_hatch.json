@@ -1,0 +1,29 @@
+{
+  "athena:loader": "modular_machinery_reborn_energistics:me_hatch",
+  "connect_to": {
+    "type": "tag",
+    "tag": "modular_machinery_reborn:reinforced_connectable"
+  },
+  "ctm_textures": {
+    "center": "modular_machinery_reborn:block/casing_plain_corners",
+    "center_active": "modular_machinery_reborn:block/casing_plain_corners",
+    "empty": "modular_machinery_reborn:block/casing_empty",
+    "empty_active": "modular_machinery_reborn:block/casing_empty",
+    "horizontal": "modular_machinery_reborn:block/casing_plain_horizontal",
+    "horizontal_active": "modular_machinery_reborn:block/casing_plain_horizontal",
+    "ov_center": "modular_machinery_reborn:block/casing_reinforced_corners",
+    "ov_horizontal": "modular_machinery_reborn:block/casing_reinforced_horizontal",
+    "ov_particle": "modular_machinery_reborn:block/casing_reinforced",
+    "ov_vertical": "modular_machinery_reborn:block/casing_reinforced_vertical",
+    "overlay": "modular_machinery_reborn_energistics:block/overlay_me_advanced_inactive",
+    "overlay_active": "modular_machinery_reborn_energistics:block/overlay_me_advanced_output_chemical_hatch_active",
+    "particle": "modular_machinery_reborn:block/casing_plain",
+    "vertical": "modular_machinery_reborn:block/casing_plain_vertical",
+    "vertical_active": "modular_machinery_reborn:block/casing_plain_vertical"
+  },
+  "variants": {
+    "": {
+      "model": "minecraft:block/air"
+    }
+  }
+}

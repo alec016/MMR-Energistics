@@ -35,6 +35,8 @@ public class MMRConfig {
 
   public final ConfigValue<Double> ME_PATTERN_BUS;
 
+  public final ConfigValue<Double> ME_ADVANCED_PATTERN_BUS;
+
   public final ConfigValue<Long> ME_UPDATE_INTERVAL;
 
   public final ConfigValue<Long> ME_UPDATE_INTERVAL_ADVANCED;
@@ -83,7 +85,12 @@ public class MMRConfig {
     builder.push(MEHatchSize.ME_PATTERN_BUS.getSerializedName());
     this.ME_PATTERN_BUS = builder
         .comment("Defines the idle power consumption when online in an ae2 network")
-        .defineInRange("idlePowerDrain", 1.0, 1, Double.MAX_VALUE);
+        .defineInRange("idlePowerDrain", 1.0, MEHatchSize.ME_PATTERN_BUS.defaultIdlePowerDrainOnConnected, Double.MAX_VALUE);
+    builder.pop();
+    builder.push(MEHatchSize.ME_ADVANCED_PATTERN_BUS.getSerializedName());
+    this.ME_ADVANCED_PATTERN_BUS = builder
+        .comment("Defines the idle power consumption when online in an ae2 network")
+        .defineInRange("idlePowerDrain", 1.0, MEHatchSize.ME_ADVANCED_PATTERN_BUS.defaultIdlePowerDrainOnConnected, Double.MAX_VALUE);
     builder.pop();
     builder.push("ME update interval");
     this.ME_UPDATE_INTERVAL = builder
@@ -121,7 +128,8 @@ public class MMRConfig {
            ME_ADVANCED_OUTPUT_CHEMICAL_HATCH,
            ME_ADVANCED_OUTPUT_SOURCE_HATCH,
            ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH -> ME_ADVANCED_OUTPUT_HATCH_size.get();
-      case ME_PATTERN_BUS, ME_ADVANCED_PATTERN_BUS -> ME_PATTERN_BUS.get();
+      case ME_PATTERN_BUS -> ME_PATTERN_BUS.get();
+      case ME_ADVANCED_PATTERN_BUS -> ME_ADVANCED_PATTERN_BUS.get();
     };
   }
 }

@@ -1,0 +1,33 @@
+{
+  "values": [
+    "modular_machinery_reborn_energistics:me_pattern_bus",
+    "modular_machinery_reborn_energistics:me_input_bus",
+    "modular_machinery_reborn_energistics:me_output_bus",
+    "modular_machinery_reborn_energistics:me_input_hatch",
+    "modular_machinery_reborn_energistics:me_output_hatch",
+    {
+      "id": "modular_machinery_reborn_energistics:me_input_experience_hatch",
+      "required": false
+    },
+    {
+      "id": "modular_machinery_reborn_energistics:me_output_experience_hatch",
+      "required": false
+    },
+    {
+      "id": "modular_machinery_reborn_energistics:me_input_source_hatch",
+      "required": false
+    },
+    {
+      "id": "modular_machinery_reborn_energistics:me_output_source_hatch",
+      "required": false
+    },
+    {
+      "id": "modular_machinery_reborn_energistics:me_input_chemical_hatch",
+      "required": false
+    },
+    {
+      "id": "modular_machinery_reborn_energistics:me_output_chemical_hatch",
+      "required": false
+    }
+  ]
+}

@@ -5,6 +5,8 @@ import appeng.api.util.IConfigManager;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.SetStockAmountMenu;
 import appeng.menu.slot.AppEngSlot;
+import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
+import es.degrassi.mmreborn.ars.common.machine.component.SourceComponent;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;
@@ -18,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MEInputSourceHatchContainer extends GridConnectedContainer<MEInputSourceHatchEntity> {
+public class MEInputSourceHatchContainer extends GridConnectedContainer<MEInputSourceHatchEntity, SourceComponent,
+    SourceStorage> {
   private final MEHatchSize size;
 
   public static final String ACTION_OPEN_SET_AMOUNT = "setAmount";

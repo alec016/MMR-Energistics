@@ -2,6 +2,7 @@ package es.degrassi.mmreborn.energistics.common.util;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.world.item.ItemStack;
@@ -60,5 +61,13 @@ public class AEUtil {
       value -= intValue;
     }
     return result.toIntArray();
+  }
+
+  public static AEKey aeKey(ItemStack item) {
+    return AEItemKey.of(item);
+  }
+
+  public static AEKey aeKey(FluidStack fluid) {
+    return AEFluidKey.of(fluid);
   }
 }

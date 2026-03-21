@@ -1,25 +1,28 @@
 package es.degrassi.mmreborn.energistics.common.block;
 
+import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEPatternBus;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-public class MEPatternBusBlock extends MEBlock {
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class MEPatternBusBlock extends MEBlock<MachineComponent<Void>, Void> {
   public MEPatternBusBlock(MEHatchSize size) {
     super(size);
   }
 
-
   @Nullable
   @Override
-  public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+  public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
     return new MEPatternBus(pos, state, size);
   }
 

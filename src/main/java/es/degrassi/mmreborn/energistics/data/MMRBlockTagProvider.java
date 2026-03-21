@@ -24,32 +24,29 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
   protected void addTags(HolderLookup.@NotNull Provider provider) {
     tag(MMREnergisticsTags.Blocks.ME_PATTERN)
         .add(
-            BlockRegistration.ME_PATTERN_BUS.get(),
-            BlockRegistration.ME_ADVANCED_PATTERN_BUS.get()
+            BlockRegistration.ME_PATTERN_BUS.block(),
+            BlockRegistration.ME_ADVANCED_PATTERN_BUS.block()
         );
-
-    tag(MMRTags.Blocks.ALL_CASINGS)
-        .addTag(MMREnergisticsTags.Blocks.ME_PATTERN);
 
     tag(MMREnergisticsTags.Blocks.ME_FLUID_OUTPUT)
         .add(
-            BlockRegistration.ME_OUTPUT_HATCH.get(),
-            BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get()
+            BlockRegistration.ME_OUTPUT_HATCH.block(),
+            BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.block()
         );
     tag(MMREnergisticsTags.Blocks.ME_FLUID_INPUT)
         .add(
-            BlockRegistration.ME_INPUT_HATCH.get(),
-            BlockRegistration.ME_ADVANCED_INPUT_HATCH.get()
+            BlockRegistration.ME_INPUT_HATCH.block(),
+            BlockRegistration.ME_ADVANCED_INPUT_HATCH.block()
         );
     tag(MMREnergisticsTags.Blocks.ME_OUTPUT_BUS)
         .add(
-            BlockRegistration.ME_OUTPUT_BUS.get(),
-            BlockRegistration.ME_ADVANCED_OUTPUT_BUS.get()
+            BlockRegistration.ME_OUTPUT_BUS.block(),
+            BlockRegistration.ME_ADVANCED_OUTPUT_BUS.block()
         );
     tag(MMREnergisticsTags.Blocks.ME_INPUT_BUS)
         .add(
-            BlockRegistration.ME_INPUT_BUS.get(),
-            BlockRegistration.ME_ADVANCED_INPUT_BUS.get()
+            BlockRegistration.ME_INPUT_BUS.block(),
+            BlockRegistration.ME_ADVANCED_INPUT_BUS.block()
         );
 
     tag(MMREnergisticsTags.Blocks.ME_BUS)
@@ -75,13 +72,13 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
     if (Mods.isMMRMekLoaded()) {
       tag(MMREnergisticsTags.Blocks.ME_CHEMICAL_OUTPUT)
           .add(
-              BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(),
-              BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get()
+              BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.block(),
+              BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.block()
           );
       tag(MMREnergisticsTags.Blocks.ME_CHEMICAL_INPUT)
           .add(
-              BlockRegistration.ME_INPUT_CHEMICAL_HATCH.get(),
-              BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get()
+              BlockRegistration.ME_INPUT_CHEMICAL_HATCH.block(),
+              BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.block()
           );
 
       tag(MMREnergisticsTags.Blocks.ME_CHEMICAL)
@@ -97,14 +94,14 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
     if (Mods.isMMRArsLoaded()) {
       tag(MMREnergisticsTags.Blocks.ME_SOURCE_INPUT)
           .add(
-              BlockRegistration.ME_INPUT_SOURCE_HATCH.get(),
-              BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get()
+              BlockRegistration.ME_INPUT_SOURCE_HATCH.block(),
+              BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.block()
           );
 
       tag(MMREnergisticsTags.Blocks.ME_SOURCE_OUTPUT)
           .add(
-              BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get(),
-              BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
+              BlockRegistration.ME_OUTPUT_SOURCE_HATCH.block(),
+              BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.block()
           );
 
       tag(MMREnergisticsTags.Blocks.ME_SOURCE)
@@ -120,14 +117,14 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
     if (Mods.isExperiencePossible()) {
       tag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_INPUT)
           .add(
-              BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.get(),
-              BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get()
+              BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.block(),
+              BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.block()
           );
 
       tag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_OUTPUT)
           .add(
-              BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(),
-              BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get()
+              BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.block(),
+              BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.block()
           );
 
       tag(MMREnergisticsTags.Blocks.ME_EXPERIENCE)
@@ -139,5 +136,38 @@ public class MMRBlockTagProvider extends BlockTagsProvider {
       tag(MMRTags.Blocks.EXPERIENCE_OUTPUT)
           .addOptionalTag(MMREnergisticsTags.Blocks.ME_EXPERIENCE_OUTPUT);
     }
+
+    tag(MMRTags.Blocks.HATCHES)
+        .addTag(MMREnergisticsTags.Blocks.ME_PATTERN);
+
+    tag(MMRTags.Blocks.PLAIN_HATCHES)
+        .add(
+            BlockRegistration.ME_PATTERN_BUS.block(),
+            BlockRegistration.ME_INPUT_BUS.block(),
+            BlockRegistration.ME_OUTPUT_BUS.block(),
+            BlockRegistration.ME_INPUT_HATCH.block(),
+            BlockRegistration.ME_OUTPUT_HATCH.block()
+        )
+        .addOptional(BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_INPUT_SOURCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_OUTPUT_SOURCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_INPUT_CHEMICAL_HATCH.id())
+        .addOptional(BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.id());
+
+    tag(MMRTags.Blocks.REINFORCED_HATCHES)
+        .add(
+            BlockRegistration.ME_ADVANCED_PATTERN_BUS.block(),
+            BlockRegistration.ME_ADVANCED_INPUT_BUS.block(),
+            BlockRegistration.ME_ADVANCED_OUTPUT_BUS.block(),
+            BlockRegistration.ME_ADVANCED_INPUT_HATCH.block(),
+            BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.block()
+        )
+        .addOptional(BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.id())
+        .addOptional(BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.id())
+        .addOptional(BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.id());
   }
 }

@@ -1,5 +1,6 @@
 package es.degrassi.mmreborn.energistics.common.integration.jade;
 
+import appeng.core.definitions.BlockDefinition;
 import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
@@ -15,7 +16,7 @@ public class MMREWailaPlugin implements IWailaPlugin {
   @Override
   public void registerClient(IWailaClientRegistration registration) {
     registration.registerBlockComponent(MEEntityComponentProvider.INSTANCE, MEBlock.class);
-    BlockRegistration.BLOCKS.getEntries().stream().map(DeferredHolder::get).forEach(registration::usePickedResult);
+    BlockRegistration.BLOCKS.stream().map(BlockDefinition::block).forEach(registration::usePickedResult);
   }
 
   @Override

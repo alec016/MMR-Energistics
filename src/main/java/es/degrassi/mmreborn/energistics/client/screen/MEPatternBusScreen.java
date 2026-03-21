@@ -9,6 +9,7 @@ import appeng.client.gui.widgets.ToggleButton;
 import appeng.core.localization.GuiText;
 import appeng.core.network.ServerboundPacket;
 import appeng.core.network.serverbound.ConfigButtonPacket;
+import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.api.services.settings.MMRESettings;
 import es.degrassi.mmreborn.energistics.client.container.MEPatternBusContainer;
 import es.degrassi.mmreborn.energistics.client.screen.widget.MMREServerSettingToggleButton;
@@ -18,7 +19,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class MEPatternBusScreen extends GridConnectedScreen<MEPatternBus, MEPatternBusContainer> {
+public class MEPatternBusScreen extends GridConnectedScreen<MEPatternBus, MEPatternBusContainer,
+    MachineComponent<Void>, Void> {
 
   private final MMREServerSettingToggleButton<YesNo> blockingModeButton;
   private final MMREServerSettingToggleButton<LockCraftingMode> lockCraftingModeButton;
@@ -36,10 +38,13 @@ public class MEPatternBusScreen extends GridConnectedScreen<MEPatternBus, MEPatt
 
     widgets.addOpenPriorityButton();
 
-    this.showInPatternAccessTerminalButton = new ToggleButton(Icon.PATTERN_ACCESS_SHOW,
+    this.showInPatternAccessTerminalButton = new ToggleButton(
+        Icon.PATTERN_ACCESS_SHOW,
         Icon.PATTERN_ACCESS_HIDE,
-        GuiText.PatternAccessTerminal.text(), GuiText.PatternAccessTerminalHint.text(),
-        btn -> selectNextPatternProviderMode());
+        GuiText.PatternAccessTerminal.text(),
+        GuiText.PatternAccessTerminalHint.text(),
+        btn -> selectNextPatternProviderMode()
+    );
     this.addToLeftToolbar(this.showInPatternAccessTerminalButton);
 
     this.lockReason = new PatternBusLockReason(this);

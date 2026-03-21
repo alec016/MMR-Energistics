@@ -1,12 +1,15 @@
 package es.degrassi.mmreborn.energistics.client.screen;
 
 import appeng.client.gui.style.ScreenStyle;
+import es.degrassi.mmreborn.common.machine.component.ItemComponent;
+import es.degrassi.mmreborn.common.manager.handler.ItemHandler;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputBusContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputBusEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MEOutputBusScreen extends GridConnectedScreen<MEOutputBusEntity, MEOutputBusContainer> {
+public class MEOutputBusScreen extends GridConnectedScreen<MEOutputBusEntity, MEOutputBusContainer, ItemComponent,
+    ItemHandler> {
 
   public MEOutputBusScreen(MEOutputBusContainer menu, Inventory playerInventory, Component title, ScreenStyle style) {
     super(menu, playerInventory, title, style);

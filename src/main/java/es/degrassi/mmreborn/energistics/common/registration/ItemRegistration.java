@@ -1,117 +1,36 @@
 package es.degrassi.mmreborn.energistics.common.registration;
 
+import appeng.core.definitions.ItemDefinition;
+import com.google.common.base.Preconditions;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
-import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
-import es.degrassi.mmreborn.energistics.common.item.MEItem;
-import es.degrassi.mmreborn.energistics.common.util.Mods;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 public class ItemRegistration {
-  public static final DeferredRegister.Items ITEMS =
+  public static final DeferredRegister.Items DR =
       DeferredRegister.createItems(ModularMachineryRebornEnergistics.MODID);
+  public static final List<ItemDefinition<?>> ITEMS = new ArrayList<>();
 
-  public static final DeferredItem<MEItem> ME_INPUT_BUS =
-      ITEMS.register(MEHatchSize.ME_INPUT_BUS.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_INPUT_BUS.get(), MEHatchSize.ME_INPUT_BUS));
-  public static final DeferredItem<MEItem> ME_OUTPUT_BUS =
-      ITEMS.register(MEHatchSize.ME_OUTPUT_BUS.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_OUTPUT_BUS.get(), MEHatchSize.ME_OUTPUT_BUS));
-  public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_BUS =
-      ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_BUS.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_BUS.get(), MEHatchSize.ME_ADVANCED_INPUT_BUS));
-  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_BUS =
-      ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_BUS.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_BUS.get(), MEHatchSize.ME_ADVANCED_OUTPUT_BUS));
+  static <T extends Item> ItemDefinition<T> item(String name, ResourceLocation id,
+                                                 Function<Item.Properties, T> factory) {
 
-  public static final DeferredItem<MEItem> ME_INPUT_HATCH =
-      ITEMS.register(MEHatchSize.ME_INPUT_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_INPUT_HATCH.get(), MEHatchSize.ME_INPUT_HATCH));
-  public static final DeferredItem<MEItem> ME_OUTPUT_HATCH =
-      ITEMS.register(MEHatchSize.ME_OUTPUT_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_OUTPUT_HATCH.get(), MEHatchSize.ME_OUTPUT_HATCH));
-  public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_HATCH =
-      ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_HATCH.get(), MEHatchSize.ME_ADVANCED_INPUT_HATCH));
-  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_HATCH =
-      ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_HATCH));
+    Item.Properties p = new Item.Properties();
 
-  public static final DeferredItem<MEItem> ME_PATTERN_BUS =
-      ITEMS.register(MEHatchSize.ME_PATTERN_BUS.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_PATTERN_BUS.get(), MEHatchSize.ME_PATTERN_BUS));
-  public static final DeferredItem<MEItem> ME_ADVANCED_PATTERN_BUS =
-      ITEMS.register(MEHatchSize.ME_ADVANCED_PATTERN_BUS.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_PATTERN_BUS.get(), MEHatchSize.ME_ADVANCED_PATTERN_BUS));
+    Preconditions.checkArgument(id.getNamespace().equals(ModularMachineryRebornEnergistics.MODID), "Can only register for MMRE");
+    var definition = new ItemDefinition<>(name, DR.registerItem(id.getPath(), factory));
 
-  public static final DeferredItem<MEItem> ME_INPUT_CHEMICAL_HATCH;
-  public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_CHEMICAL_HATCH;
-  public static final DeferredItem<MEItem> ME_OUTPUT_CHEMICAL_HATCH;
-  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_CHEMICAL_HATCH;
+    ITEMS.add(definition);
 
-  public static final DeferredItem<MEItem> ME_INPUT_SOURCE_HATCH;
-  public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_SOURCE_HATCH;
-  public static final DeferredItem<MEItem> ME_OUTPUT_SOURCE_HATCH;
-  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_SOURCE_HATCH;
-
-  public static final DeferredItem<MEItem> ME_INPUT_EXPERIENCE_HATCH;
-  public static final DeferredItem<MEItem> ME_ADVANCED_INPUT_EXPERIENCE_HATCH;
-  public static final DeferredItem<MEItem> ME_OUTPUT_EXPERIENCE_HATCH;
-  public static final DeferredItem<MEItem> ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH;
-
-  static {
-    if (Mods.isMekPossible()) {
-      ME_INPUT_CHEMICAL_HATCH = ITEMS.register(MEHatchSize.ME_INPUT_CHEMICAL_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_INPUT_CHEMICAL_HATCH.get(), MEHatchSize.ME_INPUT_CHEMICAL_HATCH));
-      ME_ADVANCED_INPUT_CHEMICAL_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_CHEMICAL_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get(), MEHatchSize.ME_ADVANCED_INPUT_CHEMICAL_HATCH));
-      ME_OUTPUT_CHEMICAL_HATCH = ITEMS.register(MEHatchSize.ME_OUTPUT_CHEMICAL_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(), MEHatchSize.ME_OUTPUT_CHEMICAL_HATCH));
-      ME_ADVANCED_OUTPUT_CHEMICAL_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH));
-    } else {
-      ME_INPUT_CHEMICAL_HATCH = null;
-      ME_ADVANCED_INPUT_CHEMICAL_HATCH = null;
-      ME_OUTPUT_CHEMICAL_HATCH = null;
-      ME_ADVANCED_OUTPUT_CHEMICAL_HATCH = null;
-    }
-
-    if (Mods.isArsPossible()) {
-      ME_INPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_INPUT_SOURCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_INPUT_SOURCE_HATCH.get(), MEHatchSize.ME_INPUT_SOURCE_HATCH));
-      ME_ADVANCED_INPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(), MEHatchSize.ME_ADVANCED_INPUT_SOURCE_HATCH));
-      ME_OUTPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_OUTPUT_SOURCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get(), MEHatchSize.ME_OUTPUT_SOURCE_HATCH));
-      ME_ADVANCED_OUTPUT_SOURCE_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_SOURCE_HATCH));
-    } else {
-      ME_INPUT_SOURCE_HATCH = null;
-      ME_ADVANCED_INPUT_SOURCE_HATCH = null;
-      ME_OUTPUT_SOURCE_HATCH = null;
-      ME_ADVANCED_OUTPUT_SOURCE_HATCH = null;
-    }
-
-    if (Mods.isExperiencePossible()) {
-      ME_INPUT_EXPERIENCE_HATCH = ITEMS.register(MEHatchSize.ME_INPUT_EXPERIENCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.get(), MEHatchSize.ME_INPUT_EXPERIENCE_HATCH));
-      ME_ADVANCED_INPUT_EXPERIENCE_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(), MEHatchSize.ME_ADVANCED_INPUT_EXPERIENCE_HATCH));
-      ME_OUTPUT_EXPERIENCE_HATCH = ITEMS.register(MEHatchSize.ME_OUTPUT_EXPERIENCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(), MEHatchSize.ME_OUTPUT_EXPERIENCE_HATCH));
-      ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH = ITEMS.register(MEHatchSize.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.getSerializedName(),
-          () -> new MEItem(BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get(), MEHatchSize.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH));
-    } else {
-      ME_INPUT_EXPERIENCE_HATCH = null;
-      ME_ADVANCED_INPUT_EXPERIENCE_HATCH = null;
-      ME_OUTPUT_EXPERIENCE_HATCH = null;
-      ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH = null;
-    }
+    return definition;
   }
 
-
   public static void register(final IEventBus bus) {
-    ITEMS.register(bus);
+    DR.register(bus);
   }
 }

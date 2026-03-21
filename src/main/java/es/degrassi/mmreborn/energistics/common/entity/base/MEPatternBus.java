@@ -1,48 +1,39 @@
 package es.degrassi.mmreborn.energistics.common.entity.base;
 
 import appeng.api.config.Actionable;
-import appeng.api.networking.crafting.ICraftingLink;
+import appeng.api.networking.IGridNode;
+import appeng.api.networking.IGridNodeListener;
 import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.AEKeyType;
+import appeng.api.stacks.AEKeyTypes;
 import appeng.api.upgrades.IUpgradeInventory;
 import appeng.api.upgrades.UpgradeInventories;
 import appeng.api.util.IConfigManager;
 import appeng.helpers.InterfaceLogic;
-import appeng.helpers.externalstorage.GenericStackInv;
+import appeng.me.helpers.BlockEntityNodeListener;
 import appeng.menu.ISubMenu;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuHostLocator;
 import appeng.util.ConfigInventory;
 import appeng.util.inv.AppEngInternalInventory;
-import com.google.common.collect.ImmutableSet;
-import es.degrassi.appexp.me.key.ExperienceKeyType;
-import es.degrassi.mmreborn.common.entity.MachineControllerEntity;
+import es.degrassi.mmreborn.ModularMachineryReborn;
 import es.degrassi.mmreborn.common.item.ControllerItem;
 import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.api.services.crafting.PatternBusLogic;
 import es.degrassi.mmreborn.energistics.api.services.crafting.PatternBusLogicHost;
 import es.degrassi.mmreborn.energistics.client.container.MEPatternBusContainer;
-import es.degrassi.mmreborn.energistics.common.block.MEBlock;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
-import es.degrassi.mmreborn.energistics.common.network.server.SSyncControllerPosInComponent;
-import es.degrassi.mmreborn.energistics.common.util.Mods;
-import gripe._90.arseng.me.key.SourceKeyType;
 import lombok.Getter;
-import me.ramidzkh.mekae2.ae2.MekanismKeyType;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.List;
@@ -50,39 +41,69 @@ import java.util.List;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
+public class MEPatternBus extends MEEntity<MachineComponent<Void>, Void> implements PatternBusLogicHost {
+  private static final IGridNodeListener<MEEntity<?, ?>> NODE_LISTENER = new BlockEntityNodeListener<>() {
+    @Override
+    public void onGridChanged(MEEntity<?, ?> nodeOwner, IGridNode node) {
+      ((MEPatternBus) nodeOwner).getLogic().gridChanged();
+    }
+  };
   protected final PatternBusLogic logic;
-  protected BlockPos controllerPos;
 
   public MEPatternBus(BlockPos pos, BlockState blockState, MEHatchSize size) {
     super(pos, blockState, size);
     this.logic = createLogic();
   }
 
-  public void setControllerPos(BlockPos controllerPos) {
-    if (!(getLevel().getBlockEntity(controllerPos) instanceof MachineControllerEntity)) return;
-    this.controllerPos = controllerPos;
-    if (!getLevel().isClientSide()) {
-      PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) getLevel(), new ChunkPos(getBlockPos()),
-          new SSyncControllerPosInComponent(getBlockPos(), controllerPos));
-    }
+  @Override
+  protected @Nullable InterfaceLogic createInterfaceLogic() {
+    return null;
+  }
+
+  @Override
+  protected void registerCapacities() {
+  }
+
+  @Override
+  protected @Nullable IUpgradeInventory createUpgrades() {
+    return null;
+  }
+
+  @Override
+  protected @Nullable ConfigInventory createStorage() {
+    return null;
+  }
+
+  @Override
+  protected @Nullable ConfigInventory createConfig() {
+    return null;
+  }
+
+  @Override
+  protected @Nullable IConfigManager createConfigManager() {
+    return null;
+  }
+
+  @Override
+  protected IGridNodeListener<MEEntity<?, ?>> getNodeListener() {
+    return NODE_LISTENER;
   }
 
   protected PatternBusLogic createLogic() {
     return new PatternBusLogic(this.getMainNode(), this, getSize().getSlots());
   }
 
-  public void updateSubscription() {
-    this.logic.onMainNodeStateChanged();
-    if (shouldSubscribe()) {
-      autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
-    } else if (autoIOSubs != null) {
-      autoIOSubs.unsubscribe();
-      autoIOSubs = null;
-    }
+  @Override
+  protected Void createInventory() {
+    return null;
   }
 
-  protected void onReady() {
+  public void updateSubscription() {
+    this.logic.onMainNodeStateChanged();
+    super.updateSubscription();
+  }
+
+  public void onReady() {
     super.onReady();
     this.logic.updatePatterns();
   }
@@ -90,12 +111,6 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
   @Override
   protected void syncME() {
     this.saveChanges();
-  }
-
-  @Override
-  @Nullable
-  public InterfaceLogic getInterfaceLogic() {
-    return null;
   }
 
   @Override
@@ -119,25 +134,12 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
   }
 
   @Override
-  @Nullable
-  public GenericStackInv getConfig() {
-    return null;
-  }
-
-  @Override
-  public GenericStackInv getStorage() {
-    ConfigInventory inv;
-    ConfigInventory.Builder builder =
+  public ConfigInventory getStorage() {
+    ConfigInventory inv =
         ConfigInventory.storage(logic.getPatternInventory().size())
-        .allowOverstacking(true)
-        .supportedTypes(AEKeyType.items(), AEKeyType.fluids());
-    if (Mods.isAppExLoaded())
-      builder.supportedType(ExperienceKeyType.TYPE);
-    if (Mods.isAppMekLoaded())
-      builder.supportedType(MekanismKeyType.TYPE);
-    if (Mods.isAppArsLoaded())
-      builder.supportedType(SourceKeyType.TYPE);
-    inv = builder.build();
+            .allowOverstacking(true)
+            .supportedTypes(AEKeyTypes.getAll())
+            .build();
 
     AppEngInternalInventory internal = logic.getPatternInventory();
     for (int i = 0; i < internal.size(); i++) {
@@ -166,61 +168,64 @@ public class MEPatternBus extends MEEntity implements PatternBusLogicHost {
       MenuOpener.open(MEPatternBusContainer.TYPE, player, subMenu.getLocator());
   }
 
-  @Override
-  public PatternBusLogic getLogic() {
-    return logic;
-  }
-
-  @Override
   public EnumSet<Direction> getTargets() {
     return EnumSet.allOf(Direction.class);
   }
 
   public void addDrops(List<ItemStack> list) {
+    super.addDrops(list);
     logic.addDrops(list);
   }
 
-  @Override
   @Nullable
   public AEItemKey getTerminalIcon() {
-    if (getController() == null) return AEItemKey.of(((MEBlock) getBlockState().getBlock()).item());
+    if (getController() == null) return AEItemKey.of(getItemFromBlockEntity());
     return AEItemKey.of(ControllerItem.makeMachineItem(getController().getId()));
   }
 
   @Override
-  public ImmutableSet<ICraftingLink> getRequestedJobs() {
-    return ImmutableSet.of();
-  }
-
-  @Override
-  public long insertCraftedItems(ICraftingLink link, AEKey what, long amount, Actionable mode) {
-    return 0;
-  }
-
-  @Override
-  public void jobStateChange(ICraftingLink link) {
-
+  public final MEPatternBus getBlockEntity() {
+    return this;
   }
 
   @Override
   @Nullable
-  public MachineComponent<?> provideComponent() {
+  public MachineComponent<Void> provideComponent() {
     return null;
   }
 
   @Override
-  protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
+  public void saveAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
     super.saveAdditional(nbt, pRegistries);
     this.logic.writeToNBT(nbt, pRegistries);
-    if (controllerPos != null)
-      nbt.putLong("controllerPos", controllerPos.asLong());
   }
 
   @Override
-  protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-    super.loadAdditional(nbt, pRegistries);
+  public void loadTag(CompoundTag nbt, HolderLookup.Provider pRegistries) {
+    super.loadTag(nbt, pRegistries);
     this.logic.readFromNBT(nbt, pRegistries);
-    if (nbt.contains("controllerPos"))
-      controllerPos = BlockPos.of(nbt.getLong("controllerPos"));
+  }
+
+  @Override
+  protected void saveBaseTexture(CompoundTag compound, HolderLookup.Provider registries) {
+    if (baseTexture != null)
+      compound.putString("baseTexture", baseTexture.toString());
+  }
+
+  @Override
+  protected void saveOverlayTexture(CompoundTag compound, HolderLookup.Provider registries) {
+    if (overlayTexture != null)
+      compound.putString("overlayTexture", overlayTexture.toString());
+  }
+
+  @Override
+  protected void loadBaseTexture(CompoundTag compound, HolderLookup.Provider registries) {
+    this.baseTexture = compound.contains("baseTexture") ? ResourceLocation.parse(compound.getString("baseTexture")) : defaultBaseTexture;
+  }
+
+  @Override
+  protected void loadOverlayTexture(CompoundTag compound, HolderLookup.Provider registries) {
+    this.defaultOverlayTexture = ModularMachineryReborn.rl("block/overlay_inputbus_" + size.getSerializedName());
+    this.overlayTexture = compound.contains("overlayTexture") ? ResourceLocation.parse(compound.getString("overlayTexture")) : defaultOverlayTexture;
   }
 }

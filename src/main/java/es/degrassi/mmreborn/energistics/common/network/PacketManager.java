@@ -2,9 +2,8 @@ package es.degrassi.mmreborn.energistics.common.network;
 
 import appeng.core.network.ClientboundPacket;
 import appeng.core.network.ServerboundPacket;
-import es.degrassi.mmreborn.energistics.common.network.client.ConfigButtonPacket;
-import es.degrassi.mmreborn.energistics.common.network.server.SSyncControllerPosInComponent;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
+import es.degrassi.mmreborn.energistics.common.network.client.ConfigButtonPacket;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,7 +15,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@EventBusSubscriber(modid = ModularMachineryRebornEnergistics.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ModularMachineryRebornEnergistics.MODID)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PacketManager {
@@ -26,7 +25,6 @@ public class PacketManager {
   @SubscribeEvent
   public static void register(RegisterPayloadHandlersEvent event) {
     PayloadRegistrar registrar = event.registrar(ModularMachineryRebornEnergistics.MODID);
-    registrar.playToClient(SSyncControllerPosInComponent.TYPE, SSyncControllerPosInComponent.CODEC, SSyncControllerPosInComponent::handle);
     serverbound(registrar, ConfigButtonPacket.TYPE, ConfigButtonPacket.STREAM_CODEC);
   }
 

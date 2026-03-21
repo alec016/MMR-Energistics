@@ -9,7 +9,9 @@ import appeng.menu.slot.FakeSlot;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputChemicalHatchEntity;
+import es.degrassi.mmreborn.mekanism.common.machine.component.ChemicalComponent;
 import lombok.Getter;
+import mekanism.api.chemical.BasicChemicalTank;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -19,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MEInputChemicalHatchContainer extends GridConnectedContainer<MEInputChemicalHatchEntity> {
+public class MEInputChemicalHatchContainer extends GridConnectedContainer<MEInputChemicalHatchEntity,
+    ChemicalComponent, BasicChemicalTank> {
   private final MEHatchSize size;
 
   public static final String ACTION_OPEN_SET_AMOUNT = "setAmount";

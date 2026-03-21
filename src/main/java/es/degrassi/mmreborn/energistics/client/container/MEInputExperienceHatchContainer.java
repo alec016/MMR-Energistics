@@ -5,10 +5,11 @@ import appeng.api.util.IConfigManager;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.SetStockAmountMenu;
 import appeng.menu.slot.AppEngSlot;
+import es.degrassi.experiencelib.api.capability.IExperienceHandler;
+import es.degrassi.mmreborn.common.machine.component.ExperienceComponent;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputExperienceHatchEntity;
-import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;
 import lombok.Getter;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MEInputExperienceHatchContainer extends GridConnectedContainer<MEInputExperienceHatchEntity> {
+public class MEInputExperienceHatchContainer extends GridConnectedContainer<MEInputExperienceHatchEntity,
+    ExperienceComponent, IExperienceHandler> {
   private final MEHatchSize size;
 
   public static final String ACTION_OPEN_SET_AMOUNT = "setAmount";

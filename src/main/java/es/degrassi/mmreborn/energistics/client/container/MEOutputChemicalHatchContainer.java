@@ -6,12 +6,15 @@ import appeng.menu.slot.AppEngSlot;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputChemicalHatchEntity;
+import es.degrassi.mmreborn.mekanism.common.machine.component.ChemicalComponent;
 import lombok.Getter;
+import mekanism.api.chemical.BasicChemicalTank;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
 @Getter
-public class MEOutputChemicalHatchContainer extends GridConnectedContainer<MEOutputChemicalHatchEntity> {
+public class MEOutputChemicalHatchContainer extends GridConnectedContainer<MEOutputChemicalHatchEntity,
+    ChemicalComponent, BasicChemicalTank> {
   private final MEHatchSize size;
 
   private static final int PAGE = 18;

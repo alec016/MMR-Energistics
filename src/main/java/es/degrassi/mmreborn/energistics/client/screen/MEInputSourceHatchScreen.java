@@ -6,13 +6,15 @@ import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.definitions.AEItems;
+import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
+import es.degrassi.mmreborn.ars.common.machine.component.SourceComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MEInputSourceHatchScreen extends GridConnectedScreen<MEInputSourceHatchEntity,
-    MEInputSourceHatchContainer> {
+    MEInputSourceHatchContainer, SourceComponent, SourceStorage> {
   private final SettingToggleButton<FuzzyMode> fuzzyMode;
 
   public MEInputSourceHatchScreen(MEInputSourceHatchContainer menu, Inventory playerInventory, Component title,

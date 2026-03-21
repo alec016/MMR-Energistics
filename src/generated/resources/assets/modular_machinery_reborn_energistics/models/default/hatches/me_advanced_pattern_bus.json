@@ -1,0 +1,10 @@
+{
+  "parent": "modular_machinery_reborn:block/blockmodel_overlay_orientable_all",
+  "textures": {
+    "bg_all": "modular_machinery_reborn:block/casing_plain",
+    "ov_front": "modular_machinery_reborn_energistics:block/overlay_me_advanced_pattern_bus_active",
+    "ov_r_all": "modular_machinery_reborn:block/casing_reinforced",
+    "ov_side": "modular_machinery_reborn:block/overlay_transparent",
+    "ov_top": "modular_machinery_reborn:block/overlay_transparent"
+  }
+}

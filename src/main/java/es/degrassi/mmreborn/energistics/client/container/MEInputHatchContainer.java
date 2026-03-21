@@ -6,6 +6,8 @@ import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.SetStockAmountMenu;
 import appeng.menu.slot.AppEngSlot;
 import appeng.menu.slot.FakeSlot;
+import es.degrassi.mmreborn.common.machine.component.FluidComponent;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MEInputHatchContainer extends GridConnectedContainer<MEInputHatchEntity> {
+public class MEInputHatchContainer extends GridConnectedContainer<MEInputHatchEntity, FluidComponent, FluidHandler> {
   private final MEHatchSize size;
 
   public static final String ACTION_OPEN_SET_AMOUNT = "setAmount";

@@ -1,12 +1,15 @@
 package es.degrassi.mmreborn.energistics.client.screen;
 
 import appeng.client.gui.style.ScreenStyle;
+import es.degrassi.mmreborn.common.machine.component.FluidComponent;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputHatchContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEOutputHatchEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MEOutputHatchScreen extends GridConnectedScreen<MEOutputHatchEntity, MEOutputHatchContainer> {
+public class MEOutputHatchScreen extends GridConnectedScreen<MEOutputHatchEntity, MEOutputHatchContainer,
+    FluidComponent, FluidHandler> {
 
   public MEOutputHatchScreen(MEOutputHatchContainer menu, Inventory playerInventory, Component title, ScreenStyle style) {
     super(menu, playerInventory, title, style);

@@ -6,6 +6,8 @@ import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.definitions.AEItems;
+import es.degrassi.experiencelib.api.capability.IExperienceHandler;
+import es.degrassi.mmreborn.common.machine.component.ExperienceComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEInputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputSourceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputExperienceHatchEntity;
@@ -13,7 +15,8 @@ import es.degrassi.mmreborn.energistics.common.entity.MEInputSourceHatchEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MEInputExperienceHatchScreen extends GridConnectedScreen<MEInputExperienceHatchEntity, MEInputExperienceHatchContainer> {
+public class MEInputExperienceHatchScreen extends GridConnectedScreen<MEInputExperienceHatchEntity,
+    MEInputExperienceHatchContainer, ExperienceComponent, IExperienceHandler> {
   private final SettingToggleButton<FuzzyMode> fuzzyMode;
 
   public MEInputExperienceHatchScreen(MEInputExperienceHatchContainer menu, Inventory playerInventory, Component title, ScreenStyle style) {

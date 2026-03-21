@@ -4,6 +4,8 @@ import net.neoforged.bus.api.IEventBus;
 
 public abstract class Registration {
   public static void register(final IEventBus bus) {
+    DataComponentRegistration.register(bus);
+    MachineHatchTypeRegistration.register(bus);
     BlockRegistration.register(bus);
     ItemRegistration.register(bus);
     EntityRegistration.register(bus);

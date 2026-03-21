@@ -9,6 +9,8 @@ import appeng.client.gui.widgets.ServerSettingToggleButton;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.definitions.AEItems;
 import appeng.core.localization.ButtonToolTips;
+import es.degrassi.mmreborn.common.machine.component.FluidComponent;
+import es.degrassi.mmreborn.common.manager.handler.FluidHandler;
 import es.degrassi.mmreborn.energistics.client.container.MMRSemantics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputHatchContainer;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputHatchEntity;
@@ -19,7 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MEInputHatchScreen extends GridConnectedScreen<MEInputHatchEntity, MEInputHatchContainer> {
+public class MEInputHatchScreen extends GridConnectedScreen<MEInputHatchEntity, MEInputHatchContainer, FluidComponent, FluidHandler> {
   private final SettingToggleButton<FuzzyMode> fuzzyMode;
   private final List<Button> amountButtons = new ArrayList<>();
 

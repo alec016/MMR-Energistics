@@ -17,6 +17,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 
 @Getter
+@SuppressWarnings("removal")
 public class AEChemicalTankHolder extends BasicChemicalTank {
   private final MEOutputChemicalHatchEntity owner;
 

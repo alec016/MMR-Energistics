@@ -12,6 +12,8 @@ import appeng.core.localization.ButtonToolTips;
 import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MMRSemantics;
 import es.degrassi.mmreborn.energistics.common.entity.MEInputChemicalHatchEntity;
+import es.degrassi.mmreborn.mekanism.common.machine.component.ChemicalComponent;
+import mekanism.api.chemical.BasicChemicalTank;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MEInputChemicalHatchScreen extends GridConnectedScreen<MEInputChemicalHatchEntity,
-    MEInputChemicalHatchContainer> {
+    MEInputChemicalHatchContainer, ChemicalComponent, BasicChemicalTank> {
   private final SettingToggleButton<FuzzyMode> fuzzyMode;
   private final List<Button> amountButtons = new ArrayList<>();
 

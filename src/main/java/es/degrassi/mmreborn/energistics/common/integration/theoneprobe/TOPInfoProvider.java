@@ -1,9 +1,7 @@
 package es.degrassi.mmreborn.energistics.common.integration.theoneprobe;
 
-import appeng.api.networking.IGridNode;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
-import es.degrassi.mmreborn.energistics.common.integration.jade.AEStatus;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
@@ -34,19 +32,14 @@ public class TOPInfoProvider implements IProbeInfoProvider, Function<ITheOneProb
   @Override
   public void addProbeInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData data) {
     BlockEntity tile = level.getBlockEntity(data.getPos());
-    if (tile instanceof MEEntity entity) {
+    if (tile instanceof MEEntity<?, ?> entity) {
       showAE2Info(entity, info);
     }
   }
 
-  private void showAE2Info(MEEntity entity, IProbeInfo info) {
-    IGridNode node = entity.getMainNode().getNode();
+  private void showAE2Info(MEEntity<?, ?> entity, IProbeInfo info) {
     if (!entity.getMainNode().hasGridBooted()) {
-      info.mcText(AEStatus.BOOTING.message());
-    } else if (node != null) {
-      boolean online = node.isPowered();
-      boolean hasChannel = node.meetsChannelRequirements();
-      info.mcText(AEStatus.getAEStatus(online, hasChannel).message());
+      info.mcText(Component.translatable("mmr.gui.me_network.booting").withStyle(ChatFormatting.GRAY));
     }
     if (entity.hasColor()) {
       info.mcText(

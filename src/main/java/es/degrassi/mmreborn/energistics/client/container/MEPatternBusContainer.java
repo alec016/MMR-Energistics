@@ -9,6 +9,7 @@ import appeng.menu.SlotSemantics;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.slot.RestrictedInputSlot;
+import es.degrassi.mmreborn.common.machine.MachineComponent;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.api.services.crafting.PatternBusLogic;
 import es.degrassi.mmreborn.energistics.api.services.settings.MMRESettings;
@@ -17,7 +18,7 @@ import lombok.Getter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
-public class MEPatternBusContainer extends GridConnectedContainer<MEPatternBus> {
+public class MEPatternBusContainer extends GridConnectedContainer<MEPatternBus, MachineComponent<Void>, Void> {
   public static final MenuType<MEPatternBusContainer> TYPE = MenuTypeBuilder
       .create(MEPatternBusContainer::new, MEPatternBus.class)
       .build(ModularMachineryRebornEnergistics.rl("pattern_bus"));

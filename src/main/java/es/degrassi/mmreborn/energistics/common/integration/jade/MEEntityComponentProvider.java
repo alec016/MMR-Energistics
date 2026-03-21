@@ -3,6 +3,7 @@ package es.degrassi.mmreborn.energistics.common.integration.jade;
 import appeng.api.util.AEColor;
 import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEEntity;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -23,14 +24,7 @@ public class MEEntityComponentProvider implements IBlockComponentProvider {
       CompoundTag nbt = accessor.getServerData().getCompound(ModularMachineryRebornEnergistics.MODID);
       if (nbt.isEmpty()) return;
       if (nbt.contains("booting", Tag.TAG_BYTE)) {
-        tooltip.add(AEStatus.BOOTING.message());
-        return;
-      }
-      if (nbt.contains("online", Tag.TAG_BYTE) && nbt.contains("hasChannel", Tag.TAG_BYTE)) {
-        boolean online = nbt.getBoolean("online");
-        boolean hasChannel = nbt.getBoolean("hasChannel");
-        AEStatus status = AEStatus.getAEStatus(online, hasChannel);
-        tooltip.add(status.message());
+        tooltip.add(Component.translatable("mmr.gui.me_network.booting").withStyle(ChatFormatting.GRAY));
       }
       if (nbt.contains("color")) {
         AEColor color = AEColor.valueOf(nbt.getString("color"));

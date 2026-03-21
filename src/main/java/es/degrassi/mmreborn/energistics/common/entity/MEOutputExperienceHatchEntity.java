@@ -3,10 +3,9 @@ package es.degrassi.mmreborn.energistics.common.entity;
 import appeng.menu.ISubMenu;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuHostLocator;
-import es.degrassi.experiencelib.api.capability.IExperienceHandler;
-import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
+import es.degrassi.experiencelib.impl.capability.BasicExperienceHandler;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.ExperienceHatch;
+import es.degrassi.mmreborn.common.machine.component.ExperienceComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEOutputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEExperienceHatchEntity;
@@ -29,20 +28,12 @@ public class MEOutputExperienceHatchEntity extends MEExperienceHatchEntity {
     super(pos, blockState, size);
   }
 
-  public BasicExperienceTank copyTank() {
-    return createInventory();
-  }
-
   @Nullable
-  public ExperienceHatch provideComponent() {
-    return new ExperienceHatch(IOType.OUTPUT) {
-      public IExperienceHandler getContainerProvider() {
-        return inventory;
-      }
-    };
+  public ExperienceComponent provideComponent() {
+    return new ExperienceComponent(getInventory(), IOType.OUTPUT);
   }
 
-  protected BasicExperienceTank createInventory() {
+  protected BasicExperienceHandler createInventory() {
     return new AEExperienceHolder(this);
   }
 

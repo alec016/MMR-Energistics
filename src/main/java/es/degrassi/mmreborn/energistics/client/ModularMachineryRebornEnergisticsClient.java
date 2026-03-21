@@ -2,6 +2,7 @@ package es.degrassi.mmreborn.energistics.client;
 
 import appeng.init.client.InitScreens;
 import es.degrassi.mmreborn.client.ModularMachineryRebornClient;
+import es.degrassi.mmreborn.energistics.ModularMachineryRebornEnergistics;
 import es.degrassi.mmreborn.energistics.client.container.MEInputBusContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputChemicalHatchContainer;
 import es.degrassi.mmreborn.energistics.client.container.MEInputExperienceHatchContainer;
@@ -25,57 +26,64 @@ import es.degrassi.mmreborn.energistics.client.screen.MEOutputHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEOutputSourceHatchScreen;
 import es.degrassi.mmreborn.energistics.client.screen.MEPatternBusScreen;
 import es.degrassi.mmreborn.energistics.common.registration.BlockRegistration;
-import es.degrassi.mmreborn.energistics.common.registration.ItemRegistration;
 import es.degrassi.mmreborn.energistics.common.util.Mods;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
+@Mod(value = ModularMachineryRebornEnergistics.MODID, dist = Dist.CLIENT)
 public class ModularMachineryRebornEnergisticsClient {
+
+  public ModularMachineryRebornEnergisticsClient(final IEventBus bus) {
+    bus.register(this);
+  }
 
   @SubscribeEvent
   public void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
     event.register(
         ModularMachineryRebornClient::blockColor,
-        BlockRegistration.ME_INPUT_BUS.get(),
-        BlockRegistration.ME_OUTPUT_BUS.get(),
-        BlockRegistration.ME_ADVANCED_INPUT_BUS.get(),
-        BlockRegistration.ME_ADVANCED_OUTPUT_BUS.get(),
-        BlockRegistration.ME_INPUT_HATCH.get(),
-        BlockRegistration.ME_OUTPUT_HATCH.get(),
-        BlockRegistration.ME_ADVANCED_INPUT_HATCH.get(),
-        BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.get(),
-        BlockRegistration.ME_PATTERN_BUS.get(),
-        BlockRegistration.ME_ADVANCED_PATTERN_BUS.get()
+        BlockRegistration.ME_INPUT_BUS.block(),
+        BlockRegistration.ME_OUTPUT_BUS.block(),
+        BlockRegistration.ME_ADVANCED_INPUT_BUS.block(),
+        BlockRegistration.ME_ADVANCED_OUTPUT_BUS.block(),
+        BlockRegistration.ME_INPUT_HATCH.block(),
+        BlockRegistration.ME_OUTPUT_HATCH.block(),
+        BlockRegistration.ME_ADVANCED_INPUT_HATCH.block(),
+        BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.block(),
+        BlockRegistration.ME_PATTERN_BUS.block(),
+        BlockRegistration.ME_ADVANCED_PATTERN_BUS.block()
     );
 
     if (Mods.isMekPossible()) {
       event.register(
           ModularMachineryRebornClient::blockColor,
-          BlockRegistration.ME_INPUT_CHEMICAL_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get(),
-          BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get()
+          BlockRegistration.ME_INPUT_CHEMICAL_HATCH.block(),
+          BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.block(),
+          BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.block(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.block()
       );
     }
 
     if (Mods.isArsPossible()) {
       event.register(
           ModularMachineryRebornClient::blockColor,
-          BlockRegistration.ME_INPUT_SOURCE_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(),
-          BlockRegistration.ME_OUTPUT_SOURCE_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
+          BlockRegistration.ME_INPUT_SOURCE_HATCH.block(),
+          BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.block(),
+          BlockRegistration.ME_OUTPUT_SOURCE_HATCH.block(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.block()
       );
     }
 
     if (Mods.isExperiencePossible()) {
       event.register(
           ModularMachineryRebornClient::blockColor,
-          BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(),
-          BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(),
-          BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get()
+          BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.block(),
+          BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.block(),
+          BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.block(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.block()
       );
     }
   }
@@ -84,45 +92,45 @@ public class ModularMachineryRebornEnergisticsClient {
   public void registerItemColors(final RegisterColorHandlersEvent.Item event) {
     event.register(
         ModularMachineryRebornClient::itemColor,
-        ItemRegistration.ME_INPUT_BUS.get(),
-        ItemRegistration.ME_OUTPUT_BUS.get(),
-        ItemRegistration.ME_ADVANCED_INPUT_BUS.get(),
-        ItemRegistration.ME_ADVANCED_OUTPUT_BUS.get(),
-        ItemRegistration.ME_INPUT_HATCH.get(),
-        ItemRegistration.ME_OUTPUT_HATCH.get(),
-        ItemRegistration.ME_ADVANCED_INPUT_HATCH.get(),
-        ItemRegistration.ME_ADVANCED_OUTPUT_HATCH.get(),
-        ItemRegistration.ME_PATTERN_BUS.get(),
-        ItemRegistration.ME_ADVANCED_PATTERN_BUS.get()
+        BlockRegistration.ME_INPUT_BUS.item(),
+        BlockRegistration.ME_OUTPUT_BUS.item(),
+        BlockRegistration.ME_ADVANCED_INPUT_BUS.item(),
+        BlockRegistration.ME_ADVANCED_OUTPUT_BUS.item(),
+        BlockRegistration.ME_INPUT_HATCH.item(),
+        BlockRegistration.ME_OUTPUT_HATCH.item(),
+        BlockRegistration.ME_ADVANCED_INPUT_HATCH.item(),
+        BlockRegistration.ME_ADVANCED_OUTPUT_HATCH.item(),
+        BlockRegistration.ME_PATTERN_BUS.item(),
+        BlockRegistration.ME_ADVANCED_PATTERN_BUS.item()
     );
 
     if (Mods.isMekPossible()) {
       event.register(
           ModularMachineryRebornClient::itemColor,
-          ItemRegistration.ME_INPUT_CHEMICAL_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.get(),
-          ItemRegistration.ME_OUTPUT_CHEMICAL_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.get()
+          BlockRegistration.ME_INPUT_CHEMICAL_HATCH.item(),
+          BlockRegistration.ME_ADVANCED_INPUT_CHEMICAL_HATCH.item(),
+          BlockRegistration.ME_OUTPUT_CHEMICAL_HATCH.item(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_CHEMICAL_HATCH.item()
       );
     }
 
     if (Mods.isArsPossible()) {
       event.register(
           ModularMachineryRebornClient::itemColor,
-          ItemRegistration.ME_INPUT_SOURCE_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.get(),
-          ItemRegistration.ME_OUTPUT_SOURCE_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.get()
+          BlockRegistration.ME_INPUT_SOURCE_HATCH.item(),
+          BlockRegistration.ME_ADVANCED_INPUT_SOURCE_HATCH.item(),
+          BlockRegistration.ME_OUTPUT_SOURCE_HATCH.item(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_SOURCE_HATCH.item()
       );
     }
 
     if (Mods.isExperiencePossible()) {
       event.register(
           ModularMachineryRebornClient::itemColor,
-          ItemRegistration.ME_INPUT_EXPERIENCE_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.get(),
-          ItemRegistration.ME_OUTPUT_EXPERIENCE_HATCH.get(),
-          ItemRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.get()
+          BlockRegistration.ME_INPUT_EXPERIENCE_HATCH.item(),
+          BlockRegistration.ME_ADVANCED_INPUT_EXPERIENCE_HATCH.item(),
+          BlockRegistration.ME_OUTPUT_EXPERIENCE_HATCH.item(),
+          BlockRegistration.ME_ADVANCED_OUTPUT_EXPERIENCE_HATCH.item()
       );
     }
   }

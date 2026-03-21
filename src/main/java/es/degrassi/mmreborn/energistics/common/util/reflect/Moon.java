@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 @ApiStatus.Internal
+@SuppressWarnings("deprecation")
 public class Moon {
   private static final Unsafe UNSAFE = unsafe();
   private static final MethodHandles.Lookup LOOKUP = lookup();

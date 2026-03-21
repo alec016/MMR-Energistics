@@ -8,22 +8,23 @@ import appeng.api.config.YesNo;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.ids.AEComponents;
+import appeng.api.implementations.blockentities.ICraftingMachine;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.inventories.InternalInventory;
-import appeng.api.networking.GridFlags;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.IManagedGridNode;
+import appeng.api.networking.IStackWatcher;
 import appeng.api.networking.crafting.ICraftingProvider;
+import appeng.api.networking.crafting.ICraftingWatcherNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.networking.ticking.IGridTickable;
 import appeng.api.networking.ticking.TickRateModulation;
 import appeng.api.networking.ticking.TickingRequest;
-import appeng.api.stacks.AEFluidKey;
-import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
+import appeng.api.storage.MEStorage;
 import appeng.api.util.IConfigManager;
 import appeng.core.AELog;
 import appeng.core.definitions.AEItems;
@@ -37,27 +38,8 @@ import appeng.me.helpers.MachineSource;
 import appeng.util.inv.AppEngInternalInventory;
 import appeng.util.inv.InternalInventoryHost;
 import appeng.util.inv.PlayerInternalInventory;
-import com.hollingsworth.arsnouveau.common.capability.SourceStorage;
-import es.degrassi.appexp.me.key.ExperienceKey;
-import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
-import es.degrassi.mmreborn.common.util.HybridTank;
-import es.degrassi.mmreborn.common.util.IOInventory;
-import es.degrassi.mmreborn.common.util.ItemUtils;
-import es.degrassi.mmreborn.energistics.api.services.crafting.target.ChemicalPatternTarget;
-import es.degrassi.mmreborn.energistics.api.services.crafting.target.ExperiencePatternTarget;
-import es.degrassi.mmreborn.energistics.api.services.crafting.target.FluidPatternTarget;
-import es.degrassi.mmreborn.energistics.api.services.crafting.target.ItemPatternTarget;
-import es.degrassi.mmreborn.energistics.api.services.crafting.target.PatternBusTarget;
-import es.degrassi.mmreborn.energistics.api.services.crafting.target.SourcePatternTarget;
 import es.degrassi.mmreborn.energistics.api.services.settings.MMRESettings;
-import es.degrassi.mmreborn.energistics.common.util.Mods;
-import gripe._90.arseng.me.key.SourceKey;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import lombok.Getter;
-import me.ramidzkh.mekae2.ae2.MekanismKey;
-import mekanism.api.Action;
-import mekanism.api.chemical.BasicChemicalTank;
-import mekanism.api.chemical.ChemicalStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -67,44 +49,35 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Getter
 public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider {
-  private static final Logger LOGGER = LoggerFactory.getLogger(PatternBusLogic.class);
-
   public static final String NBT_MEMORY_CARD_PATTERNS = "patterns";
   public static final String NBT_UNLOCK_EVENT = "unlockEvent";
   public static final String NBT_UNLOCK_STACK = "unlockStack";
   public static final String NBT_PRIORITY = "priority";
   public static final String NBT_SEND_LIST = "sendList";
   public static final String NBT_ADAPTERS = "adapters";
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(PatternBusLogic.class);
   private final PatternBusLogicHost host;
   private final IManagedGridNode mainNode;
   private final IActionSource actionSource;
   private final IConfigManager configManager;
-
-  private int priority;
-
   // Pattern storing logic
   private final AppEngInternalInventory patternInventory;
   private final List<IPatternDetails> patterns = new ArrayList<>();
@@ -114,18 +87,42 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
    * target, the pattern won't be pushed. Always contains keys with the secondary component dropped.
    */
   private final Set<AEKey> patternInputs = new HashSet<>();
+  private final Set<AEKey> trackedCrafts = new HashSet<>();
   // Pattern sending logic
   private final List<GenericStack> sendList = new ArrayList<>();
-
   private final PatternBusTargetCache[] targetCaches = new PatternBusTargetCache[6];
+  private final HashSet<AEKey> outputCache = new HashSet<>();
+  private IStackWatcher craftingWatcher;
+  private final ICraftingWatcherNode craftingWatcherNode = new ICraftingWatcherNode() {
+    @Override
+    public void updateWatcher(IStackWatcher newWatcher) {
+      craftingWatcher = newWatcher;
+      updatePatterns();
+    }
 
+    @Override
+    public void onRequestChange(AEKey what) {
+      if (trackedCrafts.contains(what)) {
+        trackedCrafts.remove(what);
+      } else {
+        trackedCrafts.add(what);
+      }
+    }
+
+    @Override
+    public void onCraftableChange(AEKey what) {
+    }
+  };
+  private int priority;
   private YesNo redstoneState = YesNo.UNDECIDED;
-
   @Nullable
   private UnlockCraftingEvent unlockEvent;
   @Nullable
   private GenericStack unlockStack;
   private int roundRobinIndex = 0;
+  @Nullable
+  private MEStorage networkStorage;
+
   public PatternBusLogic(IManagedGridNode mainNode, PatternBusLogicHost host) {
     this(mainNode, host, 9);
   }
@@ -134,9 +131,9 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     this.patternInventory = new AppEngInternalInventory(this, patternInventorySize);
     this.host = host;
     this.mainNode = mainNode
-        .setFlags(GridFlags.REQUIRE_CHANNEL)
-        .addService(IGridTickable.class, new PatternBusLogic.Ticker())
-        .addService(ICraftingProvider.class, this);
+        .addService(IGridTickable.class, new Ticker())
+        .addService(ICraftingProvider.class, this)
+        .addService(ICraftingWatcherNode.class, craftingWatcherNode);
     this.actionSource = new MachineSource(mainNode::getNode);
 
     configManager = IConfigManager.builder(this::configChanged)
@@ -247,12 +244,20 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
   public void updatePatterns() {
     patterns.clear();
     patternInputs.clear();
+    outputCache.clear();
 
     for (var stack : this.patternInventory) {
       var details = PatternDetailsHelper.decodePattern(stack, this.host.getBlockEntity().getLevel());
 
       if (details != null) {
         patterns.add(details);
+
+        if (craftingWatcher != null) {
+          for (var output : details.getOutputs()) {
+            craftingWatcher.add(output.what());
+            outputCache.add(output.what());
+          }
+        }
 
         for (var iinput : details.getInputs()) {
           for (var inputCandidate : iinput.getPossibleInputs()) {
@@ -297,6 +302,8 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     }
 
     var be = host.getBlockEntity();
+    var level = be.getLevel();
+    // var advPattern = patternDetails instanceof AEMMRPattern;
 
     if (getCraftingLockedReason() != LockCraftingMode.NONE || host.getController() == null) {
       return false;
@@ -304,73 +311,24 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
 
     var possibleTargets = new ArrayList<PatternBusTarget>();
 
-    List<Object2LongMap.Entry<AEKey>> inputs = new LinkedList<>();
-    Arrays.stream(inputHolder).map(KeyCounter::iterator).forEachOrdered(iterator -> iterator.forEachRemaining(inputs::add));
+    // Push to crafting machines first
+    for (var direction : getActiveSides()) {
+      var adjPos = be.getBlockPos().relative(direction);
+      var adjBeSide = direction.getOpposite();
 
-    components:
-    for (var component : host.getFoundComponents().entrySet()) {
-      var provider = component.getValue().getContainerProvider();
-      if (provider == null) continue;
-      if (!component.getValue().getIOType().isInput()) continue;
-      if (
-           provider instanceof Long ||
-              provider instanceof Integer ||
-               provider instanceof Boolean ||
-               provider instanceof String ||
-               provider instanceof Byte ||
-               provider instanceof Double ||
-               provider instanceof Float ||
-               provider instanceof Enum<?> ||
-               provider.getClass().isPrimitive()
-      ) continue;
-
-      for (var entry : inputs) {
-        var key = entry.getKey();
-        if (key instanceof AEItemKey itemKey && provider instanceof IOInventory inv) {
-          int inserted = ItemUtils.tryPlaceItemInInventory(itemKey.toStack((int) entry.getLongValue()), inv, true);
-          if (inserted >= entry.getLongValue()) {
-            possibleTargets.add(new ItemPatternTarget(inv, component.getKey()));
-            inputs.remove(entry);
-            continue components;
-          }
-        } else if (key instanceof AEFluidKey fluidKey && provider instanceof HybridTank tank) {
-          int inserted = tank.fill(fluidKey.toStack((int) entry.getLongValue()), IFluidHandler.FluidAction.SIMULATE);
-          if (inserted >= entry.getLongValue()) {
-            if (inserted >= entry.getLongValue()) {
-              possibleTargets.add(new FluidPatternTarget(tank, component.getKey()));
-              inputs.remove(entry);
-              continue components;
-            }
-          }
-        } else if (Mods.isMekPossible()) {
-          if (key instanceof MekanismKey chemKey && provider instanceof BasicChemicalTank tank) {
-            ChemicalStack inserted = tank.insertChemical(chemKey.withAmount(entry.getLongValue()), Action.SIMULATE);
-            if (inserted.getAmount() <= 0) {
-              possibleTargets.add(new ChemicalPatternTarget(tank, component.getKey()));
-              inputs.remove(entry);
-              continue components;
-            }
-          }
-        } else if (Mods.isArsPossible()) {
-          if (key instanceof SourceKey && provider instanceof SourceStorage tank) {
-            int inserted = tank.receiveSource((int) entry.getLongValue(), true);
-            if (inserted >= entry.getLongValue()) {
-              possibleTargets.add(new SourcePatternTarget(tank, component.getKey()));
-              inputs.remove(entry);
-              continue components;
-            }
-          }
-        } else if (Mods.isExperiencePossible()) {
-          if (key instanceof ExperienceKey && provider instanceof BasicExperienceTank tank) {
-            long inserted = tank.receiveExperience(entry.getLongValue(), true);
-            if (inserted >= entry.getLongValue()) {
-              possibleTargets.add(new ExperiencePatternTarget(tank, component.getKey()));
-              inputs.remove(entry);
-              continue components;
-            }
-          }
+      var craftingMachine = ICraftingMachine.of(level, adjPos, adjBeSide);
+      if (craftingMachine != null && craftingMachine.acceptsPlans()) {
+        if (craftingMachine.pushPattern(patternDetails, inputHolder, adjBeSide)) {
+          onPushPatternSuccess(patternDetails);
+          return true;
         }
+        continue;
       }
+
+      var adapter = findAdapter(direction);
+      if (adapter == null) continue;
+
+      possibleTargets.add(adapter);
     }
 
     // If no dedicated crafting machine could be found, and the pattern does not support
@@ -383,30 +341,19 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     rearrangeRoundRobin(possibleTargets);
 
     // Push to other kinds of blocks
-    for (var target : possibleTargets) {
+    for (var adapter : possibleTargets) {
 
-      if (this.isBlocking() && target.containsPatternInput(this.patternInputs)) {
+      if (this.isBlocking() && adapter.containsPatternInput(this.patternInputs)) {
         continue;
       }
 
-      if (this.adapterAcceptsAll(target, inputHolder)) {
+      if (this.adapterAcceptsAll(adapter, inputHolder)) {
         patternDetails.pushInputsToExternalInventory(inputHolder, (what, amount) -> {
-          var inserted = target.insert(what, amount, Actionable.SIMULATE);
+          var inserted = adapter.insert(what, amount, Actionable.MODULATE);
           if (inserted < amount) {
             this.addToSendList(what, amount - inserted);
           }
         });
-        adapters.add(target);
-      } else if (adapterAcceptsAnything(target, inputHolder)) {
-        patternDetails.pushInputsToExternalInventory(inputHolder, (what, amount) -> {
-          var inserted = target.insert(what, amount, Actionable.SIMULATE);
-          if (inserted < amount) {
-            this.addToSendList(what, amount - inserted);
-          }
-        });
-        adapters.add(target);
-      }
-      if (sendList.size() == inputHolder.length) {
         onPushPatternSuccess(patternDetails);
         this.sendStacksOut();
         ++roundRobinIndex;
@@ -509,13 +456,14 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
 
   @Nullable
   private PatternBusTarget findAdapter(Direction side) {
+    if (host.getControllerPos() == null) {
+      targetCaches[side.get3DDataValue()] = null;
+      return null;
+    }
+
     if (targetCaches[side.get3DDataValue()] == null) {
-      var thisBe = host.getBlockEntity();
-      targetCaches[side.get3DDataValue()] = new PatternBusTargetCache(
-          (ServerLevel) thisBe.getLevel(),
-          host.getControllerPos(),
-          side.getOpposite(),
-          actionSource);
+      targetCaches[side.get3DDataValue()] = new PatternBusTargetCache((ServerLevel) host.getBlockEntity().getLevel(),
+          host.getControllerPos(), host);
     }
 
     return targetCaches[side.get3DDataValue()].find();
@@ -537,7 +485,7 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     for (var inputList : inputHolder) {
       for (var input : inputList) {
         var inserted = target.insert(input.getKey(), input.getLongValue(), Actionable.SIMULATE);
-        if (inserted > 0) {
+        if (inserted == input.getLongValue()) {
           return true;
         }
       }
@@ -561,13 +509,13 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
       return false;
     }
 
-    for (var ad = adapters.listIterator(); ad.hasNext();) {
+    for (var ad = adapters.listIterator(); ad.hasNext(); ) {
       var adapter = ad.next();
       if (adapter == null) {
         continue;
       }
 
-      for (var it = sendList.listIterator(); it.hasNext();) {
+      for (var it = sendList.listIterator(); it.hasNext(); ) {
         var stack = it.next();
         var what = stack.what();
         long amount = stack.amount();
@@ -585,7 +533,6 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
         return true;
       }
     }
-    adapters.clear();
     return false;
   }
 
@@ -741,39 +688,43 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
     }
   }
 
-  private class Ticker implements IGridTickable {
-
-    @Override
-    public TickingRequest getTickingRequest(IGridNode node) {
-      return new TickingRequest(TickRates.Interface, !hasWorkToDo());
+  public void notifyNeighbors() {
+    if (this.mainNode.isActive()) {
+      this.mainNode.ifPresent((grid, node) -> {
+        grid.getTickManager().wakeDevice(node);
+      });
     }
 
-    @Override
-    public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
-      if (!mainNode.isActive()) {
-        return TickRateModulation.SLEEP;
-      }
-      boolean couldDoWork = doWork();
-      return hasWorkToDo() ? couldDoWork ? TickRateModulation.URGENT : TickRateModulation.SLOWER
-          : TickRateModulation.SLEEP;
-    }
+    this.host.getBlockEntity().invalidateCapabilities();
+  }
+
+  public void gridChanged() {
+    this.networkStorage = mainNode.getGrid().getStorageService().getInventory();
+
+    this.notifyNeighbors();
   }
 
   /**
    * @return Gets the name used to show this pattern provider in the
-   *         {@link appeng.menu.implementations.PatternAccessTermMenu}.
+   * {@link appeng.menu.implementations.PatternAccessTermMenu}.
    */
   public PatternContainerGroup getTerminalGroup() {
     var host = this.host.getBlockEntity();
     var hostLevel = host.getLevel();
 
     // Prefer own custom name / icon if player has named it
-    if (this.host instanceof Nameable nameable && nameable.hasCustomName()) {
-      var name = nameable.getCustomName();
+    if (this.host.hasCustomName()) {
+      var name = this.host.getCustomName();
       return new PatternContainerGroup(
           this.host.getTerminalIcon(),
           name,
           List.of());
+    } else if (this.host.getController() != null) {
+      return new PatternContainerGroup(
+          this.host.getTerminalIcon(),
+          this.host.getController().getFoundMachine().getName(),
+          List.of()
+      );
     }
 
     var sides = getActiveSides();
@@ -853,5 +804,23 @@ public class PatternBusLogic implements InternalInventoryHost, ICraftingProvider
           : YesNo.NO;
     }
     return redstoneState == YesNo.YES;
+  }
+
+  private class Ticker implements IGridTickable {
+
+    @Override
+    public TickingRequest getTickingRequest(IGridNode node) {
+      return new TickingRequest(TickRates.Interface, !hasWorkToDo());
+    }
+
+    @Override
+    public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
+      if (!mainNode.isActive()) {
+        return TickRateModulation.SLEEP;
+      }
+      boolean couldDoWork = doWork();
+      return hasWorkToDo() ? couldDoWork ? TickRateModulation.URGENT : TickRateModulation.SLOWER
+          : TickRateModulation.SLEEP;
+    }
   }
 }

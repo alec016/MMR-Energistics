@@ -11,19 +11,20 @@ import appeng.api.util.IConfigurableObject;
 import appeng.helpers.IPriorityHost;
 import appeng.helpers.patternprovider.PatternContainer;
 import es.degrassi.mmreborn.api.controller.ControllerAccessible;
+import es.degrassi.mmreborn.energistics.common.entity.base.MEPatternBus;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.Nameable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public interface PatternBusLogicHost extends IConfigurableObject, IPriorityHost, PatternContainer, ControllerAccessible {
+public interface PatternBusLogicHost extends IConfigurableObject, IPriorityHost, PatternContainer, ControllerAccessible, Nameable {
   PatternBusLogic getLogic();
 
   /**
    * @return The block entity that is in-world and hosts the interface.
    */
-  BlockEntity getBlockEntity();
+  MEPatternBus getBlockEntity();
 
   EnumSet<Direction> getTargets();
 
@@ -69,4 +70,6 @@ public interface PatternBusLogicHost extends IConfigurableObject, IPriorityHost,
   default PatternContainerGroup getTerminalGroup() {
     return getLogic().getTerminalGroup();
   }
+
+  Direction getFront();
 }

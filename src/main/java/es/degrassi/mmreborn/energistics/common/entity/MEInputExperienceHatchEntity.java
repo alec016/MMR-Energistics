@@ -5,12 +5,11 @@ import appeng.api.stacks.GenericStack;
 import appeng.menu.ISubMenu;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuHostLocator;
-import es.degrassi.appexp.me.key.ExperienceKey;
+import es.degrassi.appexp.me.key.AEExperienceKey;
 import es.degrassi.appexp.me.key.ExperienceKeyType;
-import es.degrassi.experiencelib.api.capability.IExperienceHandler;
-import es.degrassi.experiencelib.impl.capability.BasicExperienceTank;
+import es.degrassi.experiencelib.impl.capability.BasicExperienceHandler;
 import es.degrassi.mmreborn.common.machine.IOType;
-import es.degrassi.mmreborn.common.machine.component.ExperienceHatch;
+import es.degrassi.mmreborn.common.machine.component.ExperienceComponent;
 import es.degrassi.mmreborn.energistics.client.container.MEInputExperienceHatchContainer;
 import es.degrassi.mmreborn.energistics.common.block.prop.MEHatchSize;
 import es.degrassi.mmreborn.energistics.common.entity.base.MEExperienceHatchEntity;
@@ -19,7 +18,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -34,65 +32,61 @@ public class MEInputExperienceHatchEntity extends MEExperienceHatchEntity {
     super(pos, blockState, size);
   }
 
-  public ExperienceHatch provideComponent() {
-    return new ExperienceHatch(IOType.INPUT) {
-      public IExperienceHandler getContainerProvider() {
-        return inventory;
-      }
-    };
+  public ExperienceComponent provideComponent() {
+    return new ExperienceComponent(getInventory(), IOType.INPUT);
   }
 
-  protected BasicExperienceTank createInventory() {
-    return new BasicExperienceTank(storage.getCapacity(ExperienceKeyType.TYPE), null) {
+  protected BasicExperienceHandler createInventory() {
+    return new BasicExperienceHandler(getStorage().size(), getStorage().getCapacity(ExperienceKeyType.TYPE), null) {
       @Override
-      public long receiveExperience(long toReceive, boolean simulate) {
-        if (!canReceive() || toReceive <= 0) return 0;
-        return storage.insert(0, ExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
+      public long receiveExperience(int tank, long toReceive, boolean simulate) {
+        if (!canReceive(tank) || toReceive <= 0) return 0;
+        return getStorage().insert(0, AEExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
       }
 
       @Override
-      public long extractExperience(long toExtract, boolean simulate) {
-        if (!canExtract() || toExtract <= 0) return 0;
-        return storage.extract(0, ExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
+      public long extractExperience(int tank, long toExtract, boolean simulate) {
+        if (!canExtract(tank) || toExtract <= 0) return 0;
+        return getStorage().extract(0, AEExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
       }
 
       @Override
-      public void setExperience(long source) {
-        GenericStack stack = storage.getStack(0);
-        if (stack == null) stack = new GenericStack(ExperienceKey.KEY, source);
+      public void setExperience(int tank, long source) {
+        GenericStack stack = getStorage().getStack(0);
+        if (stack == null) stack = new GenericStack(AEExperienceKey.KEY, source);
         else stack = new GenericStack(stack.what(), source);
-        storage.setStack(0, stack);
+        getStorage().setStack(0, stack);
       }
 
       @Override
       public long getExperience() {
-        GenericStack stack = storage.getStack(0);
+        GenericStack stack = getStorage().getStack(0);
         if (stack == null) return 0;
         return (int) stack.amount();
       }
 
       public void deserializeNBT(HolderLookup.Provider lookupProvider, CompoundTag tag) {
         super.deserializeNBT(lookupProvider, tag);
-        storage.readFromChildTag(tag, "storage", lookupProvider);
+        getStorage().readFromChildTag(tag, "storage", lookupProvider);
       }
 
       @Override
       public CompoundTag serializeNBT(HolderLookup.Provider lookupProvider) {
         CompoundTag nbt = super.serializeNBT(lookupProvider);
-        storage.writeToChildTag(nbt, "storage", lookupProvider);
+        getStorage().writeToChildTag(nbt, "storage", lookupProvider);
         return nbt;
       }
 
       @Override
-      public long receiveExperienceRecipe(long toReceive, boolean simulate) {
+      public long receiveExperienceRecipe(int tank, long toReceive, boolean simulate) {
         if (toReceive <= 0) return 0;
-        return storage.insert(0, ExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
+        return getStorage().insert(0, AEExperienceKey.KEY, toReceive, Actionable.ofSimulate(simulate));
       }
 
       @Override
-      public long extractExperienceRecipe(long toExtract, boolean simulate) {
+      public long extractExperienceRecipe(int tank, long toExtract, boolean simulate) {
         if (toExtract <= 0) return 0;
-        return storage.extract(0, ExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
+        return getStorage().extract(0, AEExperienceKey.KEY, toExtract, Actionable.ofSimulate(simulate));
       }
     };
   }
